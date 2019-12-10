@@ -24,6 +24,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Remora.Behaviours.Bases
@@ -32,15 +33,10 @@ namespace Remora.Behaviours.Bases
     /// Abstract base class for a behaviour that continuously performs an action.
     /// </summary>
     /// <typeparam name="TBehaviour">The inheriting behaviour.</typeparam>
-    public abstract class ContinuousBehaviour<TBehaviour> : BehaviourBase
+    [PublicAPI]
+    public abstract class ContinuousBehaviour<TBehaviour> : BehaviourBase<TBehaviour>
         where TBehaviour : ContinuousBehaviour<TBehaviour>
     {
-        /// <summary>
-        /// Gets the logging instance for this behaviour.
-        /// </summary>
-        [NotNull]
-        protected ILogger Log { get; }
-
         /// <summary>
         /// Gets or sets the cancellation source for the continuous action task.
         /// </summary>
@@ -56,11 +52,11 @@ namespace Remora.Behaviours.Bases
         /// <summary>
         /// Initializes a new instance of the <see cref="ContinuousBehaviour{TBehaviour}"/> class.
         /// </summary>
+        /// <param name="serviceScope">The service scope of the behaviour.</param>
         /// <param name="logger">The logging instance for this type.</param>
-        protected ContinuousBehaviour(ILogger<TBehaviour> logger)
+        protected ContinuousBehaviour(IServiceScope serviceScope, [NotNull] ILogger<TBehaviour> logger)
+            : base(serviceScope, logger)
         {
-            this.Log = logger;
-
             this.CancellationSource = new CancellationTokenSource();
             this.ContinuousActionTask = Task.CompletedTask;
         }

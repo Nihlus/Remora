@@ -23,24 +23,59 @@
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Remora.Behaviours
 {
     /// <summary>
     /// Acts as a base class for behaviours in the client.
     /// </summary>
-    public abstract class BehaviourBase : IBehaviour
+    /// <typeparam name="TBehaviour">The inheriting behaviour.</typeparam>
+    public abstract class BehaviourBase<TBehaviour> : IBehaviour
+        where TBehaviour : BehaviourBase<TBehaviour>
     {
+        /// <summary>
+        /// Gets the scope in which this behaviour lives.
+        /// </summary>
+        [NotNull]
+        private IServiceScope ServiceScope { get; }
+
+        /// <summary>
+        /// Gets the logging instance for this behaviour.
+        /// </summary>
+        [PublicAPI, NotNull]
+        protected ILogger Log { get; }
+
         /// <inheritdoc />
+        [PublicAPI]
         public bool IsRunning { get; private set; }
 
         /// <summary>
-        /// Gets or sets the scope in which this behaviour lives.
+        /// Initializes a new instance of the <see cref="BehaviourBase{TBehaviour}"/> class.
         /// </summary>
-        private IServiceScope ServiceScope { get; set; }
+        /// <param name="serviceScope">The service scope of the behaviour.</param>
+        /// <param name="logger">The logging instance for this type.</param>
+        [PublicAPI]
+        protected BehaviourBase(IServiceScope serviceScope, ILogger<TBehaviour> logger)
+        {
+            this.ServiceScope = serviceScope;
+            this.Log = logger;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BehaviourBase{TBehaviour}"/> class.
+        /// </summary>
+        /// <param name="serviceScope">The service scope of the behaviour.</param>
+        [PublicAPI]
+        protected BehaviourBase(IServiceScope serviceScope)
+        {
+            this.ServiceScope = serviceScope;
+            this.Log = NullLogger.Instance;
+        }
 
         /// <inheritdoc/>
-        [NotNull]
+        [PublicAPI]
         public async Task StartAsync()
         {
             if (this.IsRunning)
@@ -52,24 +87,18 @@ namespace Remora.Behaviours
             await OnStartingAsync();
         }
 
-        /// <inheritdoc/>
-        public void WithScope(IServiceScope serviceScope)
-        {
-            this.ServiceScope = serviceScope;
-        }
-
         /// <summary>
         /// User-implementable logic that runs during behaviour startup.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
+        [PublicAPI, NotNull]
         protected virtual Task OnStartingAsync()
         {
             return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
-        [NotNull]
+        [PublicAPI]
         public async Task StopAsync()
         {
             if (!this.IsRunning)
@@ -85,13 +114,14 @@ namespace Remora.Behaviours
         /// User-implementable logic that runs during behaviour shutdown.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
+        [PublicAPI, NotNull]
         protected virtual Task OnStoppingAsync()
         {
             return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
+        [PublicAPI]
         public virtual void Dispose()
         {
             this.ServiceScope.Dispose();

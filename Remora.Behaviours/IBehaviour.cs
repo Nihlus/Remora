@@ -23,19 +23,19 @@
 using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Remora.Behaviours
 {
     /// <summary>
     /// Interface for a behaviour.
     /// </summary>
-    [UsedImplicitly]
+    [PublicAPI]
     public interface IBehaviour : IDisposable
     {
         /// <summary>
         /// Gets a value indicating whether the behaviour is currently running.
         /// </summary>
+        [PublicAPI]
         bool IsRunning { get; }
 
         /// <summary>
@@ -43,18 +43,14 @@ namespace Remora.Behaviours
         /// does nothing.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [PublicAPI, NotNull]
         Task StartAsync();
 
         /// <summary>
         /// Stops the behaviour, ceasing its tasks. Calling this method when the behaviour is not running does nothing.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [PublicAPI, NotNull]
         Task StopAsync();
-
-        /// <summary>
-        /// Provides the service scope for the behaviour, allowing it to clean up after itself when it is disposed.
-        /// </summary>
-        /// <param name="serviceScope">The scope.</param>
-        void WithScope(IServiceScope serviceScope);
     }
 }

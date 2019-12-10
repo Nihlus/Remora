@@ -33,8 +33,10 @@ namespace Remora.Behaviours.Services
     /// <summary>
     /// This class manages the access to and lifetime of registered behaviours.
     /// </summary>
+    [PublicAPI]
     public class BehaviourService
     {
+        [NotNull, ItemNotNull]
         private readonly ICollection<IBehaviour> _registeredBehaviours = new List<IBehaviour>();
 
         /// <summary>
@@ -43,7 +45,8 @@ namespace Remora.Behaviours.Services
         /// <param name="containingAssembly">The assembly where behaviours are defined.</param>
         /// <param name="services">The services available to the application.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task AddBehavioursAsync([NotNull] Assembly containingAssembly, IServiceProvider services)
+        [PublicAPI]
+        public async Task AddBehavioursAsync([NotNull] Assembly containingAssembly, [NotNull] IServiceProvider services)
         {
             var definedTypes = containingAssembly.DefinedTypes;
             var behaviourTypes = definedTypes.Where(t => t.ImplementedInterfaces.Contains(typeof(IBehaviour)));
@@ -60,7 +63,8 @@ namespace Remora.Behaviours.Services
         /// <param name="services">The available services.</param>
         /// <typeparam name="TBehaviour">The type of the behaviour.</typeparam>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task AddBehaviourAsync<TBehaviour>(IServiceProvider services)
+        [PublicAPI]
+        public Task AddBehaviourAsync<TBehaviour>([NotNull] IServiceProvider services)
             where TBehaviour : IBehaviour
         {
             return AddBehaviourAsync(services, typeof(TBehaviour));
@@ -72,7 +76,8 @@ namespace Remora.Behaviours.Services
         /// <param name="services">The available services.</param>
         /// <param name="behaviourType">The type of the behaviour.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task AddBehaviourAsync(IServiceProvider services, Type behaviourType)
+        [PublicAPI]
+        public async Task AddBehaviourAsync([NotNull] IServiceProvider services, [NotNull] Type behaviourType)
         {
             if (behaviourType.IsAbstract)
             {
@@ -85,10 +90,9 @@ namespace Remora.Behaviours.Services
             var behaviour = (IBehaviour)ActivatorUtilities.CreateInstance
             (
                 scope.ServiceProvider,
-                behaviourType
+                behaviourType,
+                scope
             );
-
-            behaviour.WithScope(scope);
 
             // Behaviours are implicitly singletons; there's only ever one instance of a behaviour at any given
             // time.
@@ -108,6 +112,7 @@ namespace Remora.Behaviours.Services
         /// Starts all registered behaviours.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [PublicAPI]
         public async Task StartBehavioursAsync()
         {
             foreach (var behaviour in _registeredBehaviours)
@@ -120,6 +125,7 @@ namespace Remora.Behaviours.Services
         /// Stops all registered behaviours.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [PublicAPI]
         public async Task StopBehavioursAsync()
         {
             foreach (var behaviour in _registeredBehaviours)
