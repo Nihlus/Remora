@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,7 @@ namespace Remora.Behaviours
     /// Acts as a base class for behaviours in the client.
     /// </summary>
     /// <typeparam name="TBehaviour">The inheriting behaviour.</typeparam>
+    [PublicAPI]
     public abstract class BehaviourBase<TBehaviour> : IBehaviour
         where TBehaviour : BehaviourBase<TBehaviour>
     {
@@ -46,6 +48,12 @@ namespace Remora.Behaviours
         /// </summary>
         [PublicAPI, NotNull]
         protected ILogger Log { get; }
+
+        /// <summary>
+        /// Gets the service provider available to this behaviour.
+        /// </summary>
+        [PublicAPI]
+        protected IServiceProvider Services => this.ServiceScope.ServiceProvider;
 
         /// <inheritdoc />
         [PublicAPI]
