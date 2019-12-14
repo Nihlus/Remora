@@ -12,6 +12,7 @@
 
     <!-- NuGet-related properties -->
     <PropertyGroup>
+        <Title>$(AssemblyName)</Title>
         <Authors>Jarl Gullberg</Authors>
         <Copyright>Jarl Gullberg 2020</Copyright>
         <Company>Firwood Software</Company>
@@ -23,6 +24,7 @@
         <RepositoryUrl>https://github.com/Nihlus/Remora</RepositoryUrl>
         <RepositoryBranch>master</RepositoryBranch>
         <PackageOutputPath>$(SolutionDir)/nuget</PackageOutputPath>
+        <PackageTags>remora</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

@@ -6,13 +6,12 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Title>Remora.Behaviours</Title>
         <Description>A behaviour-based activity package for any application.</Description>
         <Version>1.1.0</Version>
         <PackageReleaseNotes>
             Queue continuous actions on the thread pool, and allow logless continuous actions.
         </PackageReleaseNotes>
-        <PackageTags>service;behaviour;async;await;tpl;remora</PackageTags>
+        <PackageTags>$(PackageTags);service;behaviour;async;await;tpl</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
