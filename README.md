@@ -5,6 +5,8 @@ Remora is a collection of common libraries and modules, useful for a variety of 
 component of Remora is intended to be a standalone product, but may have dependencies on other Remora modules. All 
 modules are independently released on NuGet.
 
+All libraries are compatible with .NET Standard 2.0, and are built with C# 8 and nullable reference types in mind.
+
 ## Table of Contents
   * [Remora.Results.Abstractions](Remora.Results.Abstractions) - Abstractions and public interfaces for a descriptive 
   algebraic data type for C#.
