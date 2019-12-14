@@ -66,6 +66,20 @@ namespace Remora.Behaviours.Bases
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ContinuousBehaviour{TBehaviour}"/> class.
+        /// </summary>
+        /// <param name="serviceScope">The service scope of the behaviour.</param>
+        protected ContinuousBehaviour
+        (
+            [NotNull] IServiceScope serviceScope
+        )
+            : base(serviceScope)
+        {
+            this.CancellationSource = new CancellationTokenSource();
+            this.ContinuousActionTask = Task.CompletedTask;
+        }
+
+        /// <summary>
         /// Implements the body that should run on each tick of the behaviour. Usually, having some sort of delay in
         /// this method takes strain off of the system.
         /// </summary>

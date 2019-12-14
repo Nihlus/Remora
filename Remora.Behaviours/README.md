@@ -76,6 +76,11 @@ public sealed class MyContinuousBehaviour : ContinuousBehaviour<MyContinuousBeha
     {
     }
 
+    public MyContinuousBehaviour([NotNull] IServiceScope serviceScope)
+        : base(serviceScope)
+    {
+    }
+
     protected override Task OnStartingAsync()
     {
         // Implement startup procedures here. This method is optional, and a no-op by default.
