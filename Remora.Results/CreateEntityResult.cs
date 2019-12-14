@@ -34,8 +34,7 @@ namespace Remora.Results
         /// <summary>
         /// Holds the actual entity value.
         /// </summary>
-        [CanBeNull]
-        private readonly TEntity _entity;
+        private readonly TEntity? _entity;
 
         /// <summary>
         /// Gets the entity that was retrieved.
@@ -58,7 +57,7 @@ namespace Remora.Results
         /// Initializes a new instance of the <see cref="CreateEntityResult{T}"/> class.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        private CreateEntityResult([CanBeNull] TEntity entity)
+        private CreateEntityResult(TEntity? entity)
         {
             _entity = entity;
         }
@@ -67,8 +66,8 @@ namespace Remora.Results
         [UsedImplicitly]
         private CreateEntityResult
         (
-            [CanBeNull] string errorReason,
-            [CanBeNull] Exception exception = null
+            string? errorReason,
+            Exception? exception = null
         )
             : base(errorReason, exception)
         {

@@ -41,7 +41,7 @@ namespace Remora.Plugins.Abstractions
         public abstract string Description { get; }
 
         /// <inheritdoc />
-        public virtual Version Version => Assembly.GetAssembly(GetType()).GetName().Version;
+        public virtual Version Version => Assembly.GetAssembly(GetType())?.GetName().Version ?? new Version(1, 0, 0);
 
         /// <inheritdoc />
         public virtual Task<bool> RegisterServicesAsync(IServiceCollection serviceCollection)

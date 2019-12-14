@@ -56,7 +56,7 @@ namespace Remora.Plugins
         public PluginDependencyTreeNode
         (
             [NotNull] IPluginDescriptor plugin,
-            [CanBeNull, ItemNotNull] List<PluginDependencyTreeNode> dependants = null
+            [ItemNotNull] List<PluginDependencyTreeNode>? dependants = null
         )
         {
             this.Plugin = plugin;

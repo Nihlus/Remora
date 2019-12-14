@@ -35,8 +35,7 @@ namespace Remora.Results
         /// <summary>
         /// Holds the actual error reason.
         /// </summary>
-        [CanBeNull]
-        private readonly string _errorReason;
+        private readonly string? _errorReason;
 
         /// <inheritdoc />
         [NotNull]
@@ -59,8 +58,7 @@ namespace Remora.Results
         /// <summary>
         /// Gets the exception that caused the error, if any.
         /// </summary>
-        [CanBeNull]
-        public Exception Exception { get; }
+        public Exception? Exception { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResultBase{TResultType}"/> class.
@@ -77,8 +75,8 @@ namespace Remora.Results
         /// <param name="exception">The exception that caused the error (if any).</param>
         protected ResultBase
         (
-            [CanBeNull] string errorReason,
-            [CanBeNull] Exception exception = null
+            string? errorReason,
+            Exception? exception = null
         )
         {
             this.IsSuccess = false;
@@ -136,7 +134,7 @@ namespace Remora.Results
         public static TResultType FromError
         (
             [NotNull] string reason,
-            [CanBeNull] Exception exception = null
+            Exception? exception = null
         )
         {
             var constructor = typeof(TResultType).GetConstructor
@@ -153,7 +151,7 @@ namespace Remora.Results
                 throw new MissingMethodException(typeName, $"{typeName}(string, Exception)");
             }
 
-            var resultInstance = constructor.Invoke(new object[] { reason, exception });
+            var resultInstance = constructor.Invoke(new object?[] { reason, exception });
             return (TResultType)resultInstance;
         }
 

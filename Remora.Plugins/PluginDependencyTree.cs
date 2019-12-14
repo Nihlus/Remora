@@ -49,7 +49,7 @@ namespace Remora.Plugins
         /// Initializes a new instance of the <see cref="PluginDependencyTree"/> class.
         /// </summary>
         /// <param name="branches">The dependency branches.</param>
-        public PluginDependencyTree([CanBeNull, ItemNotNull] List<PluginDependencyTreeNode> branches = null)
+        public PluginDependencyTree([ItemNotNull] List<PluginDependencyTreeNode>? branches = null)
         {
             _branches = branches ?? new List<PluginDependencyTreeNode>();
         }
@@ -66,9 +66,9 @@ namespace Remora.Plugins
         [NotNull, ItemNotNull]
         public async Task<IEnumerable<TResult>> WalkAsync<TResult>
         (
-            [NotNull] Func<PluginDependencyTreeNode, Exception, TResult> errorFactory,
+            [NotNull] Func<PluginDependencyTreeNode, Exception?, TResult> errorFactory,
             [NotNull] Func<PluginDependencyTreeNode, Task<TResult>> preOperation,
-            [CanBeNull] Func<PluginDependencyTreeNode, Task<TResult>> postOperation = null
+            Func<PluginDependencyTreeNode, Task<TResult>>? postOperation = null
         )
             where TResult : IResult
         {
@@ -85,9 +85,9 @@ namespace Remora.Plugins
         private async Task<IEnumerable<TResult>> WalkNodeAsync<TResult>
         (
             [NotNull] PluginDependencyTreeNode node,
-            [NotNull] Func<PluginDependencyTreeNode, Exception, TResult> errorFactory,
+            [NotNull] Func<PluginDependencyTreeNode, Exception?, TResult> errorFactory,
             [NotNull] Func<PluginDependencyTreeNode, Task<TResult>> preOperation,
-            [CanBeNull] Func<PluginDependencyTreeNode, Task<TResult>> postOperation = null
+            Func<PluginDependencyTreeNode, Task<TResult>>? postOperation = null
         )
             where TResult : IResult
         {

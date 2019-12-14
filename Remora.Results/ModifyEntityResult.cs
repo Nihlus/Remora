@@ -44,7 +44,7 @@ namespace Remora.Results
         /// Initializes a new instance of the <see cref="ModifyEntityResult"/> class.
         /// </summary>
         /// <param name="actionTaken">The action that was taken on the entity.</param>
-        private ModifyEntityResult([CanBeNull] ModifyEntityAction? actionTaken)
+        private ModifyEntityResult(ModifyEntityAction? actionTaken)
         {
             this.ActionTaken = actionTaken;
         }
@@ -53,8 +53,8 @@ namespace Remora.Results
         [UsedImplicitly]
         private ModifyEntityResult
         (
-            [CanBeNull] string errorReason,
-            [CanBeNull] Exception exception = null
+            string? errorReason,
+            Exception? exception = null
         )
             : base(errorReason, exception)
         {

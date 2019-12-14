@@ -34,17 +34,33 @@ namespace Remora.Plugins.Results
     public class InitializePluginResult : ResultBase<InitializePluginResult>
     {
         /// <summary>
+        /// Holds the actual plugin value.
+        /// </summary>
+        private IPluginDescriptor? _plugin;
+
+        /// <summary>
         /// Gets the plugin that was initialized.
         /// </summary>
-        [CanBeNull]
-        public IPluginDescriptor Plugin { get; }
+        [NotNull]
+        public IPluginDescriptor Plugin
+        {
+            get
+            {
+                if (!this.IsSuccess || _plugin is null)
+                {
+                    throw new InvalidOperationException("The result does not contain a valid value.");
+                }
+
+                return _plugin;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InitializePluginResult"/> class.
         /// </summary>
         private InitializePluginResult([NotNull] IPluginDescriptor plugin)
         {
-            this.Plugin = plugin;
+            _plugin = plugin;
         }
 
         /// <summary>
@@ -56,20 +72,20 @@ namespace Remora.Plugins.Results
         private InitializePluginResult
         (
             [NotNull] IPluginDescriptor plugin,
-            [CanBeNull] string errorReason,
-            [CanBeNull] Exception exception = null
+            string? errorReason,
+            Exception? exception = null
         )
             : base(errorReason, exception)
         {
-            this.Plugin = plugin;
+            _plugin = plugin;
         }
 
         /// <inheritdoc cref="ResultBase{TResultType}(string,Exception)"/>
         [UsedImplicitly]
         private InitializePluginResult
         (
-            [CanBeNull] string errorReason,
-            [CanBeNull] Exception exception = null
+            string? errorReason,
+            Exception? exception = null
         )
             : base(errorReason, exception)
         {
@@ -98,7 +114,7 @@ namespace Remora.Plugins.Results
         (
             [NotNull] IPluginDescriptor plugin,
             [NotNull] string errorReason,
-            [CanBeNull] Exception exception = null
+            Exception? exception = null
         )
         {
             return new InitializePluginResult(plugin, errorReason, exception);

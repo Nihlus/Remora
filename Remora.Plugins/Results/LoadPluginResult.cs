@@ -1,5 +1,5 @@
 ﻿//
-//  DetermineConditionResult.cs
+//  LoadPluginResult.cs
 //
 //  Author:
 //       Jarl Gullberg <jarl.gullberg@gmail.com>
@@ -22,24 +22,50 @@
 
 using System;
 using JetBrains.Annotations;
+using Remora.Plugins.Abstractions;
+using Remora.Results;
 
-namespace Remora.Results
+namespace Remora.Plugins.Results
 {
     /// <summary>
-    /// Represents an attempt to perform an action.
+    /// Represents an attempt to lead a plugin.
     /// </summary>
-    public class DetermineConditionResult : ResultBase<DetermineConditionResult>
+    [PublicAPI]
+    public class LoadPluginResult : ResultBase<LoadPluginResult>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DetermineConditionResult"/> class.
+        /// Holds the actual plugin value.
         /// </summary>
-        private DetermineConditionResult()
+        private IPluginDescriptor? _plugin;
+
+        /// <summary>
+        /// Gets the plugin that was loaded.
+        /// </summary>
+        [NotNull]
+        public IPluginDescriptor Plugin
         {
+            get
+            {
+                if (!this.IsSuccess || _plugin is null)
+                {
+                    throw new InvalidOperationException("The result does not contain a valid value.");
+                }
+
+                return _plugin;
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoadPluginResult"/> class.
+        /// </summary>
+        private LoadPluginResult([NotNull] IPluginDescriptor plugin)
+        {
+            _plugin = plugin;
         }
 
         /// <inheritdoc cref="ResultBase{TResultType}(string,Exception)"/>
         [UsedImplicitly]
-        private DetermineConditionResult
+        private LoadPluginResult
         (
             string? errorReason,
             Exception? exception = null
@@ -51,11 +77,12 @@ namespace Remora.Results
         /// <summary>
         /// Creates a new successful result.
         /// </summary>
+        /// <param name="plugin">The plugin that was initialized.</param>
         /// <returns>A successful result.</returns>
-        [Pure]
-        public static DetermineConditionResult FromSuccess()
+        [Pure, NotNull]
+        public static LoadPluginResult FromSuccess([NotNull] IPluginDescriptor plugin)
         {
-            return new DetermineConditionResult();
+            return new LoadPluginResult(plugin);
         }
     }
 }

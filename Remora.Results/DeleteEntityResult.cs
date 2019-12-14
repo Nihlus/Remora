@@ -41,8 +41,8 @@ namespace Remora.Results
         [UsedImplicitly]
         private DeleteEntityResult
         (
-            [CanBeNull] string errorReason,
-            [CanBeNull] Exception exception = null
+            string? errorReason,
+            Exception? exception = null
         )
             : base(errorReason, exception)
         {
