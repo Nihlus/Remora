@@ -45,7 +45,7 @@ namespace Remora.EntityFrameworkCore.Modular.Extensions
         public static IServiceCollection AddSchemaAwareDbContextPool<TContext>
         (
             [NotNull] this IServiceCollection @this,
-            [NotNull] Action<DbContextOptionsBuilder> userConfigurationFunction
+            [NotNull] Action<IServiceProvider, DbContextOptionsBuilder> userConfigurationFunction
         )
             where TContext : SchemaAwareDbContext
         {
@@ -56,7 +56,7 @@ namespace Remora.EntityFrameworkCore.Modular.Extensions
                     var schemaAwareDbContextService = serviceProvider.GetRequiredService<SchemaAwareDbContextService>();
                     schemaAwareDbContextService.ConfigureSchemaAwareContext(optionsBuilder);
 
-                    userConfigurationFunction(optionsBuilder);
+                    userConfigurationFunction(serviceProvider, optionsBuilder);
                 }
             );
 
