@@ -54,7 +54,11 @@ namespace Remora.Behaviours.Bases
         /// </summary>
         /// <param name="serviceScope">The service scope of the behaviour.</param>
         /// <param name="logger">The logging instance for this type.</param>
-        protected ContinuousBehaviour(IServiceScope serviceScope, [NotNull] ILogger<TBehaviour> logger)
+        protected ContinuousBehaviour
+        (
+            [NotNull] IServiceScope serviceScope,
+            [NotNull] ILogger<TBehaviour> logger
+        )
             : base(serviceScope, logger)
         {
             this.CancellationSource = new CancellationTokenSource();

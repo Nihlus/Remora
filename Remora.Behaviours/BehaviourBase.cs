@@ -65,7 +65,7 @@ namespace Remora.Behaviours
         /// <param name="serviceScope">The service scope of the behaviour.</param>
         /// <param name="logger">The logging instance for this type.</param>
         [PublicAPI]
-        protected BehaviourBase(IServiceScope serviceScope, ILogger<TBehaviour> logger)
+        protected BehaviourBase([NotNull] IServiceScope serviceScope, [NotNull] ILogger<TBehaviour> logger)
         {
             this.ServiceScope = serviceScope;
             this.Log = logger;
@@ -76,7 +76,7 @@ namespace Remora.Behaviours
         /// </summary>
         /// <param name="serviceScope">The service scope of the behaviour.</param>
         [PublicAPI]
-        protected BehaviourBase(IServiceScope serviceScope)
+        protected BehaviourBase([NotNull] IServiceScope serviceScope)
         {
             this.ServiceScope = serviceScope;
             this.Log = NullLogger.Instance;
