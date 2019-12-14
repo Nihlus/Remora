@@ -6,6 +6,10 @@ component of Remora is intended to be a standalone product, but may have depende
 modules are independently released on NuGet.
 
 ## Table of Contents
+  * [Remora.Results.Abstractions](Remora.Results.Abstractions) - Abstractions and public interfaces for a descriptive 
+  algebraic data type for C#.
+  * [Remora.Results](Remora.Results) - The default implementation of Remora.Results.Abstractions, containing various
+  generic and useful result types.
   * [Remora.Behaviours](Remora.Behaviours) - A small library for service-friendly behavioural programming.
   * [Remora.Plugins](Remora.Plugins) - The default implementation of Remora.Plugins.Abstractions.
   * [Remora.Plugins.Abstractions](Remora.Plugins.Abstractions) - Abstractions and public interfaces for a dynamic plugin
