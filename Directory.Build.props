@@ -6,6 +6,7 @@
 <Project>
     <!-- Common properties for all projects -->
     <PropertyGroup>
+        <LangVersion>8</LangVersion>
         <Deterministic>true</Deterministic>
         <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
