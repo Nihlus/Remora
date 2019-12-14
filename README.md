@@ -1,6 +1,6 @@
  Remora
  ======
- 
+
 Remora is a collection of common libraries and modules, useful for a variety of common applications and tools. Each 
 component of Remora is intended to be a standalone product, but may have dependencies on other Remora modules. All 
 modules are independently released on NuGet.
