@@ -15,4 +15,9 @@
         <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Remora.Plugins.Abstractions\Remora.Plugins.Abstractions.csproj" />
+      <ProjectReference Include="..\Remora.Results.Abstractions\Remora.Results.Abstractions.csproj" />
+    </ItemGroup>
+
 </Project>
