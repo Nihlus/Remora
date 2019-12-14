@@ -29,7 +29,8 @@ namespace Remora.Results
     /// Represents an attempt to create an entity.
     /// </summary>
     /// <typeparam name="TEntity">The entity type to encapsulate.</typeparam>
-    public class CreateEntityResult<TEntity> : ResultBase<CreateEntityResult<TEntity>> where TEntity : class
+    [PublicAPI]
+    public sealed class CreateEntityResult<TEntity> : ResultBase<CreateEntityResult<TEntity>> where TEntity : class
     {
         /// <summary>
         /// Holds the actual entity value.
@@ -39,7 +40,7 @@ namespace Remora.Results
         /// <summary>
         /// Gets the entity that was retrieved.
         /// </summary>
-        [NotNull]
+        [PublicAPI, NotNull]
         public TEntity Entity
         {
             get
@@ -78,7 +79,7 @@ namespace Remora.Results
         /// </summary>
         /// <param name="entity">The entity that was retrieved.</param>
         /// <returns>A successful result.</returns>
-        [Pure]
+        [PublicAPI, Pure, NotNull]
         public static CreateEntityResult<TEntity> FromSuccess([NotNull] TEntity entity)
         {
             return new CreateEntityResult<TEntity>(entity);
@@ -89,6 +90,7 @@ namespace Remora.Results
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns>The successful result.</returns>
+        [PublicAPI, Pure, NotNull]
         public static implicit operator CreateEntityResult<TEntity>([NotNull] TEntity entity)
         {
             return FromSuccess(entity);

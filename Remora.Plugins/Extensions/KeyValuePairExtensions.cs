@@ -21,13 +21,15 @@
 //
 
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace Remora.Plugins.Extensions
 {
     /// <summary>
     /// Extensions to the <see cref="KeyValuePair{TKey, TValue}"/> class.
     /// </summary>
-    public static class KeyValuePairExtensions
+    [UsedImplicitly]
+    internal static class KeyValuePairExtensions
     {
         /// <summary>
         /// Deconstructs a key-value pair into a value tuple.

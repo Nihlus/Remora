@@ -23,13 +23,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace Remora.Plugins.Extensions
 {
     /// <summary>
     /// Contains LINQ-style enumerable extensions.
     /// </summary>
-    public static class EnumerableExtensions
+    internal static class EnumerableExtensions
     {
         /// <summary>
         /// Performs a topological sort of the input, given an expression that produces a set of connected nodes.
@@ -41,8 +42,8 @@ namespace Remora.Plugins.Extensions
         /// <exception cref="ArgumentException">Thrown if a cyclic dependency is found.</exception>
         public static IEnumerable<T> TopologicalSort<T>
         (
-            this IEnumerable<T> nodes,
-            Func<T, IEnumerable<T>> connected
+            [NotNull] this IEnumerable<T> nodes,
+            [NotNull] Func<T, IEnumerable<T>> connected
         )
         {
             var elems = nodes.ToDictionary(node => node, node => new HashSet<T>(connected(node)));

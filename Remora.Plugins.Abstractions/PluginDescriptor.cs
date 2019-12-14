@@ -35,21 +35,26 @@ namespace Remora.Plugins.Abstractions
     public abstract class PluginDescriptor : IPluginDescriptor
     {
         /// <inheritdoc />
+        [PublicAPI]
         public abstract string Name { get; }
 
         /// <inheritdoc />
+        [PublicAPI]
         public abstract string Description { get; }
 
         /// <inheritdoc />
+        [PublicAPI]
         public virtual Version Version => Assembly.GetAssembly(GetType())?.GetName().Version ?? new Version(1, 0, 0);
 
         /// <inheritdoc />
+        [PublicAPI]
         public virtual Task<bool> RegisterServicesAsync(IServiceCollection serviceCollection)
         {
             return Task.FromResult(true);
         }
 
         /// <inheritdoc />
+        [PublicAPI]
         public virtual Task<bool> InitializeAsync(IServiceProvider serviceProvider)
         {
             return Task.FromResult(true);

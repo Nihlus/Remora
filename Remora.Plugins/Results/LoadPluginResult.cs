@@ -31,7 +31,7 @@ namespace Remora.Plugins.Results
     /// Represents an attempt to lead a plugin.
     /// </summary>
     [PublicAPI]
-    public class LoadPluginResult : ResultBase<LoadPluginResult>
+    public sealed class LoadPluginResult : ResultBase<LoadPluginResult>
     {
         /// <summary>
         /// Holds the actual plugin value.
@@ -79,7 +79,7 @@ namespace Remora.Plugins.Results
         /// </summary>
         /// <param name="plugin">The plugin that was initialized.</param>
         /// <returns>A successful result.</returns>
-        [Pure, NotNull]
+        [PublicAPI, Pure, NotNull]
         public static LoadPluginResult FromSuccess([NotNull] IPluginDescriptor plugin)
         {
             return new LoadPluginResult(plugin);

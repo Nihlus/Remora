@@ -28,25 +28,22 @@ namespace Remora.Results
     /// <summary>
     /// Encapsulates the result of an attempt to edit an entity.
     /// </summary>
-    public class ModifyEntityResult : ResultBase<ModifyEntityResult>
+    [PublicAPI]
+    public sealed class ModifyEntityResult : ResultBase<ModifyEntityResult>
     {
-        /// <summary>
-        /// Gets the action that was taken on the entity.
-        /// </summary>
-        public ModifyEntityAction? ActionTaken { get; }
-
         /// <summary>
         /// Gets a value indicating whether or not any entity was modified.
         /// </summary>
-        public bool WasModified => this.ActionTaken.HasValue;
+        [PublicAPI]
+        public bool WasModified { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ModifyEntityResult"/> class.
         /// </summary>
-        /// <param name="actionTaken">The action that was taken on the entity.</param>
-        private ModifyEntityResult(ModifyEntityAction? actionTaken)
+        /// <param name="wasModified">Whether the entity was modified.</param>
+        private ModifyEntityResult(bool wasModified)
         {
-            this.ActionTaken = actionTaken;
+            this.WasModified = wasModified;
         }
 
         /// <inheritdoc cref="ResultBase{TResultType}(string,Exception)"/>
@@ -63,12 +60,12 @@ namespace Remora.Results
         /// <summary>
         /// Creates a new successful result.
         /// </summary>
-        /// <param name="actionTaken">The action that was taken on the entity.</param>
+        /// <param name="wasModified">Whether the entity was modified.</param>
         /// <returns>A successful result.</returns>
-        [Pure]
-        public static ModifyEntityResult FromSuccess(ModifyEntityAction actionTaken = ModifyEntityAction.Edited)
+        [PublicAPI, Pure, NotNull]
+        public static ModifyEntityResult FromSuccess(bool wasModified = true)
         {
-            return new ModifyEntityResult(actionTaken);
+            return new ModifyEntityResult(wasModified);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Remora.Plugins
     /// Represents a tree of plugins, ordered by their dependencies.
     /// </summary>
     [PublicAPI]
-    public class PluginDependencyTree
+    public sealed class PluginDependencyTree
     {
         [NotNull, ItemNotNull]
         private readonly List<PluginDependencyTreeNode> _branches;
@@ -49,6 +49,7 @@ namespace Remora.Plugins
         /// Initializes a new instance of the <see cref="PluginDependencyTree"/> class.
         /// </summary>
         /// <param name="branches">The dependency branches.</param>
+        [PublicAPI]
         public PluginDependencyTree([ItemNotNull] List<PluginDependencyTreeNode>? branches = null)
         {
             _branches = branches ?? new List<PluginDependencyTreeNode>();
@@ -63,7 +64,7 @@ namespace Remora.Plugins
         /// <param name="postOperation">The operation to perform while walking up into the tree.</param>
         /// <typeparam name="TResult">The result type.</typeparam>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull, ItemNotNull]
+        [PublicAPI, NotNull, ItemNotNull]
         public async Task<IEnumerable<TResult>> WalkAsync<TResult>
         (
             [NotNull] Func<PluginDependencyTreeNode, Exception?, TResult> errorFactory,

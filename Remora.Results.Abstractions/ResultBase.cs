@@ -30,6 +30,7 @@ namespace Remora.Results
     /// Serves as the base class for results.
     /// </summary>
     /// <typeparam name="TResultType">The actual type of the result.</typeparam>
+    [PublicAPI]
     public abstract class ResultBase<TResultType> : IResult where TResultType : ResultBase<TResultType>
     {
         /// <summary>
@@ -38,7 +39,7 @@ namespace Remora.Results
         private readonly string? _errorReason;
 
         /// <inheritdoc />
-        [NotNull]
+        [PublicAPI]
         public string ErrorReason
         {
             get
@@ -53,16 +54,19 @@ namespace Remora.Results
         }
 
         /// <inheritdoc />
+        [PublicAPI]
         public bool IsSuccess { get; }
 
         /// <summary>
         /// Gets the exception that caused the error, if any.
         /// </summary>
+        [PublicAPI]
         public Exception? Exception { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResultBase{TResultType}"/> class.
         /// </summary>
+        [PublicAPI]
         protected ResultBase()
         {
             this.IsSuccess = true;
@@ -73,6 +77,7 @@ namespace Remora.Results
         /// </summary>
         /// <param name="errorReason">A more detailed error description.</param>
         /// <param name="exception">The exception that caused the error (if any).</param>
+        [PublicAPI]
         protected ResultBase
         (
             string? errorReason,
@@ -90,7 +95,7 @@ namespace Remora.Results
         /// </summary>
         /// <param name="result">The result to base this result off of.</param>
         /// <returns>A failed result.</returns>
-        [Pure]
+        [PublicAPI, Pure, NotNull]
         public static TResultType FromError([NotNull] IResult result)
         {
             if (result.IsSuccess)
@@ -106,7 +111,7 @@ namespace Remora.Results
         /// </summary>
         /// <param name="exception">The exception to base this result off of.</param>
         /// <returns>A failed result.</returns>
-        [Pure]
+        [PublicAPI, Pure, NotNull]
         public static TResultType FromError([NotNull] Exception exception)
         {
             return FromError(exception.Message, exception);
@@ -118,7 +123,7 @@ namespace Remora.Results
         /// <param name="exception">The exception to base this result off of.</param>
         /// <param name="reason">The reason for the exception.</param>
         /// <returns>A failed result.</returns>
-        [Pure]
+        [PublicAPI, Pure, NotNull]
         public static TResultType FromError([NotNull] Exception exception, [NotNull] string reason)
         {
             return FromError(reason, exception);
@@ -130,7 +135,7 @@ namespace Remora.Results
         /// <param name="reason">A more detailed error reason.</param>
         /// <param name="exception">The exception that caused the failure, if any.</param>
         /// <returns>A failed result.</returns>
-        [Pure]
+        [PublicAPI, Pure, NotNull]
         public static TResultType FromError
         (
             [NotNull] string reason,

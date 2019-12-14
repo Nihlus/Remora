@@ -34,7 +34,7 @@ namespace Remora.Behaviours.Services
     /// This class manages the access to and lifetime of registered behaviours.
     /// </summary>
     [PublicAPI]
-    public class BehaviourService
+    public sealed class BehaviourService
     {
         [NotNull, ItemNotNull]
         private readonly ICollection<IBehaviour> _registeredBehaviours = new List<IBehaviour>();
@@ -45,7 +45,7 @@ namespace Remora.Behaviours.Services
         /// <param name="containingAssembly">The assembly where behaviours are defined.</param>
         /// <param name="services">The services available to the application.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
+        [PublicAPI, NotNull]
         public async Task AddBehavioursAsync([NotNull] Assembly containingAssembly, [NotNull] IServiceProvider services)
         {
             var definedTypes = containingAssembly.DefinedTypes;
@@ -63,7 +63,7 @@ namespace Remora.Behaviours.Services
         /// <param name="services">The available services.</param>
         /// <typeparam name="TBehaviour">The type of the behaviour.</typeparam>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
+        [PublicAPI, NotNull]
         public Task AddBehaviourAsync<TBehaviour>([NotNull] IServiceProvider services)
             where TBehaviour : IBehaviour
         {
@@ -76,7 +76,7 @@ namespace Remora.Behaviours.Services
         /// <param name="services">The available services.</param>
         /// <param name="behaviourType">The type of the behaviour.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
+        [PublicAPI, NotNull]
         public async Task AddBehaviourAsync([NotNull] IServiceProvider services, [NotNull] Type behaviourType)
         {
             if (behaviourType.IsAbstract)
@@ -112,7 +112,7 @@ namespace Remora.Behaviours.Services
         /// Starts all registered behaviours.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
+        [PublicAPI, NotNull]
         public async Task StartBehavioursAsync()
         {
             foreach (var behaviour in _registeredBehaviours)
@@ -125,7 +125,7 @@ namespace Remora.Behaviours.Services
         /// Stops all registered behaviours.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
+        [PublicAPI, NotNull]
         public async Task StopBehavioursAsync()
         {
             foreach (var behaviour in _registeredBehaviours)

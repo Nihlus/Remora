@@ -43,6 +43,7 @@ namespace Remora.Plugins.Abstractions.Attributes
         /// Initializes a new instance of the <see cref="RemoraPlugin"/> class.
         /// </summary>
         /// <param name="pluginDescriptor">The descriptor type.</param>
+        [PublicAPI]
         public RemoraPlugin([NotNull] Type pluginDescriptor)
         {
             this.PluginDescriptor = pluginDescriptor;

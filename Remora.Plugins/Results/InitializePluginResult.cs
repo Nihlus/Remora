@@ -31,7 +31,7 @@ namespace Remora.Plugins.Results
     /// Represents an attempt to initialize a plugin.
     /// </summary>
     [PublicAPI]
-    public class InitializePluginResult : ResultBase<InitializePluginResult>
+    public sealed class InitializePluginResult : ResultBase<InitializePluginResult>
     {
         /// <summary>
         /// Holds the actual plugin value.
@@ -96,7 +96,7 @@ namespace Remora.Plugins.Results
         /// </summary>
         /// <param name="plugin">The plugin that was initialized.</param>
         /// <returns>A successful result.</returns>
-        [Pure, NotNull]
+        [PublicAPI, Pure, NotNull]
         public static InitializePluginResult FromSuccess([NotNull] IPluginDescriptor plugin)
         {
             return new InitializePluginResult(plugin);
@@ -109,7 +109,7 @@ namespace Remora.Plugins.Results
         /// <param name="errorReason">The reason the plugin failed to initialize.</param>
         /// <param name="exception">The exception that caused the failure, if any.</param>
         /// <returns>A failed result.</returns>
-        [Pure, NotNull]
+        [PublicAPI, Pure, NotNull]
         public static InitializePluginResult FromError
         (
             [NotNull] IPluginDescriptor plugin,

@@ -43,7 +43,7 @@ namespace Remora.Plugins.Services
         /// Loads the available plugins into a dependency tree.
         /// </summary>
         /// <returns>The dependency tree.</returns>
-        [NotNull, Pure]
+        [PublicAPI, NotNull, Pure]
         public PluginDependencyTree LoadPluginDescriptors()
         {
             var pluginAssemblies = LoadAvailablePluginAssemblies().ToList();
@@ -130,7 +130,7 @@ namespace Remora.Plugins.Services
         /// Loads the available plugins.
         /// </summary>
         /// <returns>The descriptors of the available plugins.</returns>
-        [Pure, NotNull, ItemNotNull]
+        [PublicAPI, Pure, NotNull, ItemNotNull]
         public IEnumerable<IPluginDescriptor> LoadAvailablePlugins()
         {
             var pluginAssemblies = LoadAvailablePluginAssemblies().ToList();
@@ -168,7 +168,7 @@ namespace Remora.Plugins.Services
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         /// <returns>The plugin descriptor.</returns>
-        [NotNull, Pure]
+        [Pure, NotNull]
         private LoadPluginResult LoadPluginDescriptor([NotNull] Assembly assembly)
         {
             var pluginAttribute = assembly.GetCustomAttribute<RemoraPlugin>();

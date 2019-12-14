@@ -20,21 +20,26 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using JetBrains.Annotations;
+
 namespace Remora.Results
 {
     /// <summary>
     /// Represents the public interface of a result.
     /// </summary>
+    [PublicAPI]
     public interface IResult
     {
         /// <summary>
         /// Gets a human-readable reason for the error.
         /// </summary>
+        [PublicAPI, NotNull]
         string ErrorReason { get; }
 
         /// <summary>
         /// Gets a value indicating whether the result is a successful result.
         /// </summary>
+        [PublicAPI]
         bool IsSuccess { get; }
     }
 }

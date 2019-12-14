@@ -22,6 +22,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -37,7 +38,7 @@ namespace Remora.EntityFrameworkCore.Modular
     /// <summary>
     /// Generates differences between migrations, taking the schema of the model entities into account.
     /// </summary>
-    public class SchemaAwareMigrationsModelDiffer : MigrationsModelDiffer
+    internal class SchemaAwareMigrationsModelDiffer : MigrationsModelDiffer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SchemaAwareMigrationsModelDiffer"/> class.
@@ -49,11 +50,11 @@ namespace Remora.EntityFrameworkCore.Modular
         /// <param name="commandBatchPreparerDependencies">The command batch preparer dependencies.</param>
         public SchemaAwareMigrationsModelDiffer
         (
-            IRelationalTypeMappingSource typeMappingSource,
-            IMigrationsAnnotationProvider migrationsAnnotations,
-            IChangeDetector changeDetector,
-            StateManagerDependencies stateManagerDependencies,
-            CommandBatchPreparerDependencies commandBatchPreparerDependencies
+            [NotNull] IRelationalTypeMappingSource typeMappingSource,
+            [NotNull] IMigrationsAnnotationProvider migrationsAnnotations,
+            [NotNull] IChangeDetector changeDetector,
+            [NotNull] StateManagerDependencies stateManagerDependencies,
+            [NotNull] CommandBatchPreparerDependencies commandBatchPreparerDependencies
         )
             : base
             (
@@ -115,7 +116,11 @@ namespace Remora.EntityFrameworkCore.Modular
                         return false;
                     }
 
-                    var schemaToInclude = ((SchemaAwareDiffContext)diffContext).Source.Relational().DefaultSchema;
+                    var schemaToInclude = ((SchemaAwareDiffContext)diffContext).Source?.Relational().DefaultSchema;
+                    if (schemaToInclude is null)
+                    {
+                        return false;
+                    }
 
                     if (c.FindSourceTable(s.PrincipalEntityType).Schema == schemaToInclude &&
                         c.FindSourceTable(s.PrincipalEntityType) !=
@@ -155,11 +160,13 @@ namespace Remora.EntityFrameworkCore.Modular
             /// <summary>
             /// Gets the source model.
             /// </summary>
+            [CanBeNull]
             public IModel Source { get; }
 
             /// <summary>
             /// Gets the target model.
             /// </summary>
+            [CanBeNull]
             public IModel Target { get; }
 
             /// <summary>
@@ -167,7 +174,7 @@ namespace Remora.EntityFrameworkCore.Modular
             /// </summary>
             /// <param name="source">The source model.</param>
             /// <param name="target">The target model.</param>
-            public SchemaAwareDiffContext(IModel source, IModel target)
+            public SchemaAwareDiffContext([CanBeNull] IModel source, [CanBeNull] IModel target)
                 : base(source, target)
             {
                 this.Source = source;
@@ -175,8 +182,14 @@ namespace Remora.EntityFrameworkCore.Modular
             }
 
             /// <inheritdoc/>
+            [NotNull, ItemNotNull]
             public override IEnumerable<TableMapping> GetSourceTables()
             {
+                if (this.Source is null)
+                {
+                    return new TableMapping[] { };
+                }
+
                 var schemaToInclude = this.Source.Relational().DefaultSchema;
                 var tables = base.GetSourceTables();
 
@@ -184,8 +197,14 @@ namespace Remora.EntityFrameworkCore.Modular
             }
 
             /// <inheritdoc/>
+            [NotNull, ItemNotNull]
             public override IEnumerable<TableMapping> GetTargetTables()
             {
+                if (this.Target is null)
+                {
+                    return new TableMapping[] { };
+                }
+
                 var schemaToInclude = this.Target.Relational().DefaultSchema;
                 var tables = base.GetTargetTables();
 

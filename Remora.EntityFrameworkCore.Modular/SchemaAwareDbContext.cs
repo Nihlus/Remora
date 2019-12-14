@@ -29,11 +29,13 @@ namespace Remora.EntityFrameworkCore.Modular
     /// <summary>
     /// Acts as a base class for EF Core database contexts that take the schema of the model into account.
     /// </summary>
+    [PublicAPI]
     public abstract class SchemaAwareDbContext : DbContext
     {
         /// <summary>
         /// Gets the schema of the database.
         /// </summary>
+        [NotNull]
         public string Schema { get; }
 
         /// <summary>
@@ -41,14 +43,14 @@ namespace Remora.EntityFrameworkCore.Modular
         /// </summary>
         /// <param name="schema">The schema.</param>
         /// <param name="contextOptions">The context options.</param>
-        protected SchemaAwareDbContext(string schema, DbContextOptions contextOptions)
+        protected SchemaAwareDbContext([NotNull] string schema, [NotNull] DbContextOptions contextOptions)
             : base(contextOptions)
         {
             this.Schema = schema;
         }
 
         /// <inheritdoc />
-        protected override void OnConfiguring([NotNull] DbContextOptionsBuilder optionsBuilder)
+        protected sealed override void OnConfiguring([NotNull] DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {

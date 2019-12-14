@@ -28,7 +28,8 @@ namespace Remora.Results
     /// <summary>
     /// Represents an attempt to perform an action.
     /// </summary>
-    public class DetermineConditionResult : ResultBase<DetermineConditionResult>
+    [PublicAPI]
+    public sealed class DetermineConditionResult : ResultBase<DetermineConditionResult>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DetermineConditionResult"/> class.
@@ -52,7 +53,7 @@ namespace Remora.Results
         /// Creates a new successful result.
         /// </summary>
         /// <returns>A successful result.</returns>
-        [Pure]
+        [PublicAPI, Pure, NotNull]
         public static DetermineConditionResult FromSuccess()
         {
             return new DetermineConditionResult();

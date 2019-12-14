@@ -54,6 +54,7 @@ namespace Remora.Behaviours.Bases
         /// </summary>
         /// <param name="serviceScope">The service scope of the behaviour.</param>
         /// <param name="logger">The logging instance for this type.</param>
+        [PublicAPI]
         protected ContinuousBehaviour
         (
             [NotNull] IServiceScope serviceScope,
@@ -69,6 +70,7 @@ namespace Remora.Behaviours.Bases
         /// Initializes a new instance of the <see cref="ContinuousBehaviour{TBehaviour}"/> class.
         /// </summary>
         /// <param name="serviceScope">The service scope of the behaviour.</param>
+        [PublicAPI]
         protected ContinuousBehaviour
         (
             [NotNull] IServiceScope serviceScope

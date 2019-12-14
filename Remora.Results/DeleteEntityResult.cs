@@ -28,7 +28,8 @@ namespace Remora.Results
     /// <summary>
     /// Encapsulates the result of an attempt to delete an entity.
     /// </summary>
-    public class DeleteEntityResult : ResultBase<DeleteEntityResult>
+    [PublicAPI]
+    public sealed class DeleteEntityResult : ResultBase<DeleteEntityResult>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteEntityResult"/> class.
@@ -52,7 +53,7 @@ namespace Remora.Results
         /// Creates a new successful result.
         /// </summary>
         /// <returns>A successful result.</returns>
-        [Pure]
+        [PublicAPI, Pure, NotNull]
         public static DeleteEntityResult FromSuccess()
         {
             return new DeleteEntityResult();

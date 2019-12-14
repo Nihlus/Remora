@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -28,13 +29,15 @@ namespace Remora.EntityFrameworkCore.Modular.Services
     /// <summary>
     /// Serves functionality for schema-aware database contexts.
     /// </summary>
-    public class SchemaAwareDbContextService
+    [PublicAPI]
+    public sealed class SchemaAwareDbContextService
     {
         /// <summary>
         /// Configures the options of a schema-aware database context.
         /// </summary>
-        /// <param name="optionsBuilder">The unconfigured options builder.</param>
-        public void ConfigureSchemaAwareContext(DbContextOptionsBuilder optionsBuilder)
+        /// <param name="optionsBuilder">The options builder to configure.</param>
+        [PublicAPI]
+        public void ConfigureSchemaAwareContext([NotNull] DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.ReplaceService<IMigrationsModelDiffer, SchemaAwareMigrationsModelDiffer>();
         }

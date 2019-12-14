@@ -52,7 +52,7 @@ namespace Remora.Behaviours
         /// <summary>
         /// Gets the service provider available to this behaviour.
         /// </summary>
-        [PublicAPI]
+        [PublicAPI, NotNull]
         protected IServiceProvider Services => this.ServiceScope.ServiceProvider;
 
         /// <inheritdoc />

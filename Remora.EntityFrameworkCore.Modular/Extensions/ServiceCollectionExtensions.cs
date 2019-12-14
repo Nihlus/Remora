@@ -21,6 +21,7 @@
 //
 
 using System;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Remora.EntityFrameworkCore.Modular.Services;
@@ -30,6 +31,7 @@ namespace Remora.EntityFrameworkCore.Modular.Extensions
     /// <summary>
     /// Extension methods for service collections.
     /// </summary>
+    [PublicAPI]
     public static class ServiceCollectionExtensions
     {
         /// <summary>
@@ -39,10 +41,11 @@ namespace Remora.EntityFrameworkCore.Modular.Extensions
         /// <param name="userConfigurationFunction">The user-exposed configuration function.</param>
         /// <typeparam name="TContext">The context type to add.</typeparam>
         /// <returns>The service collection, with the pool.</returns>
+        [PublicAPI, NotNull]
         public static IServiceCollection AddSchemaAwareDbContextPool<TContext>
         (
-            this IServiceCollection @this,
-            Action<DbContextOptionsBuilder> userConfigurationFunction
+            [NotNull] this IServiceCollection @this,
+            [NotNull] Action<DbContextOptionsBuilder> userConfigurationFunction
         )
             where TContext : SchemaAwareDbContext
         {
