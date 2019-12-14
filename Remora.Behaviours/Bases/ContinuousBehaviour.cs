@@ -115,7 +115,7 @@ namespace Remora.Behaviours.Bases
         protected override Task OnStartingAsync()
         {
             this.CancellationSource = new CancellationTokenSource();
-            this.ContinuousActionTask = RunContinuousActionAsync(this.CancellationSource.Token);
+            this.ContinuousActionTask = Task.Run(() => RunContinuousActionAsync(this.CancellationSource.Token));
 
             return Task.CompletedTask;
         }
