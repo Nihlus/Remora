@@ -13,9 +13,9 @@
         <Description>A behaviour-based activity package for any application.</Description>
         <Copyright>Jarl Gullberg 2020</Copyright>
         <Company>Firwood Software</Company>
-        <Version>1.0.1</Version>
+        <Version>1.0.2</Version>
         <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-        <PackageReleaseNotes>Expose the services from the behaviour's scope.</PackageReleaseNotes>
+        <PackageReleaseNotes>Fix incorrect argument order in error logging function.</PackageReleaseNotes>
         <PackageTags>service;behaviour;async;await;tpl;remora</PackageTags>
         <IncludeSymbols>true</IncludeSymbols>
         <IncludeSource>true</IncludeSource>
@@ -48,7 +48,7 @@
             <PackageCopyToOutput>true</PackageCopyToOutput>
             <PackagePath>lib/$(TargetFramework)</PackagePath>
             <InProject>false</InProject>
-            <CopyToOutputDirectory>CopyIfNewer</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
     <ItemGroup>
