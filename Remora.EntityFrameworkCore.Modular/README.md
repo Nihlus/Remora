@@ -8,6 +8,8 @@ their own schemas, and their own completely isolated contexts.
 Entities can be shared between the contexts and referenced from one to another in a completely transparent way, and 
 dependencies are handled in a typical C# fashion - no extra considerations needed.
 
+A more detailed explanation of the mechanisms involved and the techniques behind it can be read [here][2].
+
 ## Usage
 ```c#
 public class MyDatabaseContext : SchemaAwareDbContext
@@ -49,3 +51,4 @@ Get it on [NuGet][1].
 
 
 [1]: https://www.nuget.org/packages/Remora.EntityFrameworkCore.Modular/
+[2]: https://gullberg.tk/blog/modularizing-your-database-with-ef-core/
