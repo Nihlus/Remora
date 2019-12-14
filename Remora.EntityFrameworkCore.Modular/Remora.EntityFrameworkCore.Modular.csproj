@@ -15,6 +15,11 @@
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
     </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
+    </ItemGroup>
 
 </Project>
 
