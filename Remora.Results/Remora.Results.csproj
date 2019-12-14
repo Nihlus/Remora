@@ -1,7 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;netcoreapp3.0</TargetFrameworks>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Version>1.0.3</Version>
+        <Description>
+            A basic implementation of a descriptive algebraic data type for C#.
+        </Description>
+        <PackageReleaseNotes>
+            Remove consumer-visible development files.
+        </PackageReleaseNotes>
+        <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,17 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;netcoreapp3.0</TargetFrameworks>
         <RootNamespace>Remora.Results</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <Description>
-            A basic implementation of a descriptive algebraic data type for C#.
+            Abstractions and public interfaces for a descriptive algebraic data type for C#.
         </Description>
         <PackageReleaseNotes>
-            Initial release.
+            Remove consumer-visible development files.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
     </PropertyGroup>

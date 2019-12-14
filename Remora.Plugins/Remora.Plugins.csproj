@@ -5,12 +5,12 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <Description>
             The default implementation of Remora.Plugins.Abstractions.
         </Description>
         <PackageReleaseNotes>
-            Initial release.
+            Remove consumer-visible development files.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
     </PropertyGroup>

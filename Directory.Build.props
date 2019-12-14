@@ -28,15 +28,6 @@
         <PackageTags>remora</PackageTags>
     </PropertyGroup>
 
-    <ItemGroup>
-        <Content Include="$(SolutionDir)/LICENSE">
-            <Pack>true</Pack>
-            <PackCopyToOutput>false</PackCopyToOutput>
-            <InProject>false</InProject>
-            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
-
     <!-- Code inspection properties -->
     <PropertyGroup>
         <StyleCopRuleset>$(SolutionDir)/stylecop.ruleset</StyleCopRuleset>
@@ -78,12 +69,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="$(AssemblyName).ExternalAnnotations.xml">
+        <AdditionalFiles Include="$(AssemblyName).ExternalAnnotations.xml">
             <Pack>true</Pack>
             <PackageCopyToOutput>true</PackageCopyToOutput>
             <InProject>false</InProject>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+        </AdditionalFiles>
     </ItemGroup>
 
     <ItemGroup>
