@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Plugins", "Remora.Pl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.EntityFrameworkCore.Modular", "Remora.EntityFrameworkCore.Modular\Remora.EntityFrameworkCore.Modular.csproj", "{F23D857E-C2A7-4BDF-8EF8-8BAB3D0D2592}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Results.Abstractions", "Remora.Results.Abstractions\Remora.Results.Abstractions.csproj", "{B9377912-9280-48DA-8492-DFEC9F190935}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Results", "Remora.Results\Remora.Results.csproj", "{751BD927-2D82-4EB2-B7DE-8E506A7A95C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,5 +45,13 @@ Global
 		{F23D857E-C2A7-4BDF-8EF8-8BAB3D0D2592}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F23D857E-C2A7-4BDF-8EF8-8BAB3D0D2592}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F23D857E-C2A7-4BDF-8EF8-8BAB3D0D2592}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9377912-9280-48DA-8492-DFEC9F190935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9377912-9280-48DA-8492-DFEC9F190935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9377912-9280-48DA-8492-DFEC9F190935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9377912-9280-48DA-8492-DFEC9F190935}.Release|Any CPU.Build.0 = Release|Any CPU
+		{751BD927-2D82-4EB2-B7DE-8E506A7A95C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{751BD927-2D82-4EB2-B7DE-8E506A7A95C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{751BD927-2D82-4EB2-B7DE-8E506A7A95C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{751BD927-2D82-4EB2-B7DE-8E506A7A95C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
