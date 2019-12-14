@@ -6,8 +6,8 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Description>A behaviour-based activity package for any application.</Description>
         <Version>1.1.0</Version>
+        <Description>A behaviour-based activity package for any application.</Description>
         <PackageReleaseNotes>
             Queue continuous actions on the thread pool, and allow logless continuous actions.
         </PackageReleaseNotes>
