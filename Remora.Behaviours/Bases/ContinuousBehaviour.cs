@@ -87,7 +87,7 @@ namespace Remora.Behaviours.Bases
                 catch (Exception e)
                 {
                     // Nom nom nom
-                    this.Log.LogError("Error in behaviour tick.", e);
+                    this.Log.LogError(e, "Error in behaviour tick.");
                 }
             }
         }
