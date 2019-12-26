@@ -49,7 +49,12 @@ namespace Remora.Discord.Commands.Behaviours
         /// <summary>
         /// Gets the prefix for commands.
         /// </summary>
-        protected virtual string CommandPrefix { get; } = "!";
+        protected virtual char? CommandPrefixCharacter { get; } = '!';
+
+        /// <summary>
+        /// Gets the prefix string for commands.
+        /// </summary>
+        protected virtual string? CommandPrefixString { get; }
 
         /// <summary>
         /// Gets a value indicating whether mentions of the bot should be treated the same as having a command prefix.
@@ -190,24 +195,7 @@ namespace Remora.Discord.Commands.Behaviours
                 return;
             }
 
-            var foundCommandStart = false;
-            var argumentPos = 0;
-            if (this.TreatMentionsAsCommands)
-            {
-                foundCommandStart = message.HasMentionPrefix(this.Client.CurrentUser, ref argumentPos);
-            }
-
-            if (!foundCommandStart && this.CommandPrefix.Length > 1)
-            {
-                foundCommandStart = message.HasStringPrefix(this.CommandPrefix, ref argumentPos);
-            }
-
-            if (!foundCommandStart && this.CommandPrefix.Length == 1)
-            {
-                foundCommandStart = message.HasCharPrefix(this.CommandPrefix[0], ref argumentPos);
-            }
-
-            if (!foundCommandStart)
+            if (!FindCommandStartPosition(message, out var argumentPos))
             {
                 return;
             }
@@ -247,6 +235,44 @@ namespace Remora.Discord.Commands.Behaviours
 
                 await AfterCommandAsync(context, argumentPos, executeResult);
             }
+        }
+
+        /// <summary>
+        /// Searches the given message for the starting position of a command, using the behaviour's configured
+        /// prefixes.
+        /// </summary>
+        /// <param name="message">The message to search.</param>
+        /// <param name="commandStartPosition">The found start position.</param>
+        /// <returns>true if a start position was found; otherwise, false.</returns>
+        protected bool FindCommandStartPosition(IUserMessage message, out int commandStartPosition)
+        {
+            commandStartPosition = -1;
+
+            if (this.TreatMentionsAsCommands)
+            {
+                if (message.HasMentionPrefix(this.Client.CurrentUser, ref commandStartPosition))
+                {
+                    return true;
+                }
+            }
+
+            if (!(this.CommandPrefixString is null))
+            {
+                if (message.HasStringPrefix(this.CommandPrefixString, ref commandStartPosition))
+                {
+                    return true;
+                }
+            }
+
+            if (!(this.CommandPrefixCharacter is null))
+            {
+                if (message.HasCharPrefix(this.CommandPrefixCharacter.Value, ref commandStartPosition))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
