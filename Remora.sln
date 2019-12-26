@@ -33,6 +33,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Discord.Behaviours",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Discord.Commands.Behaviours", "Discord\Remora.Discord.Commands.Behaviours\Remora.Discord.Commands.Behaviours.csproj", "{6C046640-47B0-49AC-8F24-DCA14A65265E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Markdown", "Markdown", "{04166B5E-B7A9-4555-A287-05991EC1D78C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Markdown", "Markdown\Remora.Markdown\Remora.Markdown.csproj", "{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,10 @@ Global
 		{6C046640-47B0-49AC-8F24-DCA14A65265E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C046640-47B0-49AC-8F24-DCA14A65265E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C046640-47B0-49AC-8F24-DCA14A65265E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F23D857E-C2A7-4BDF-8EF8-8BAB3D0D2592} = {FEEC261B-959B-46E5-A0A7-7F1B25068BE9}
@@ -78,5 +86,6 @@ Global
 		{92E67D9B-3DE1-4993-BA7F-FC7B1C44A440} = {D2D8C63A-1F40-4AD4-BB0E-9D1CD9F9A83C}
 		{6F3AE981-D3F1-441A-BDBB-DE1FC158600C} = {D7B29741-3241-4D19-B111-3A05B8E67CD0}
 		{6C046640-47B0-49AC-8F24-DCA14A65265E} = {D7B29741-3241-4D19-B111-3A05B8E67CD0}
+		{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A} = {04166B5E-B7A9-4555-A287-05991EC1D78C}
 	EndGlobalSection
 EndGlobal

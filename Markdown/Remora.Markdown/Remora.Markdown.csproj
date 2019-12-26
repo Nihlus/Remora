@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Version>1.0.0</Version>
+        <Description>A typesafe, graph-oriented library for generating Markdown documents in C#.</Description>
+        <PackageReleaseNotes>
+            Initial release.
+        </PackageReleaseNotes>
+        <PackageTags>$(PackageTags);markdown;graph;typesafe</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Update="Nodes\MarkdownTableColumn.cs">
+        <DependentUpon>MarkdownTable.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Nodes\MarkdownTableRow.cs">
+        <DependentUpon>MarkdownTable.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Nodes\ColumnAlignment.cs">
+        <DependentUpon>MarkdownTable.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Nodes\ListType.cs">
+        <DependentUpon>MarkdownList.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Nodes\EmphasisType.cs">
+        <DependentUpon>MarkdownText.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>
