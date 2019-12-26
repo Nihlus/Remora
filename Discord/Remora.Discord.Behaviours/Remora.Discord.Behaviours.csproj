@@ -11,4 +11,12 @@
         <PackageTags>$(PackageTags);discord;behaviours</PackageTags>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Remora.Behaviours\Remora.Behaviours.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Discord.Net.WebSocket" Version="2.1.1" />
+    </ItemGroup>
+
 </Project>
