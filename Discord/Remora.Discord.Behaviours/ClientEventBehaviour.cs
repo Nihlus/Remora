@@ -938,7 +938,7 @@ namespace Remora.Discord.Behaviours
         [NotNull]
         private Task OnConnected()
         {
-            this.RunningEvents.Enqueue(Task.Run(() => Connected()));
+            this.RunningEvents.Enqueue(Task.Run(Connected));
             return Task.CompletedTask;
         }
 
@@ -961,7 +961,7 @@ namespace Remora.Discord.Behaviours
         [NotNull]
         private Task OnReady()
         {
-            this.RunningEvents.Enqueue(Task.Run(() => Ready()));
+            this.RunningEvents.Enqueue(Task.Run(Ready));
             return Task.CompletedTask;
         }
 
@@ -1081,7 +1081,7 @@ namespace Remora.Discord.Behaviours
                 }
                 else
                 {
-                    this.RunningEvents.Enqueue(Task.Run(() => clientEvent));
+                    this.RunningEvents.Enqueue(Task.Run(() => clientEvent, ct));
                 }
             }
 
