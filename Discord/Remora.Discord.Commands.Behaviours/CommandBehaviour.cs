@@ -44,21 +44,25 @@ namespace Remora.Discord.Commands.Behaviours
         /// <summary>
         /// Gets the command service.
         /// </summary>
+        [PublicAPI]
         protected CommandService Commands { get; }
 
         /// <summary>
         /// Gets the prefix for commands.
         /// </summary>
+        [PublicAPI, CanBeNull]
         protected virtual char? CommandPrefixCharacter { get; } = '!';
 
         /// <summary>
         /// Gets the prefix string for commands.
         /// </summary>
+        [PublicAPI, CanBeNull]
         protected virtual string? CommandPrefixString { get; }
 
         /// <summary>
         /// Gets a value indicating whether mentions of the bot should be treated the same as having a command prefix.
         /// </summary>
+        [PublicAPI]
         protected virtual bool TreatMentionsAsCommands { get; } = true;
 
         /// <summary>
@@ -68,6 +72,7 @@ namespace Remora.Discord.Commands.Behaviours
         /// <param name="serviceScope">The service scope in use.</param>
         /// <param name="logger">The logging instance for this type.</param>
         /// <param name="commands">The command service.</param>
+        [PublicAPI]
         public CommandBehaviour
         (
             DiscordSocketClient client,
@@ -97,7 +102,11 @@ namespace Remora.Discord.Commands.Behaviours
         /// </summary>
         /// <param name="commandFilters">The filter list to configure.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected virtual Task ConfigureFiltersAsync(List<Func<SocketCommandContext, Task<bool>>> commandFilters)
+        [PublicAPI, NotNull]
+        protected virtual Task ConfigureFiltersAsync
+        (
+            [NotNull, ItemNotNull] List<Func<SocketCommandContext, Task<bool>>> commandFilters
+        )
         {
             _commandFilters.Add(StandardCommandFilters.IsUserAsync);
             _commandFilters.Add(c => StandardCommandFilters.IsSufficientlyLong(c));
@@ -113,9 +122,10 @@ namespace Remora.Discord.Commands.Behaviours
         /// <param name="context">The command context.</param>
         /// <param name="commandStart">The start of the command within the message.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [PublicAPI, NotNull]
         protected virtual Task BeforeCommandAsync
         (
-            SocketCommandContext context,
+            [NotNull] SocketCommandContext context,
             int commandStart
         )
         {
@@ -130,9 +140,10 @@ namespace Remora.Discord.Commands.Behaviours
         /// <param name="commandStart">The start of the command within the message.</param>
         /// <param name="result">The result of the command.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [PublicAPI, NotNull]
         protected virtual Task AfterCommandAsync
         (
-            SocketCommandContext context,
+            [NotNull] SocketCommandContext context,
             int commandStart,
             ExecuteResult result
         )
@@ -148,9 +159,10 @@ namespace Remora.Discord.Commands.Behaviours
         /// <param name="commandStart">The start of the command within the message.</param>
         /// <param name="result">The result of the command.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [PublicAPI, NotNull]
         protected virtual Task OnCommandFailedAsync
         (
-            SocketCommandContext context,
+            [NotNull] SocketCommandContext context,
             int commandStart,
             ExecuteResult result
         )
@@ -244,7 +256,8 @@ namespace Remora.Discord.Commands.Behaviours
         /// <param name="message">The message to search.</param>
         /// <param name="commandStartPosition">The found start position.</param>
         /// <returns>true if a start position was found; otherwise, false.</returns>
-        protected bool FindCommandStartPosition(IUserMessage message, out int commandStartPosition)
+        [PublicAPI, Pure]
+        protected bool FindCommandStartPosition([NotNull] IUserMessage message, out int commandStartPosition)
         {
             commandStartPosition = -1;
 

@@ -32,13 +32,14 @@ namespace Remora.Discord.Behaviours
     /// Represents a Discord-enabled continuous behaviour.
     /// </summary>
     /// <typeparam name="TBehaviour">The inheriting behaviour type.</typeparam>
+    [PublicAPI]
     public abstract class ContinuousDiscordBehaviour<TBehaviour> : ContinuousBehaviour<TBehaviour>
         where TBehaviour : ContinuousBehaviour<TBehaviour>
     {
         /// <summary>
         /// Gets the Discord client in use.
         /// </summary>
-        [NotNull]
+        [PublicAPI, NotNull]
         protected DiscordSocketClient Client { get; }
 
         /// <summary>
@@ -47,6 +48,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="client">The Discord client.</param>
         /// <param name="serviceScope">The service scope in use.</param>
         /// <param name="logger">The logging instance for this type.</param>
+        [PublicAPI]
         protected ContinuousDiscordBehaviour
         (
             [NotNull] DiscordSocketClient client,
