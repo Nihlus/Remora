@@ -39,14 +39,17 @@ namespace Remora.Discord.Commands.Behaviours
     [PublicAPI]
     public class CommandBehaviour : ClientEventBehaviour<CommandBehaviour>
     {
-        private readonly CommandService _commands;
-
         private readonly List<Func<SocketCommandContext, Task<bool>>> _commandFilters;
 
         /// <summary>
-        /// Gets the prefix character for commands.
+        /// Gets the command service.
         /// </summary>
-        protected virtual char CommandPrefix { get; } = '!';
+        protected CommandService Commands { get; }
+
+        /// <summary>
+        /// Gets the prefix for commands.
+        /// </summary>
+        protected virtual string CommandPrefix { get; } = "!";
 
         /// <summary>
         /// Gets a value indicating whether mentions of the bot should be treated the same as having a command prefix.
@@ -69,7 +72,7 @@ namespace Remora.Discord.Commands.Behaviours
         )
             : base(client, serviceScope, logger)
         {
-            _commands = commands;
+            this.Commands = commands;
             _commandFilters = new List<Func<SocketCommandContext, Task<bool>>>();
         }
 
@@ -194,12 +197,19 @@ namespace Remora.Discord.Commands.Behaviours
                 foundCommandStart = message.HasMentionPrefix(this.Client.CurrentUser, ref argumentPos);
             }
 
+            if (!foundCommandStart && this.CommandPrefix.Length > 1)
+            {
+                foundCommandStart = message.HasStringPrefix(this.CommandPrefix, ref argumentPos);
+            }
+
+            if (!foundCommandStart && this.CommandPrefix.Length == 1)
+            {
+                foundCommandStart = message.HasCharPrefix(this.CommandPrefix[0], ref argumentPos);
+            }
+
             if (!foundCommandStart)
             {
-                if (!message.HasCharPrefix(this.CommandPrefix, ref argumentPos))
-                {
-                    return;
-                }
+                return;
             }
 
             var context = new SocketCommandContext(this.Client, message);
@@ -218,7 +228,7 @@ namespace Remora.Discord.Commands.Behaviours
             // Create a service scope for this command
             using (var scope = this.Services.CreateScope())
             {
-                var result = await _commands.ExecuteAsync(context, argumentPos, scope.ServiceProvider);
+                var result = await this.Commands.ExecuteAsync(context, argumentPos, scope.ServiceProvider);
                 if (!(result is ExecuteResult executeResult))
                 {
                     this.Log.LogError
