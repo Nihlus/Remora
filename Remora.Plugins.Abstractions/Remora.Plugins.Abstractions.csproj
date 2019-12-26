@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;netcoreapp3.0</TargetFrameworks>
-    </PropertyGroup>
-
-    <PropertyGroup>
         <Version>1.0.1</Version>
         <Description>
             Abstractions and public interfaces for a dynamic plugin system, allowing independently developed application

@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;netcoreapp3.0</TargetFrameworks>
         <RootNamespace>Remora.Results</RootNamespace>
     </PropertyGroup>
 
