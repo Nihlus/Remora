@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>3.0.0</Version>
+        <Version>3.0.1</Version>
         <Description>
             Base behaviour types for Discord.Net.Commands, using Remora.Behaviours.
         </Description>
         <PackageReleaseNotes>
-            Rework prefix handling.
+            Remove error log for certain results.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);discord;behaviours;commands</PackageTags>
     </PropertyGroup>
