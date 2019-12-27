@@ -231,12 +231,7 @@ namespace Remora.Discord.Commands.Behaviours
                 var result = await this.Commands.ExecuteAsync(context, argumentPos, scope.ServiceProvider);
                 if (!(result is ExecuteResult executeResult))
                 {
-                    this.Log.LogError
-                    (
-                        "The returned result from a command execution was not an ExecuteResult. Post-execution " +
-                        "callbacks will not run. This is a bug in the library, or Discord.Net."
-                    );
-
+                    // The command failed before it was executed - probably not even a real command.
                     return;
                 }
 
