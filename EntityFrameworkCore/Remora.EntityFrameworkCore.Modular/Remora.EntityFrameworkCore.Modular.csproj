@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>1.1.0</Version>
+        <Version>1.1.1</Version>
         <Description>
             An implementation of a modular approach to EF Core, allowing independent modules of an application to
             coexist in a single database with no crosstalk and intuitive dependencies.
         </Description>
         <PackageReleaseNotes>
-            Pass the available services to the context configuration.
+            Update dependencies.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
     </PropertyGroup>
