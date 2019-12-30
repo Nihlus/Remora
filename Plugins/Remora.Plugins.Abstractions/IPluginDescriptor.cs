@@ -52,12 +52,10 @@ namespace Remora.Plugins.Abstractions
         Version Version { get; }
 
         /// <summary>
-        /// Registers services provided by the plugin in the application's service collection.
+        /// Configures services provided by the plugin in the application's service collection.
         /// </summary>
         /// <param name="serviceCollection">The service collection.</param>
-        /// <returns>true if the plugin could successfully register its services; otherwise, false.</returns>
-        [PublicAPI, NotNull]
-        Task<bool> RegisterServicesAsync([NotNull] IServiceCollection serviceCollection);
+        void ConfigureServices([NotNull] IServiceCollection serviceCollection);
 
         /// <summary>
         /// Performs any post-registration initialization required by the plugin.

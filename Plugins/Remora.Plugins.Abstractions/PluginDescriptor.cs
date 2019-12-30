@@ -48,9 +48,8 @@ namespace Remora.Plugins.Abstractions
 
         /// <inheritdoc />
         [PublicAPI]
-        public virtual Task<bool> RegisterServicesAsync(IServiceCollection serviceCollection)
+        public virtual void ConfigureServices(IServiceCollection serviceCollection)
         {
-            return Task.FromResult(true);
         }
 
         /// <inheritdoc />
