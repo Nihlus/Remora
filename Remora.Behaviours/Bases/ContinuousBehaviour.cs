@@ -104,6 +104,11 @@ namespace Remora.Behaviours.Bases
                 {
                     await OnTickAsync(ct);
                 }
+                catch (TaskCanceledException)
+                {
+                    this.Log.LogDebug("Cancellation requested in continuous action - terminating.");
+                    return;
+                }
                 catch (Exception e)
                 {
                     // Nom nom nom
