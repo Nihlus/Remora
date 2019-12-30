@@ -76,6 +76,11 @@ namespace Remora.Behaviours
                         var taskFactory = _delayedActions.ScheduledTasks[timeout];
                         await taskFactory();
                     }
+                    catch (TaskCanceledException)
+                    {
+                        this.Log.LogDebug("Cancellation requested in delayed action - terminating.");
+                        return;
+                    }
                     catch (Exception e)
                     {
                         // Nom nom nom
@@ -88,7 +93,14 @@ namespace Remora.Behaviours
                 }
             }
 
-            await Task.Delay(TimeSpan.FromMilliseconds(200), ct);
+            try
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(200), ct);
+            }
+            catch (TaskCanceledException)
+            {
+                this.Log.LogDebug("Cancellation requested in delayed action - terminating.");
+            }
         }
     }
 }

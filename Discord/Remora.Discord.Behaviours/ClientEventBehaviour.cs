@@ -1073,6 +1073,11 @@ namespace Remora.Discord.Behaviours
                     {
                         await clientEvent;
                     }
+                    catch (TaskCanceledException)
+                    {
+                        this.Log.LogDebug($"Cancellation requested in {typeof(TBehaviour)} - terminating.");
+                        return;
+                    }
                     catch (Exception e)
                     {
                         // Nom nom nom
@@ -1085,7 +1090,14 @@ namespace Remora.Discord.Behaviours
                 }
             }
 
-            await Task.Delay(TimeSpan.FromMilliseconds(200), ct);
+            try
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(200), ct);
+            }
+            catch (TaskCanceledException)
+            {
+                this.Log.LogDebug($"Cancellation requested in {typeof(TBehaviour)} - terminating.");
+            }
         }
     }
 }
