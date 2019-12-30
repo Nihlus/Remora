@@ -7,7 +7,7 @@
             modules to coexist.
         </Description>
         <PackageReleaseNotes>
-            Remove consumer-visible development files.
+            Remove asynchronous service registration API.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
     </PropertyGroup>

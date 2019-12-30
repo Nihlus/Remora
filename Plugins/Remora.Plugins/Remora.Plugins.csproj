@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>1.0.1</Version>
+        <Version>1.1.0</Version>
         <Description>
             The default implementation of Remora.Plugins.Abstractions.
         </Description>
         <PackageReleaseNotes>
-            Remove consumer-visible development files.
+            Update dependencies.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
     </PropertyGroup>
