@@ -31,7 +31,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Update;
 using Microsoft.EntityFrameworkCore.Update.Internal;
+
+#pragma warning disable EF1001 // Internal EF API usage
 
 namespace Remora.EntityFrameworkCore.Modular
 {
@@ -46,23 +49,23 @@ namespace Remora.EntityFrameworkCore.Modular
         /// <param name="typeMappingSource">The type mapping source to use.</param>
         /// <param name="migrationsAnnotations">The migration annotation provider.</param>
         /// <param name="changeDetector">The change detector.</param>
-        /// <param name="stateManagerDependencies">The state manager dependencies.</param>
-        /// <param name="commandBatchPreparerDependencies">The command batch preparer dependencies.</param>
+        /// <param name="updateAdapterFactory">The update adapter factory.</param>
+        /// <param name="commandBatchPreparerDependencieses">The command batch preparer dependencies.</param>
         public SchemaAwareMigrationsModelDiffer
         (
             [NotNull] IRelationalTypeMappingSource typeMappingSource,
             [NotNull] IMigrationsAnnotationProvider migrationsAnnotations,
             [NotNull] IChangeDetector changeDetector,
-            [NotNull] StateManagerDependencies stateManagerDependencies,
-            [NotNull] CommandBatchPreparerDependencies commandBatchPreparerDependencies
+            [NotNull] IUpdateAdapterFactory updateAdapterFactory,
+            [NotNull] CommandBatchPreparerDependencies commandBatchPreparerDependencieses
         )
             : base
             (
                 typeMappingSource,
                 migrationsAnnotations,
                 changeDetector,
-                stateManagerDependencies,
-                commandBatchPreparerDependencies
+                updateAdapterFactory,
+                commandBatchPreparerDependencieses
             )
         {
         }
@@ -105,18 +108,18 @@ namespace Remora.EntityFrameworkCore.Modular
                 Remove,
                 (s, t, c) =>
                 {
-                    if (s.Relational().Name != t.Relational().Name)
+                    if (s.GetConstraintName() != t.GetConstraintName())
                     {
                         return false;
                     }
 
-                    if (!s.Properties.Select(p => p.Relational().ColumnName).SequenceEqual(
-                        t.Properties.Select(p => c.FindSource(p)?.Relational().ColumnName)))
+                    if (!s.Properties.Select(p => p.GetColumnName()).SequenceEqual(
+                        t.Properties.Select(p => c.FindSource(p)?.GetColumnName())))
                     {
                         return false;
                     }
 
-                    var schemaToInclude = ((SchemaAwareDiffContext)diffContext).Source?.Relational().DefaultSchema;
+                    var schemaToInclude = ((SchemaAwareDiffContext)diffContext).Source?.GetDefaultSchema();
                     if (schemaToInclude is null)
                     {
                         return false;
@@ -129,11 +132,11 @@ namespace Remora.EntityFrameworkCore.Modular
                         return false;
                     }
 
-                    if (t.PrincipalKey.Properties.Select(p => c.FindSource(p)?.Relational().ColumnName)
+                    if (t.PrincipalKey.Properties.Select(p => c.FindSource(p)?.GetColumnName())
                             .First() != null && !s.PrincipalKey.Properties
-                            .Select(p => p.Relational().ColumnName).SequenceEqual(
+                            .Select(p => p.GetColumnName()).SequenceEqual(
                                 t.PrincipalKey.Properties.Select(p =>
-                                    c.FindSource(p)?.Relational().ColumnName)))
+                                    c.FindSource(p)?.GetColumnName())))
                     {
                         return false;
                     }
@@ -190,7 +193,7 @@ namespace Remora.EntityFrameworkCore.Modular
                     return new TableMapping[] { };
                 }
 
-                var schemaToInclude = this.Source.Relational().DefaultSchema;
+                var schemaToInclude = this.Source.GetDefaultSchema();
                 var tables = base.GetSourceTables();
 
                 return tables.Where(x => x.Schema == schemaToInclude);
@@ -205,7 +208,7 @@ namespace Remora.EntityFrameworkCore.Modular
                     return new TableMapping[] { };
                 }
 
-                var schemaToInclude = this.Target.Relational().DefaultSchema;
+                var schemaToInclude = this.Target.GetDefaultSchema();
                 var tables = base.GetTargetTables();
 
                 return tables.Where(x => x.Schema == schemaToInclude);
