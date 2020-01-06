@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>2.0.1</Version>
+        <Version>2.1.0</Version>
         <Description>
-            Abstractions and public interfaces for a dynamic plugin system, allowing independently developed application
-            modules to coexist.
+            Add the migrational interface for plugins with migratable data.
         </Description>
         <PackageReleaseNotes>
             Remove asynchronous service registration API.
