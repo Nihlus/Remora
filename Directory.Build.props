@@ -12,6 +12,10 @@
         <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <SolutionDir>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)/))</SolutionDir>
+    </PropertyGroup>
+
     <!-- NuGet-related properties -->
     <PropertyGroup>
         <Title>$(AssemblyName)</Title>
