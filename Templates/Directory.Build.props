@@ -1,0 +1,35 @@
+<!--
+    This file contains common properties for all Remora projects. It is divided into multiple sections, depending on the
+    use case for the properties.
+-->
+
+<Project>
+    <!-- NuGet-related properties -->
+    <PropertyGroup>
+        <Title>$(AssemblyName)</Title>
+        <Authors>Jarl Gullberg</Authors>
+        <Copyright>Jarl Gullberg 2020</Copyright>
+        <Company>Firwood Software</Company>
+        <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+
+        <PackageType>Template</PackageType>
+        <IncludeSource>true</IncludeSource>
+
+        <RepositoryUrl>https://github.com/Nihlus/Remora</RepositoryUrl>
+        <RepositoryBranch>master</RepositoryBranch>
+        <PackageTags>remora</PackageTags>
+    </PropertyGroup>
+
+    <!-- Code inspection properties -->
+    <PropertyGroup>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+
+    <!-- Make the templates visible -->
+    <ItemGroup>
+        <Folder Include=".template.config" />
+        <None Include=".template.config/template.json" />
+    </ItemGroup>
+
+</Project>

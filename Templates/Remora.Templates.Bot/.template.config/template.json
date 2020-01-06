@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Jarl Gullberg",
+    "classifications": [
+        "Remora",
+        "Bot",
+        "Discord"
+    ],
+    "identity": "Remora.Templates.Bot",
+    "groupIdentity": "Remora.Templates.Bot",
+    "name": "Remora-based Discord Bot",
+    "shortName": "remora-discord-bot",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "sourceName": "Remora.Templates.Bot",
+    "preferNameDirectory": true
+}
