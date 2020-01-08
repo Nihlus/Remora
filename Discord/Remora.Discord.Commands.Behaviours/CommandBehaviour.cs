@@ -22,7 +22,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Net.Sockets;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -226,22 +229,28 @@ namespace Remora.Discord.Commands.Behaviours
             await BeforeCommandAsync(context, argumentPos);
 
             // Create a service scope for this command
-            using (var scope = this.Services.CreateScope())
+            using var scope = this.Services.CreateScope();
+            using var container = new ServiceContainer(scope.ServiceProvider);
+            container.AddService(typeof(SocketCommandContext), context);
+            container.AddService
+            (
+                typeof(ICommandContext),
+                (c, type) => c.GetRequiredService<SocketCommandContext>()
+            );
+
+            var result = await this.Commands.ExecuteAsync(context, argumentPos, container);
+            if (!(result is ExecuteResult executeResult))
             {
-                var result = await this.Commands.ExecuteAsync(context, argumentPos, scope.ServiceProvider);
-                if (!(result is ExecuteResult executeResult))
-                {
-                    // The command failed before it was executed - probably not even a real command.
-                    return;
-                }
-
-                if (!result.IsSuccess)
-                {
-                    await OnCommandFailedAsync(context, argumentPos, executeResult);
-                }
-
-                await AfterCommandAsync(context, argumentPos, executeResult);
+                // The command failed before it was executed - probably not even a real command.
+                return;
             }
+
+            if (!result.IsSuccess)
+            {
+                await OnCommandFailedAsync(context, argumentPos, executeResult);
+            }
+
+            await AfterCommandAsync(context, argumentPos, executeResult);
         }
 
         /// <summary>
