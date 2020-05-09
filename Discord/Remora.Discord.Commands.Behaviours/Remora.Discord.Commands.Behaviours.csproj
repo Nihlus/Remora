@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>3.0.4</Version>
+        <Version>3.0.5</Version>
         <Description>
             Base behaviour types for Discord.Net.Commands, using Remora.Behaviours.
         </Description>
@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Discord.Net.Commands" Version="2.1.1" />
+      <PackageReference Include="Discord.Net.Commands" Version="2.2.0" />
     </ItemGroup>
 
 </Project>
