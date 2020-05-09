@@ -3,19 +3,19 @@ Remora.Behaviours
 
 Remora.Behaviours is a simple library for creating independently acting behaviours for your application, in the style
 of behavioural programming. At its core, behavioural programming divides your application up into independently acting
-threads of behaviour, which operate as independently of each other as possible. This approach allows you to easily 
-change or swap different components in your program without affecting the entire architecture, and integrates 
+threads of behaviour, which operate as independently of each other as possible. This approach allows you to easily
+change or swap different components in your program without affecting the entire architecture, and integrates
 parallelism more naturally in your workflow.
 
 The library provides two base classes for behaviours - `BehaviourBase`, used for creating your own specially tailored
-behaviours, and `ContinuousBehaviour`, which is a general-purpose behaviour for an action that should periodically 
+behaviours, and `ContinuousBehaviour`, which is a general-purpose behaviour for an action that should periodically
 recur.
 
-Typical usages for a behaviour might be hitting a remote API at intervals, running compaction jobs for a database, 
+Typical usages for a behaviour might be hitting a remote API at intervals, running compaction jobs for a database,
 sending a keep-alive heartbeat, or routing events in an asynchronous manner.
 
 ## Usage
-Remora.Behaviours is built with systems using Microsoft's dependency injection framework in mind, but can be plugged 
+Remora.Behaviours is built with systems using Microsoft's dependency injection framework in mind, but can be plugged
 into any application with ease. The below examples are using the DI framework.
 
 ```c#
@@ -36,7 +36,7 @@ await behaviourService.AddBehavioursAsync(Assembly.GetEntryAssembly());
 await behaviourService.StartBehavioursAsync();
 ```
 
-Behaviours are implicitly singletons, and are instantiated using DI when using the behaviour service. The behaviours 
+Behaviours are implicitly singletons, and are instantiated using DI when using the behaviour service. The behaviours
 themselves are simple to declare and use.
 
 ```c#

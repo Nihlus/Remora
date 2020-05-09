@@ -10,7 +10,7 @@
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);hosting;discord;</PackageTags>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="Discord.Net.WebSocket" Version="2.2.0" />
     </ItemGroup>

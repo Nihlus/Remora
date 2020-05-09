@@ -2,13 +2,13 @@ Remora.Plugins
 ==============
 
 Remora.Plugins is the default implementation of the Remora.Plugins.Abstractions package, providing a dynamic plugin
-system for your applications. In short, class libraries can be written as standalone packages and loaded at runtime as 
-integrated parts of your application, allowing loose coupling and easily swappable components. The plugin system is 
+system for your applications. In short, class libraries can be written as standalone packages and loaded at runtime as
+integrated parts of your application, allowing loose coupling and easily swappable components. The plugin system is
 designed around Microsoft's dependency injection framework.
 
 ## Usage
-Creating a plugin is as simple as creating a class library project, and annotating the assembly with an attribute 
-denoting the type used as a plugin descriptor. The descriptor acts as the entry point of the plugin, as well as an 
+Creating a plugin is as simple as creating a class library project, and annotating the assembly with an attribute
+denoting the type used as a plugin descriptor. The descriptor acts as the entry point of the plugin, as well as an
 encapsulation point for information about it.
 
 ```c#
@@ -42,7 +42,7 @@ public sealed class MyPlugin : PluginDescriptor
 }
 ```
 
-Loading plugins in your application is equally simple. The example below is perhaps a little convoluted, but shows the 
+Loading plugins in your application is equally simple. The example below is perhaps a little convoluted, but shows the
 flexibility of the system.
 
 ```c#

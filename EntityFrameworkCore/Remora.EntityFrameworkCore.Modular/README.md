@@ -2,10 +2,10 @@ Remora.EntityFrameworkCore.Modular
 ==============
 
 Remora.EntityFrameworkCore.Modular provides a modular approach to EF Core databases, fitting perfectly together with the
-concept of a plugin system or isolated portions of the database. Individual modules have their own migration paths, 
+concept of a plugin system or isolated portions of the database. Individual modules have their own migration paths,
 their own schemas, and their own completely isolated contexts.
 
-Entities can be shared between the contexts and referenced from one to another in a completely transparent way, and 
+Entities can be shared between the contexts and referenced from one to another in a completely transparent way, and
 dependencies are handled in a typical C# fashion - no extra considerations needed.
 
 A more detailed explanation of the mechanisms involved and the techniques behind it can be read [here][2].
