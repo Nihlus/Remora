@@ -65,18 +65,20 @@ namespace Remora.Markdown
         /// <inheritdoc />
         public string Compile()
         {
-            if (this.Underline && this.Level <= 2)
+            if (!this.Underline || this.Level > 2)
             {
-                switch (this.Level)
+                return $"{new string('#', this.Level)} {this.Title.Compile()}";
+            }
+
+            switch (this.Level)
+            {
+                case 1:
                 {
-                    case 1:
-                    {
-                        return $"{this.Title.Compile()}\n{new string('=', this.Title.Compile().Length)}";
-                    }
-                    case 2:
-                    {
-                        return $"{this.Title.Compile()}\n{new string('-', this.Title.Compile().Length)}";
-                    }
+                    return $"{this.Title.Compile()}\n{new string('=', this.Title.Compile().Length)}";
+                }
+                case 2:
+                {
+                    return $"{this.Title.Compile()}\n{new string('-', this.Title.Compile().Length)}";
                 }
             }
 

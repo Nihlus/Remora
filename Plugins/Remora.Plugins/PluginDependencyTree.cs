@@ -117,25 +117,27 @@ namespace Remora.Plugins
                 results.AddRange(await WalkNodeAsync(dependant, errorFactory, preOperation, postOperation));
             }
 
-            if (!(postOperation is null))
+            if (postOperation is null)
             {
-                try
-                {
-                    var result = await postOperation(node);
-                    results.Add(result);
+                return results;
+            }
 
-                    if (!result.IsSuccess)
-                    {
-                        results.AddRange(node.GetAllDependants().Select(d => errorFactory(d, null)));
-                        return results;
-                    }
-                }
-                catch (Exception e)
+            try
+            {
+                var result = await postOperation(node);
+                results.Add(result);
+
+                if (!result.IsSuccess)
                 {
-                    results.Add(errorFactory(node, e));
                     results.AddRange(node.GetAllDependants().Select(d => errorFactory(d, null)));
                     return results;
                 }
+            }
+            catch (Exception e)
+            {
+                results.Add(errorFactory(node, e));
+                results.AddRange(node.GetAllDependants().Select(d => errorFactory(d, null)));
+                return results;
             }
 
             return results;
