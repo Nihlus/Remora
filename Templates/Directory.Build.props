@@ -4,6 +4,8 @@
 -->
 
 <Project>
+    <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
     <!-- NuGet-related properties -->
     <PropertyGroup>
         <Title>$(AssemblyName)</Title>
