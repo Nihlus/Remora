@@ -4,12 +4,12 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
-    
+
     <PropertyGroup>
         <PackageId>Remora.Templates.Bot</PackageId>
         <PackageVersion>1.0.1</PackageVersion>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="Remora.Plugins" Version="1.1.2" />
         <PackageReference Include="Remora.Discord.Hosted" Version="1.0.0" />
