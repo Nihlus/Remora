@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>3.0.6</Version>
+        <Version>4.0.0</Version>
         <Description>
             Base behaviour types for Discord.Net.Commands, using Remora.Behaviours.
         </Description>
         <PackageReleaseNotes>
-            Add the SocketCommandContext to the available services.
+            Refactor the command result handling API.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);discord;behaviours;commands</PackageTags>
     </PropertyGroup>

@@ -146,7 +146,7 @@ namespace Remora.Discord.Commands.Behaviours
         (
             [NotNull] SocketCommandContext context,
             int commandStart,
-            ExecuteResult result
+            IResult result
         )
         {
             return Task.CompletedTask;
@@ -237,18 +237,21 @@ namespace Remora.Discord.Commands.Behaviours
             );
 
             var result = await this.Commands.ExecuteAsync(context, argumentPos, container);
-            if (!(result is ExecuteResult executeResult))
+            switch (result)
             {
-                // The command failed before it was executed - probably not even a real command.
-                return;
+                case SearchResult searchResult when searchResult.Error == CommandError.UnknownCommand:
+                {
+                    // The command failed before it was executed - probably not even a real command.
+                    return;
+                }
+                case ExecuteResult executeResult when !executeResult.IsSuccess:
+                {
+                    await OnCommandFailedAsync(context, argumentPos, executeResult);
+                    break;
+                }
             }
 
-            if (!result.IsSuccess)
-            {
-                await OnCommandFailedAsync(context, argumentPos, executeResult);
-            }
-
-            await AfterCommandAsync(context, argumentPos, executeResult);
+            await AfterCommandAsync(context, argumentPos, result);
         }
 
         /// <summary>
