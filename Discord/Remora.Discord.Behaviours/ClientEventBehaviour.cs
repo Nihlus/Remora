@@ -1063,7 +1063,7 @@ namespace Remora.Discord.Behaviours
         }
 
         /// <inheritdoc />
-        protected sealed override async Task OnTickAsync(CancellationToken ct)
+        protected sealed override async Task OnTickAsync(CancellationToken ct, IServiceProvider tickServices)
         {
             if (this.RunningEvents.TryDequeue(out var clientEvent))
             {

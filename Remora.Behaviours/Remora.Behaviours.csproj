@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>1.2.5</Version>
+        <Version>2.0.0</Version>
         <Description>A behaviour-based activity package for any application.</Description>
         <PackageReleaseNotes>
-            Don't bubble up TaskCanceledExceptions.
+            Adapt to changed signatures.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);service;behaviour;async;await;tpl</PackageTags>
     </PropertyGroup>

@@ -62,7 +62,7 @@ namespace Remora.Behaviours
         }
 
         /// <inheritdoc />
-        protected override async Task OnTickAsync(CancellationToken ct)
+        protected override async Task OnTickAsync(CancellationToken ct, IServiceProvider tickServices)
         {
             if (_delayedActions.RunningTimeouts.TryDequeue(out var timeout))
             {

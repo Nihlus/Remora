@@ -86,9 +86,10 @@ namespace Remora.Behaviours.Bases
         /// this method takes strain off of the system.
         /// </summary>
         /// <param name="ct">The cancellation token for the behaviour.</param>
+        /// <param name="tickServices">The services available during the tick.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [NotNull]
-        protected abstract Task OnTickAsync(CancellationToken ct);
+        protected abstract Task OnTickAsync(CancellationToken ct, IServiceProvider tickServices);
 
         /// <summary>
         /// Continuously runs <see cref="OnTickAsync"/> until the behaviour stops.
@@ -102,7 +103,8 @@ namespace Remora.Behaviours.Bases
             {
                 try
                 {
-                    await OnTickAsync(ct);
+                    using var tickScope = this.Services.CreateScope();
+                    await OnTickAsync(ct, tickScope.ServiceProvider);
                 }
                 catch (TaskCanceledException)
                 {
