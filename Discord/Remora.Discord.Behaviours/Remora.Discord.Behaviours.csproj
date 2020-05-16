@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>1.0.4</Version>
+        <Version>1.1.0</Version>
         <Description>
             Base behaviour types for Discord.NET, using Remora.Behaviours.
         </Description>
         <PackageReleaseNotes>
-            Update dependencies.
+            Wait for the client to get ready before starting the behaviour.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);discord;behaviours</PackageTags>
     </PropertyGroup>

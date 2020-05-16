@@ -20,6 +20,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using System;
+using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
@@ -58,6 +61,19 @@ namespace Remora.Discord.Behaviours
             : base(serviceScope, logger)
         {
             this.Client = client;
+        }
+
+        /// <inheritdoc />
+        /// <remarks>You must call this base implementation in any derived methods.</remarks>
+        protected override async Task OnStartingAsync()
+        {
+            while (this.Client.ConnectionState != ConnectionState.Connected)
+            {
+                // Give the client some time to start up
+                await Task.Delay(TimeSpan.FromSeconds(1));
+            }
+
+            await base.OnStartingAsync();
         }
     }
 }
