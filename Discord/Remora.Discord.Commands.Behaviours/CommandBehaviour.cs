@@ -90,8 +90,8 @@ namespace Remora.Discord.Commands.Behaviours
         /// <inheritdoc />
         protected override async Task OnStartingAsync()
         {
-            await base.OnStartingAsync();
             await ConfigureFiltersAsync(_commandFilters);
+            await base.OnStartingAsync();
         }
 
         /// <summary>

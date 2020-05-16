@@ -92,10 +92,8 @@ namespace Remora.Discord.Hosted
         protected abstract Task<RetrieveEntityResult<string>> GetTokenAsync();
 
         /// <inheritdoc />
-        public sealed override async Task StartAsync(CancellationToken cancellationToken)
+        protected sealed override async Task OnStartingAsync(CancellationToken cancellationToken)
         {
-            await base.StartAsync(cancellationToken);
-
             var loginResult = await LoginAsync();
             if (!loginResult.IsSuccess)
             {

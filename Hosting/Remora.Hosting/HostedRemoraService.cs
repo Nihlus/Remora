@@ -110,7 +110,7 @@ namespace Remora.Hosting
         }
 
         /// <inheritdoc />
-        public virtual async Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             if (!await InitializePluginsAsync())
             {
@@ -122,8 +122,18 @@ namespace Remora.Hosting
                 return;
             }
 
+            // Let inheriting classes perform their startup procedures
+            await OnStartingAsync(cancellationToken);
+
             await _behaviours.StartBehavioursAsync();
         }
+
+        /// <summary>
+        /// Perform startup procedures in inheriting classes.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected abstract Task OnStartingAsync(CancellationToken cancellationToken);
 
         /// <inheritdoc />
         public virtual async Task StopAsync(CancellationToken cancellationToken)
