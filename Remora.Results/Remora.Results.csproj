@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>1.0.5</Version>
+        <Version>1.1.0</Version>
         <Description>
             A basic implementation of a descriptive algebraic data type for C#.
         </Description>
         <PackageReleaseNotes>
-            Remove consumer-visible development files.
+            Update generic constraints on RetrieveEntity and CreateEntity.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
     </PropertyGroup>
