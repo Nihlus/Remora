@@ -134,5 +134,19 @@ namespace Remora.Behaviours
         {
             this.ServiceScope.Dispose();
         }
+
+        /// <inheritdoc/>
+        [PublicAPI]
+        public async ValueTask DisposeAsync()
+        {
+            if (this.ServiceScope is IAsyncDisposable asyncDisposable)
+            {
+                await asyncDisposable.DisposeAsync();
+            }
+            else
+            {
+                this.ServiceScope.Dispose();
+            }
+        }
     }
 }

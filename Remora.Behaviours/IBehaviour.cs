@@ -30,7 +30,7 @@ namespace Remora.Behaviours
     /// Interface for a behaviour.
     /// </summary>
     [PublicAPI]
-    public interface IBehaviour : IDisposable
+    public interface IBehaviour : IDisposable, IAsyncDisposable
     {
         /// <summary>
         /// Gets a value indicating whether the behaviour is currently running.

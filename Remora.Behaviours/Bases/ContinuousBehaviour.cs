@@ -103,8 +103,22 @@ namespace Remora.Behaviours.Bases
             {
                 try
                 {
-                    using var tickScope = this.Services.CreateScope();
-                    await OnTickAsync(ct, tickScope.ServiceProvider);
+                    var tickScope = this.Services.CreateScope();
+                    try
+                    {
+                        await OnTickAsync(ct, tickScope.ServiceProvider);
+                    }
+                    finally
+                    {
+                        if (tickScope is IAsyncDisposable asyncDisposable)
+                        {
+                            await asyncDisposable.DisposeAsync();
+                        }
+                        else
+                        {
+                            tickScope.Dispose();
+                        }
+                    }
                 }
                 catch (TaskCanceledException)
                 {
