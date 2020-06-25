@@ -227,31 +227,45 @@ namespace Remora.Discord.Commands.Behaviours
             await BeforeCommandAsync(context, argumentPos);
 
             // Create a service scope for this command
-            using var scope = this.Services.CreateScope();
-            using var container = new ServiceContainer(scope.ServiceProvider);
-            container.AddService(typeof(SocketCommandContext), context);
-            container.AddService
-            (
-                typeof(ICommandContext),
-                (c, type) => c.GetRequiredService<SocketCommandContext>()
-            );
-
-            var result = await this.Commands.ExecuteAsync(context, argumentPos, container);
-            switch (result)
+            var scope = this.Services.CreateScope();
+            try
             {
-                case SearchResult searchResult when searchResult.Error == CommandError.UnknownCommand:
+                using var container = new ServiceContainer(scope.ServiceProvider);
+                container.AddService(typeof(SocketCommandContext), context);
+                container.AddService
+                (
+                    typeof(ICommandContext),
+                    (c, type) => c.GetRequiredService<SocketCommandContext>()
+                );
+
+                var result = await this.Commands.ExecuteAsync(context, argumentPos, container);
+                switch (result)
                 {
-                    // The command failed before it was executed - probably not even a real command.
-                    return;
+                    case SearchResult searchResult when searchResult.Error == CommandError.UnknownCommand:
+                    {
+                        // The command failed before it was executed - probably not even a real command.
+                        return;
+                    }
+                    case ExecuteResult executeResult when !executeResult.IsSuccess:
+                    {
+                        await OnCommandFailedAsync(context, argumentPos, executeResult);
+                        break;
+                    }
                 }
-                case ExecuteResult executeResult when !executeResult.IsSuccess:
+
+                await AfterCommandAsync(context, argumentPos, result);
+            }
+            finally
+            {
+                if (scope is IAsyncDisposable asyncDisposable)
                 {
-                    await OnCommandFailedAsync(context, argumentPos, executeResult);
-                    break;
+                    await asyncDisposable.DisposeAsync();
+                }
+                else
+                {
+                    scope.Dispose();
                 }
             }
-
-            await AfterCommandAsync(context, argumentPos, result);
         }
 
         /// <summary>
