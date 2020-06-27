@@ -31,6 +31,8 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Remora.Discord.Behaviours;
+using Remora.Results;
+using IResult = Discord.Commands.IResult;
 
 namespace Remora.Discord.Commands.Behaviours
 {
@@ -134,15 +136,14 @@ namespace Remora.Discord.Commands.Behaviours
         }
 
         /// <summary>
-        /// User-configurable callback that executes after a command is executed, regardless of whether it succeeded or
-        /// not.
+        /// User-configurable callback that executes after a command executes successfully.
         /// </summary>
         /// <param name="context">The command context.</param>
         /// <param name="commandStart">The start of the command within the message.</param>
         /// <param name="result">The result of the command.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [PublicAPI, NotNull]
-        protected virtual Task AfterCommandAsync
+        protected virtual Task OnCommandSucceededAsync
         (
             [NotNull] SocketCommandContext context,
             int commandStart,
@@ -181,7 +182,7 @@ namespace Remora.Discord.Commands.Behaviours
         }
 
         /// <inheritdoc />
-        protected sealed override async Task MessageUpdated
+        protected sealed override async Task<OperationResult> MessageUpdatedAsync
         (
             Cacheable<IMessage, ulong> oldMessage,
             SocketMessage updatedMessage,
@@ -194,23 +195,23 @@ namespace Remora.Discord.Commands.Behaviours
 
             if (!isTextUpdate)
             {
-                return;
+                return OperationResult.FromSuccess();
             }
 
-            await MessageReceived(updatedMessage);
+            return await MessageReceivedAsync(updatedMessage);
         }
 
         /// <inheritdoc />
-        protected sealed override async Task MessageReceived(SocketMessage arg)
+        protected sealed override async Task<OperationResult> MessageReceivedAsync(SocketMessage arg)
         {
             if (!(arg is SocketUserMessage message))
             {
-                return;
+                return OperationResult.FromError("The given message was not a user message.");
             }
 
             if (!FindCommandStartPosition(message, out var argumentPos))
             {
-                return;
+                return OperationResult.FromError("The given message was not a command.");
             }
 
             var context = new SocketCommandContext(this.Client, message);
@@ -220,7 +221,7 @@ namespace Remora.Discord.Commands.Behaviours
             {
                 if (!await filter(context))
                 {
-                    return;
+                    return OperationResult.FromError("The given command was filtered.");
                 }
             }
 
@@ -244,16 +245,16 @@ namespace Remora.Discord.Commands.Behaviours
                     case SearchResult searchResult when searchResult.Error == CommandError.UnknownCommand:
                     {
                         // The command failed before it was executed - probably not even a real command.
-                        return;
+                        return OperationResult.FromError("The command failed before it was executed.");
                     }
                     case ExecuteResult executeResult when !executeResult.IsSuccess:
                     {
                         await OnCommandFailedAsync(context, argumentPos, executeResult);
-                        break;
+                        return OperationResult.FromError("The command failed.");
                     }
                 }
 
-                await AfterCommandAsync(context, argumentPos, result);
+                await OnCommandSucceededAsync(context, argumentPos, result);
             }
             finally
             {
@@ -266,6 +267,8 @@ namespace Remora.Discord.Commands.Behaviours
                     scope.Dispose();
                 }
             }
+
+            return OperationResult.FromSuccess();
         }
 
         /// <summary>
