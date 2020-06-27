@@ -1062,6 +1062,31 @@ namespace Remora.Discord.Behaviours
             return base.OnStoppingAsync();
         }
 
+        /// <summary>
+        /// Wraps the given client event in a transaction scope.
+        /// </summary>
+        /// <param name="clientEvent">A function that creates the client event task.</param>
+        /// <returns>The wrapped event.</returns>
+        private Task<OperationResult> WrapEventInTransactionAsync(Func<Task<OperationResult>> clientEvent)
+        {
+            return Task.Run
+            (
+                async () =>
+                {
+                    using var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew);
+
+                    var clientEventResult = await clientEvent();
+                    if (!clientEventResult.IsSuccess)
+                    {
+                        return OperationResult.FromError(clientEventResult);
+                    }
+
+                    transactionScope.Complete();
+                    return OperationResult.FromSuccess();
+                }
+            );
+        }
+
         /// <inheritdoc />
         protected sealed override async Task OnTickAsync(CancellationToken ct, IServiceProvider tickServices)
         {
