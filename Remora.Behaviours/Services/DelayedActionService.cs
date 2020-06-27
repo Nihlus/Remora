@@ -24,6 +24,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Remora.Results;
 
 namespace Remora.Behaviours.Services
 {
@@ -34,16 +35,10 @@ namespace Remora.Behaviours.Services
     public class DelayedActionService
     {
         /// <summary>
-        /// Gets the currently running timeout tasks.
+        /// Gets the currently running delay tasks.
         /// </summary>
         [NotNull]
-        internal ConcurrentQueue<Task> RunningTimeouts { get; }
-
-        /// <summary>
-        /// Gets the task factories for the given timeouts.
-        /// </summary>
-        [NotNull]
-        internal ConcurrentDictionary<Task, Func<Task>> ScheduledTasks { get; }
+        internal ConcurrentQueue<DelayedAction> RunningActions { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DelayedActionService"/> class.
@@ -51,26 +46,43 @@ namespace Remora.Behaviours.Services
         [PublicAPI]
         public DelayedActionService()
         {
-            this.RunningTimeouts = new ConcurrentQueue<Task>();
-            this.ScheduledTasks = new ConcurrentDictionary<Task, Func<Task>>();
+            this.RunningActions = new ConcurrentQueue<DelayedAction>();
         }
 
         /// <summary>
         /// Schedules an action to be performed at an arbitrary time in the future.
         /// </summary>
-        /// <param name="task">The action to perform.</param>
-        /// <param name="timeout">The time to delay its execution.</param>
+        /// <param name="action">The action to perform.</param>
+        /// <param name="delay">The time to delay its execution.</param>
         [PublicAPI]
-        public void DelayUntil([NotNull] Func<Task> task, TimeSpan timeout)
+        public void DelayUntil([NotNull] Func<Task> action, TimeSpan delay)
         {
-            var timeoutTask = Task.Delay(timeout);
-
-            this.RunningTimeouts.Enqueue(timeoutTask);
-
-            // Add the task and its running timeout
-            while (!this.ScheduledTasks.TryAdd(timeoutTask, task))
+            async Task<OperationResult> WrappedAction()
             {
+                try
+                {
+                    await action();
+                }
+                catch (Exception e)
+                {
+                    return OperationResult.FromError(e);
+                }
+
+                return OperationResult.FromSuccess();
             }
+
+            this.RunningActions.Enqueue(new DelayedAction(delay, WrappedAction));
+        }
+
+        /// <summary>
+        /// Schedules an action to be performed at an arbitrary time in the future.
+        /// </summary>
+        /// <param name="action">The action to perform.</param>
+        /// <param name="delay">The time to delay its execution.</param>
+        [PublicAPI]
+        public void DelayUntil([NotNull] Func<Task<OperationResult>> action, TimeSpan delay)
+        {
+            this.RunningActions.Enqueue(new DelayedAction(delay, action));
         }
     }
 }
