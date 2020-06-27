@@ -23,9 +23,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Remora.Results;
 
 namespace Remora.Behaviours.Bases
 {
@@ -84,12 +86,17 @@ namespace Remora.Behaviours.Bases
         /// <summary>
         /// Implements the body that should run on each tick of the behaviour. Usually, having some sort of delay in
         /// this method takes strain off of the system.
+        ///
+        /// This method takes part in a transaction scope for the duration of the tick. If the tick fails for any
+        /// reason (be that an exception or a user-submitted error), the transaction is rolled back. Normally, this does
+        /// not do anything at all, and a background infrastructure (such as a database provider) needs to make use of
+        /// the transaction to commit or roll back its changes.
         /// </summary>
         /// <param name="ct">The cancellation token for the behaviour.</param>
         /// <param name="tickServices">The services available during the tick.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <returns>An operation result which may or may not have succeeded.</returns>
         [NotNull]
-        protected abstract Task OnTickAsync(CancellationToken ct, IServiceProvider tickServices);
+        protected abstract Task<OperationResult> OnTickAsync(CancellationToken ct, IServiceProvider tickServices);
 
         /// <summary>
         /// Continuously runs <see cref="OnTickAsync"/> until the behaviour stops.
@@ -106,7 +113,13 @@ namespace Remora.Behaviours.Bases
                     var tickScope = this.Services.CreateScope();
                     try
                     {
-                        await OnTickAsync(ct, tickScope.ServiceProvider);
+                        using var transactionScope = new TransactionScope();
+                        var operationResult = await OnTickAsync(ct, tickScope.ServiceProvider);
+
+                        if (operationResult.IsSuccess)
+                        {
+                            transactionScope.Complete();
+                        }
                     }
                     finally
                     {
