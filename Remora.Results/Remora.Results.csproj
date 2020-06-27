@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>1.1.0</Version>
+        <Version>1.2.0</Version>
         <Description>
             A basic implementation of a descriptive algebraic data type for C#.
         </Description>
