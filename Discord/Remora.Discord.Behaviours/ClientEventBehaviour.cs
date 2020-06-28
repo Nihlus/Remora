@@ -1075,7 +1075,11 @@ namespace Remora.Discord.Behaviours
             (
                 async () =>
                 {
-                    using var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew);
+                    using var transactionScope = new TransactionScope
+                    (
+                        TransactionScopeOption.RequiresNew,
+                        TransactionScopeAsyncFlowOption.Enabled
+                    );
 
                     var clientEventResult = await clientEvent();
                     if (!clientEventResult.IsSuccess)

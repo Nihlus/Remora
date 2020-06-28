@@ -113,7 +113,12 @@ namespace Remora.Behaviours.Bases
                     var tickScope = this.Services.CreateScope();
                     try
                     {
-                        using var transactionScope = new TransactionScope();
+                        using var transactionScope = new TransactionScope
+                        (
+                            TransactionScopeOption.Required,
+                            TransactionScopeAsyncFlowOption.Enabled
+                        );
+
                         var operationResult = await OnTickAsync(ct, tickScope.ServiceProvider);
 
                         if (operationResult.IsSuccess)
