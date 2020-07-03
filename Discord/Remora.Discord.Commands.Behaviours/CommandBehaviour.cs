@@ -166,14 +166,14 @@ namespace Remora.Discord.Commands.Behaviours
         (
             [NotNull] SocketCommandContext context,
             int commandStart,
-            ExecuteResult result
+            IResult result
         )
         {
-            switch (result.Error)
+            switch (result)
             {
-                case CommandError.Exception:
+                case ExecuteResult executeResult when executeResult.Error == CommandError.Exception:
                 {
-                    this.Log.LogError(result.Exception, "Caught exception in command.");
+                    this.Log.LogError(executeResult.Exception, "Caught exception in command.");
                     break;
                 }
             }
@@ -240,18 +240,16 @@ namespace Remora.Discord.Commands.Behaviours
                 );
 
                 var result = await this.Commands.ExecuteAsync(context, argumentPos, container);
-                switch (result)
+                if (result is SearchResult searchResult && searchResult.Error == CommandError.UnknownCommand)
                 {
-                    case SearchResult searchResult when searchResult.Error == CommandError.UnknownCommand:
-                    {
-                        // The command failed before it was executed - probably not even a real command.
-                        return OperationResult.FromError("The command failed before it was executed.");
-                    }
-                    case ExecuteResult executeResult when !executeResult.IsSuccess:
-                    {
-                        await OnCommandFailedAsync(context, argumentPos, executeResult);
-                        return OperationResult.FromError("The command failed.");
-                    }
+                    // The command failed before it was executed - probably not even a real command.
+                    return OperationResult.FromError("The command failed before it was executed.");
+                }
+
+                if (!result.IsSuccess)
+                {
+                    await OnCommandFailedAsync(context, argumentPos, result);
+                    return OperationResult.FromError(result.ErrorReason);
                 }
 
                 await OnCommandSucceededAsync(context, argumentPos, result);
