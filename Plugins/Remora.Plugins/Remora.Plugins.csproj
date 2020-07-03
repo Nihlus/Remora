@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>1.1.5</Version>
+        <Version>1.1.5-beta1</Version>
         <Description>
             The default implementation of Remora.Plugins.Abstractions.
         </Description>
