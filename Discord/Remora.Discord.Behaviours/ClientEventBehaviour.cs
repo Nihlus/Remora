@@ -50,6 +50,9 @@ namespace Remora.Discord.Behaviours
         [NotNull, ItemNotNull]
         private ConcurrentQueue<Task<OperationResult>> RunningEvents { get; }
 
+        /// <inheritdoc />
+        protected override TimeSpan TickDelay => TimeSpan.FromMilliseconds(200);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientEventBehaviour{TBehaviour}"/> class.
         /// </summary>
@@ -1089,16 +1092,6 @@ namespace Remora.Discord.Behaviours
                 {
                     this.RunningEvents.Enqueue(clientEvent);
                 }
-            }
-
-            try
-            {
-                await Task.Delay(TimeSpan.FromMilliseconds(200), ct);
-            }
-            catch (TaskCanceledException tex)
-            {
-                this.Log.LogDebug($"Cancellation requested in {typeof(TBehaviour)} - terminating.");
-                return OperationResult.FromError(tex);
             }
 
             return OperationResult.FromSuccess();
