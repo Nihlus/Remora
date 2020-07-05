@@ -52,6 +52,11 @@ namespace Remora.Behaviours.Bases
         private Task ContinuousActionTask { get; set; }
 
         /// <summary>
+        /// Gets the delay between ticks.
+        /// </summary>
+        protected virtual TimeSpan TickDelay => TimeSpan.FromSeconds(1);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ContinuousBehaviour{TBehaviour}"/> class.
         /// </summary>
         /// <param name="serviceScope">The service scope of the behaviour.</param>
@@ -148,6 +153,8 @@ namespace Remora.Behaviours.Bases
                     // Nom nom nom
                     this.Log.LogError(e, "Error in behaviour tick.");
                 }
+
+                await Task.Delay(this.TickDelay, ct);
             }
         }
 
