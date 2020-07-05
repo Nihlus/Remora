@@ -41,11 +41,11 @@ namespace Remora.EntityFrameworkCore.Modular.Extensions
         /// <param name="userConfigurationFunction">The user-exposed configuration function.</param>
         /// <typeparam name="TContext">The context type to add.</typeparam>
         /// <returns>The service collection, with the pool.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         public static IServiceCollection AddSchemaAwareDbContextPool<TContext>
         (
-            [NotNull] this IServiceCollection @this,
-            [NotNull] Action<IServiceProvider, DbContextOptionsBuilder> userConfigurationFunction
+            this IServiceCollection @this,
+            Action<IServiceProvider, DbContextOptionsBuilder> userConfigurationFunction
         )
             where TContext : SchemaAwareDbContext
         {

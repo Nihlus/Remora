@@ -41,7 +41,6 @@ namespace Remora.Plugins.Results
         /// <summary>
         /// Gets the plugin that was initialized.
         /// </summary>
-        [NotNull]
         public IPluginDescriptor Plugin
         {
             get
@@ -58,7 +57,7 @@ namespace Remora.Plugins.Results
         /// <summary>
         /// Initializes a new instance of the <see cref="InitializePluginResult"/> class.
         /// </summary>
-        private InitializePluginResult([NotNull] IPluginDescriptor plugin)
+        private InitializePluginResult(IPluginDescriptor plugin)
         {
             _plugin = plugin;
         }
@@ -71,7 +70,7 @@ namespace Remora.Plugins.Results
         /// <param name="exception">The exception that caused the failure, if any.</param>
         private InitializePluginResult
         (
-            [NotNull] IPluginDescriptor plugin,
+            IPluginDescriptor plugin,
             string? errorReason,
             Exception? exception = null
         )
@@ -96,8 +95,8 @@ namespace Remora.Plugins.Results
         /// </summary>
         /// <param name="plugin">The plugin that was initialized.</param>
         /// <returns>A successful result.</returns>
-        [PublicAPI, Pure, NotNull]
-        public static InitializePluginResult FromSuccess([NotNull] IPluginDescriptor plugin)
+        [PublicAPI, Pure]
+        public static InitializePluginResult FromSuccess(IPluginDescriptor plugin)
         {
             return new InitializePluginResult(plugin);
         }
@@ -109,11 +108,11 @@ namespace Remora.Plugins.Results
         /// <param name="errorReason">The reason the plugin failed to initialize.</param>
         /// <param name="exception">The exception that caused the failure, if any.</param>
         /// <returns>A failed result.</returns>
-        [PublicAPI, Pure, NotNull]
+        [PublicAPI, Pure]
         public static InitializePluginResult FromError
         (
-            [NotNull] IPluginDescriptor plugin,
-            [NotNull] string errorReason,
+            IPluginDescriptor plugin,
+            string errorReason,
             Exception? exception = null
         )
         {

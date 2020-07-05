@@ -43,14 +43,14 @@ namespace Remora.Behaviours
         /// does nothing.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         Task StartAsync();
 
         /// <summary>
         /// Stops the behaviour, ceasing its tasks. Calling this method when the behaviour is not running does nothing.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         Task StopAsync();
     }
 }

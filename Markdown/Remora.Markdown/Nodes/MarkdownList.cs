@@ -36,7 +36,7 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets the item in the list.
         /// </summary>
-        [PublicAPI, NotNull, ItemNotNull]
+        [PublicAPI, ItemNotNull]
         public List<IMarkdownNode> Items { get; } = new List<IMarkdownNode>();
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="item">The item to append.</param>
         /// <returns>The list, with the item appended.</returns>
-        [PublicAPI, NotNull]
-        public MarkdownList AppendItem([NotNull] IMarkdownNode item)
+        [PublicAPI]
+        public MarkdownList AppendItem(IMarkdownNode item)
         {
             this.Items.Add(item);
             return this;

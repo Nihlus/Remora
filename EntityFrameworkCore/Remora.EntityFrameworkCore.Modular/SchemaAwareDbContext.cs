@@ -35,7 +35,6 @@ namespace Remora.EntityFrameworkCore.Modular
         /// <summary>
         /// Gets the schema of the database.
         /// </summary>
-        [NotNull]
         public string Schema { get; }
 
         /// <summary>
@@ -43,14 +42,14 @@ namespace Remora.EntityFrameworkCore.Modular
         /// </summary>
         /// <param name="schema">The schema.</param>
         /// <param name="contextOptions">The context options.</param>
-        protected SchemaAwareDbContext([NotNull] string schema, [NotNull] DbContextOptions contextOptions)
+        protected SchemaAwareDbContext(string schema, DbContextOptions contextOptions)
             : base(contextOptions)
         {
             this.Schema = schema;
         }
 
         /// <inheritdoc />
-        protected sealed override void OnConfiguring([NotNull] DbContextOptionsBuilder optionsBuilder)
+        protected sealed override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
@@ -59,7 +58,7 @@ namespace Remora.EntityFrameworkCore.Modular
         }
 
         /// <inheritdoc />
-        protected override void OnModelCreating([NotNull] ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema(this.Schema);

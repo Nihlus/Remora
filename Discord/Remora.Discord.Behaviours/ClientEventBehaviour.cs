@@ -59,9 +59,9 @@ namespace Remora.Discord.Behaviours
         [PublicAPI]
         protected ClientEventBehaviour
         (
-            [NotNull] DiscordSocketClient client,
-            [NotNull] IServiceScope serviceScope,
-            [NotNull] ILogger<TBehaviour> logger
+            DiscordSocketClient client,
+            IServiceScope serviceScope,
+            ILogger<TBehaviour> logger
         )
             : base(client, serviceScope, logger)
         {
@@ -73,8 +73,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="channel">The created channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> ChannelCreatedAsync([NotNull] SocketChannel channel)
+        [PublicAPI]
+        protected virtual Task<OperationResult> ChannelCreatedAsync(SocketChannel channel)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -84,8 +84,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="channel">The created channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> ChannelDeletedAsync([NotNull] SocketChannel channel)
+        [PublicAPI]
+        protected virtual Task<OperationResult> ChannelDeletedAsync(SocketChannel channel)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -96,11 +96,11 @@ namespace Remora.Discord.Behaviours
         /// <param name="originalChannel">The original channel.</param>
         /// <param name="newChannel">The new channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> ChannelUpdatedAsync
         (
-            [NotNull] SocketChannel originalChannel,
-            [NotNull] SocketChannel newChannel
+            SocketChannel originalChannel,
+            SocketChannel newChannel
         )
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -111,8 +111,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> MessageReceivedAsync([NotNull] SocketMessage message)
+        [PublicAPI]
+        protected virtual Task<OperationResult> MessageReceivedAsync(SocketMessage message)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -123,11 +123,11 @@ namespace Remora.Discord.Behaviours
         /// <param name="message">The message.</param>
         /// <param name="channel">The channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> MessageDeletedAsync
         (
             Cacheable<IMessage, ulong> message,
-            [NotNull] ISocketMessageChannel channel
+            ISocketMessageChannel channel
         )
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -139,11 +139,11 @@ namespace Remora.Discord.Behaviours
         /// <param name="messages">The messages.</param>
         /// <param name="channel">The channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> MessagesBulkDeletedAsync
         (
-            [NotNull] IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
-            [NotNull] ISocketMessageChannel channel
+            IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
+            ISocketMessageChannel channel
         )
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -156,12 +156,12 @@ namespace Remora.Discord.Behaviours
         /// <param name="newMessage">The new message.</param>
         /// <param name="channel">The channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> MessageUpdatedAsync
         (
             Cacheable<IMessage, ulong> oldMessage,
-            [NotNull] SocketMessage newMessage,
-            [NotNull] ISocketMessageChannel channel
+            SocketMessage newMessage,
+            ISocketMessageChannel channel
         )
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -174,12 +174,12 @@ namespace Remora.Discord.Behaviours
         /// <param name="channel">The channel.</param>
         /// <param name="reaction">The reaction.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> ReactionAddedAsync
         (
             Cacheable<IUserMessage, ulong> message,
-            [NotNull] ISocketMessageChannel channel,
-            [NotNull] SocketReaction reaction
+            ISocketMessageChannel channel,
+            SocketReaction reaction
         )
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -192,12 +192,12 @@ namespace Remora.Discord.Behaviours
         /// <param name="channel">The channel.</param>
         /// <param name="reaction">The reaction.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> ReactionRemovedAsync
         (
             Cacheable<IUserMessage, ulong> message,
-            [NotNull] ISocketMessageChannel channel,
-            [NotNull] SocketReaction reaction
+            ISocketMessageChannel channel,
+            SocketReaction reaction
         )
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -209,11 +209,11 @@ namespace Remora.Discord.Behaviours
         /// <param name="message">The message.</param>
         /// <param name="channel">The channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> ReactionsClearedAsync
         (
             Cacheable<IUserMessage, ulong> message,
-            [NotNull] ISocketMessageChannel channel
+            ISocketMessageChannel channel
         )
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -224,8 +224,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="role">The role.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> RoleCreatedAsync([NotNull] SocketRole role)
+        [PublicAPI]
+        protected virtual Task<OperationResult> RoleCreatedAsync(SocketRole role)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -235,8 +235,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="role">The role.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> RoleDeletedAsync([NotNull] SocketRole role)
+        [PublicAPI]
+        protected virtual Task<OperationResult> RoleDeletedAsync(SocketRole role)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -247,8 +247,8 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldRole">The old role information.</param>
         /// <param name="newRole">The new role information.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> RoleUpdatedAsync([NotNull] SocketRole oldRole, [NotNull] SocketRole newRole)
+        [PublicAPI]
+        protected virtual Task<OperationResult> RoleUpdatedAsync(SocketRole oldRole, SocketRole newRole)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -258,8 +258,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> JoinedGuildAsync([NotNull] SocketGuild guild)
+        [PublicAPI]
+        protected virtual Task<OperationResult> JoinedGuildAsync(SocketGuild guild)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -269,8 +269,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> LeftGuildAsync([NotNull] SocketGuild guild)
+        [PublicAPI]
+        protected virtual Task<OperationResult> LeftGuildAsync(SocketGuild guild)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -280,8 +280,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> GuildAvailableAsync([NotNull] SocketGuild guild)
+        [PublicAPI]
+        protected virtual Task<OperationResult> GuildAvailableAsync(SocketGuild guild)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -291,8 +291,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> GuildUnavailableAsync([NotNull] SocketGuild guild)
+        [PublicAPI]
+        protected virtual Task<OperationResult> GuildUnavailableAsync(SocketGuild guild)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -302,8 +302,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> GuildMembersDownloadedAsync([NotNull] SocketGuild guild)
+        [PublicAPI]
+        protected virtual Task<OperationResult> GuildMembersDownloadedAsync(SocketGuild guild)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -314,8 +314,8 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldGuild">The old guild information.</param>
         /// <param name="newGuild">The new guild information.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> GuildUpdatedAsync([NotNull] SocketGuild oldGuild, [NotNull] SocketGuild newGuild)
+        [PublicAPI]
+        protected virtual Task<OperationResult> GuildUpdatedAsync(SocketGuild oldGuild, SocketGuild newGuild)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -325,8 +325,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> UserJoinedAsync([NotNull] SocketGuildUser user)
+        [PublicAPI]
+        protected virtual Task<OperationResult> UserJoinedAsync(SocketGuildUser user)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -336,8 +336,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> UserLeftAsync([NotNull] SocketGuildUser user)
+        [PublicAPI]
+        protected virtual Task<OperationResult> UserLeftAsync(SocketGuildUser user)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -348,8 +348,8 @@ namespace Remora.Discord.Behaviours
         /// <param name="user">The user.</param>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> UserBannedAsync([NotNull] SocketUser user, [NotNull] SocketGuild guild)
+        [PublicAPI]
+        protected virtual Task<OperationResult> UserBannedAsync(SocketUser user, SocketGuild guild)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -360,8 +360,8 @@ namespace Remora.Discord.Behaviours
         /// <param name="user">The user.</param>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> UserUnbannedAsync([NotNull] SocketUser user, [NotNull] SocketGuild guild)
+        [PublicAPI]
+        protected virtual Task<OperationResult> UserUnbannedAsync(SocketUser user, SocketGuild guild)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -372,8 +372,8 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldUser">The old user information.</param>
         /// <param name="newUser">The new user information.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> UserUpdatedAsync([NotNull] SocketUser oldUser, [NotNull] SocketUser newUser)
+        [PublicAPI]
+        protected virtual Task<OperationResult> UserUpdatedAsync(SocketUser oldUser, SocketUser newUser)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -384,11 +384,11 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldMember">The old user information.</param>
         /// <param name="newMember">The new user information.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> GuildMemberUpdatedAsync
         (
-            [NotNull] SocketGuildUser oldMember,
-            [NotNull] SocketGuildUser newMember
+            SocketGuildUser oldMember,
+            SocketGuildUser newMember
         )
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -401,10 +401,10 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldState">The old state.</param>
         /// <param name="newState">The new state.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> UserVoiceStateUpdatedAsync
         (
-            [NotNull] SocketUser user,
+            SocketUser user,
             SocketVoiceState oldState,
             SocketVoiceState newState
         )
@@ -417,8 +417,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="voiceServer">The new server.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> VoiceServerUpdatedAsync([NotNull] SocketVoiceServer voiceServer)
+        [PublicAPI]
+        protected virtual Task<OperationResult> VoiceServerUpdatedAsync(SocketVoiceServer voiceServer)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -429,8 +429,8 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldSelf">The old user settings.</param>
         /// <param name="newSelf">The new user settings.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> SelfUpdatedAsync([NotNull] SocketSelfUser oldSelf, [NotNull] SocketSelfUser newSelf)
+        [PublicAPI]
+        protected virtual Task<OperationResult> SelfUpdatedAsync(SocketSelfUser oldSelf, SocketSelfUser newSelf)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -441,8 +441,8 @@ namespace Remora.Discord.Behaviours
         /// <param name="user">The user.</param>
         /// <param name="messageChannel">The channel the user is typing in.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> UserIsTypingAsync([NotNull] SocketUser user, [NotNull] ISocketMessageChannel messageChannel)
+        [PublicAPI]
+        protected virtual Task<OperationResult> UserIsTypingAsync(SocketUser user, ISocketMessageChannel messageChannel)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -452,8 +452,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="groupUser">The added user.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> ParticipantAddedAsync([NotNull] SocketGroupUser groupUser)
+        [PublicAPI]
+        protected virtual Task<OperationResult> ParticipantAddedAsync(SocketGroupUser groupUser)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -463,8 +463,8 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="groupUser">The removed user.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
-        protected virtual Task<OperationResult> ParticipantRemovedAsync([NotNull] SocketGroupUser groupUser)
+        [PublicAPI]
+        protected virtual Task<OperationResult> ParticipantRemovedAsync(SocketGroupUser groupUser)
         {
             return Task.FromResult(OperationResult.FromSuccess());
         }
@@ -473,7 +473,7 @@ namespace Remora.Discord.Behaviours
         /// Raised when the client is connected to the Discord gateway.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> ConnectedAsync()
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -484,7 +484,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="exception">The exception that caused the disconnect; if any.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> DisconnectedAsync(Exception? exception)
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -494,7 +494,7 @@ namespace Remora.Discord.Behaviours
         /// Raised when guild data has finished downloading.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> ReadyAsync()
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -506,7 +506,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldLatency">The old latency.</param>
         /// <param name="newLatency">The new latency.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task<OperationResult> LatencyUpdatedAsync(int oldLatency, int newLatency)
         {
             return Task.FromResult(OperationResult.FromSuccess());
@@ -517,8 +517,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="channel">The created channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnChannelCreated([NotNull] SocketChannel channel)
+        private Task OnChannelCreated(SocketChannel channel)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => ChannelCreatedAsync(channel)));
             return Task.CompletedTask;
@@ -529,8 +528,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="channel">The created channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnChannelDeleted([NotNull] SocketChannel channel)
+        private Task OnChannelDeleted(SocketChannel channel)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => ChannelDeletedAsync(channel)));
             return Task.CompletedTask;
@@ -542,8 +540,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="originalChannel">The original channel.</param>
         /// <param name="newChannel">The new channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnChannelUpdated([NotNull] SocketChannel originalChannel, [NotNull] SocketChannel newChannel)
+        private Task OnChannelUpdated(SocketChannel originalChannel, SocketChannel newChannel)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => ChannelUpdatedAsync(originalChannel, newChannel)));
             return Task.CompletedTask;
@@ -554,8 +551,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnMessageReceived([NotNull] SocketMessage message)
+        private Task OnMessageReceived(SocketMessage message)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => MessageReceivedAsync(message)));
             return Task.CompletedTask;
@@ -567,8 +563,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="message">The message.</param>
         /// <param name="channel">The channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnMessageDeleted(Cacheable<IMessage, ulong> message, [NotNull] ISocketMessageChannel channel)
+        private Task OnMessageDeleted(Cacheable<IMessage, ulong> message, ISocketMessageChannel channel)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => MessageDeletedAsync(message, channel)));
             return Task.CompletedTask;
@@ -580,11 +575,10 @@ namespace Remora.Discord.Behaviours
         /// <param name="messages">The messages.</param>
         /// <param name="channel">The channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
         private Task OnMessagesBulkDeleted
         (
-            [NotNull] IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
-            [NotNull] ISocketMessageChannel channel
+            IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
+            ISocketMessageChannel channel
         )
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => MessagesBulkDeletedAsync(messages, channel)));
@@ -598,12 +592,11 @@ namespace Remora.Discord.Behaviours
         /// <param name="newMessage">The new message.</param>
         /// <param name="channel">The channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
         private Task OnMessageUpdated
         (
             Cacheable<IMessage, ulong> oldMessage,
-            [NotNull] SocketMessage newMessage,
-            [NotNull] ISocketMessageChannel channel
+            SocketMessage newMessage,
+            ISocketMessageChannel channel
         )
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => MessageUpdatedAsync(oldMessage, newMessage, channel)));
@@ -617,12 +610,11 @@ namespace Remora.Discord.Behaviours
         /// <param name="channel">The channel.</param>
         /// <param name="reaction">The reaction.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
         private Task OnReactionAdded
         (
             Cacheable<IUserMessage, ulong> message,
-            [NotNull] ISocketMessageChannel channel,
-            [NotNull] SocketReaction reaction
+            ISocketMessageChannel channel,
+            SocketReaction reaction
         )
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => ReactionAddedAsync(message, channel, reaction)));
@@ -636,12 +628,11 @@ namespace Remora.Discord.Behaviours
         /// <param name="channel">The channel.</param>
         /// <param name="reaction">The reaction.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
         private Task OnReactionRemoved
         (
             Cacheable<IUserMessage, ulong> message,
-            [NotNull] ISocketMessageChannel channel,
-            [NotNull] SocketReaction reaction
+            ISocketMessageChannel channel,
+            SocketReaction reaction
         )
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => ReactionRemovedAsync(message, channel, reaction)));
@@ -654,11 +645,10 @@ namespace Remora.Discord.Behaviours
         /// <param name="message">The message.</param>
         /// <param name="channel">The channel.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
         private Task OnReactionsCleared
         (
             Cacheable<IUserMessage, ulong> message,
-            [NotNull] ISocketMessageChannel channel
+            ISocketMessageChannel channel
         )
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => ReactionsClearedAsync(message, channel)));
@@ -670,8 +660,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="role">The role.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnRoleCreated([NotNull] SocketRole role)
+        private Task OnRoleCreated(SocketRole role)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => RoleCreatedAsync(role)));
             return Task.CompletedTask;
@@ -682,8 +671,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="role">The role.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnRoleDeleted([NotNull] SocketRole role)
+        private Task OnRoleDeleted(SocketRole role)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => RoleDeletedAsync(role)));
             return Task.CompletedTask;
@@ -695,8 +683,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldRole">The old role information.</param>
         /// <param name="newRole">The new role information.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnRoleUpdated([NotNull] SocketRole oldRole, [NotNull] SocketRole newRole)
+        private Task OnRoleUpdated(SocketRole oldRole, SocketRole newRole)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => RoleUpdatedAsync(oldRole, newRole)));
             return Task.CompletedTask;
@@ -707,8 +694,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnJoinedGuild([NotNull] SocketGuild guild)
+        private Task OnJoinedGuild(SocketGuild guild)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => JoinedGuildAsync(guild)));
             return Task.CompletedTask;
@@ -719,8 +705,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnLeftGuild([NotNull] SocketGuild guild)
+        private Task OnLeftGuild(SocketGuild guild)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => LeftGuildAsync(guild)));
             return Task.CompletedTask;
@@ -731,8 +716,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnGuildAvailable([NotNull] SocketGuild guild)
+        private Task OnGuildAvailable(SocketGuild guild)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => GuildAvailableAsync(guild)));
             return Task.CompletedTask;
@@ -743,8 +727,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnGuildUnavailable([NotNull] SocketGuild guild)
+        private Task OnGuildUnavailable(SocketGuild guild)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => GuildUnavailableAsync(guild)));
             return Task.CompletedTask;
@@ -755,8 +738,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnGuildMembersDownloaded([NotNull] SocketGuild guild)
+        private Task OnGuildMembersDownloaded(SocketGuild guild)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => GuildMembersDownloadedAsync(guild)));
             return Task.CompletedTask;
@@ -768,8 +750,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldGuild">The old guild information.</param>
         /// <param name="newGuild">The new guild information.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnGuildUpdated([NotNull] SocketGuild oldGuild, [NotNull] SocketGuild newGuild)
+        private Task OnGuildUpdated(SocketGuild oldGuild, SocketGuild newGuild)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => GuildUpdatedAsync(oldGuild, newGuild)));
             return Task.CompletedTask;
@@ -780,8 +761,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnUserJoined([NotNull] SocketGuildUser user)
+        private Task OnUserJoined(SocketGuildUser user)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => UserJoinedAsync(user)));
             return Task.CompletedTask;
@@ -792,8 +772,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnUserLeft([NotNull] SocketGuildUser user)
+        private Task OnUserLeft(SocketGuildUser user)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => UserLeftAsync(user)));
             return Task.CompletedTask;
@@ -805,8 +784,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="user">The user.</param>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnUserBanned(SocketUser user, [NotNull] SocketGuild guild)
+        private Task OnUserBanned(SocketUser user, SocketGuild guild)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => UserBannedAsync(user, guild)));
             return Task.CompletedTask;
@@ -818,8 +796,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="user">The user.</param>
         /// <param name="guild">The guild.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnUserUnbanned([NotNull] SocketUser user, [NotNull] SocketGuild guild)
+        private Task OnUserUnbanned(SocketUser user, SocketGuild guild)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => UserUnbannedAsync(user, guild)));
             return Task.CompletedTask;
@@ -831,8 +808,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldUser">The old user information.</param>
         /// <param name="newUser">The new user information.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnUserUpdated([NotNull] SocketUser oldUser, [NotNull] SocketUser newUser)
+        private Task OnUserUpdated(SocketUser oldUser, SocketUser newUser)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => UserUpdatedAsync(oldUser, newUser)));
             return Task.CompletedTask;
@@ -845,8 +821,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldMember">The old user information.</param>
         /// <param name="newMember">The new user information.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnGuildMemberUpdated([NotNull] SocketGuildUser oldMember, [NotNull] SocketGuildUser newMember)
+        private Task OnGuildMemberUpdated(SocketGuildUser oldMember, SocketGuildUser newMember)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => GuildMemberUpdatedAsync(oldMember, newMember)));
             return Task.CompletedTask;
@@ -859,10 +834,9 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldState">The old state.</param>
         /// <param name="newState">The new state.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
         private Task OnUserVoiceStateUpdated
         (
-            [NotNull] SocketUser user,
+            SocketUser user,
             SocketVoiceState oldState,
             SocketVoiceState newState
         )
@@ -876,8 +850,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="voiceServer">The new server.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnVoiceServerUpdated([NotNull] SocketVoiceServer voiceServer)
+        private Task OnVoiceServerUpdated(SocketVoiceServer voiceServer)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => VoiceServerUpdatedAsync(voiceServer)));
             return Task.CompletedTask;
@@ -889,8 +862,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldSelf">The old user settings.</param>
         /// <param name="newSelf">The new user settings.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnSelfUpdated([NotNull] SocketSelfUser oldSelf, [NotNull] SocketSelfUser newSelf)
+        private Task OnSelfUpdated(SocketSelfUser oldSelf, SocketSelfUser newSelf)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => SelfUpdatedAsync(oldSelf, newSelf)));
             return Task.CompletedTask;
@@ -902,8 +874,7 @@ namespace Remora.Discord.Behaviours
         /// <param name="user">The user.</param>
         /// <param name="messageChannel">The channel the user is typing in.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnUserIsTyping([NotNull] SocketUser user, [NotNull] ISocketMessageChannel messageChannel)
+        private Task OnUserIsTyping(SocketUser user, ISocketMessageChannel messageChannel)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => UserIsTypingAsync(user, messageChannel)));
             return Task.CompletedTask;
@@ -914,8 +885,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="groupUser">The added user.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnParticipantAdded([NotNull] SocketGroupUser groupUser)
+        private Task OnParticipantAdded(SocketGroupUser groupUser)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => ParticipantAddedAsync(groupUser)));
             return Task.CompletedTask;
@@ -926,8 +896,7 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="groupUser">The removed user.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        private Task OnParticipantRemoved([NotNull] SocketGroupUser groupUser)
+        private Task OnParticipantRemoved(SocketGroupUser groupUser)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => ParticipantRemovedAsync(groupUser)));
             return Task.CompletedTask;
@@ -937,7 +906,6 @@ namespace Remora.Discord.Behaviours
         /// Detaches and stores the handler for when the client is connected to the Discord gateway.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
         private Task OnConnected()
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(ConnectedAsync));
@@ -949,7 +917,6 @@ namespace Remora.Discord.Behaviours
         /// </summary>
         /// <param name="exception">The exception that caused the disconnect; if any.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
         private Task OnDisconnected(Exception? exception)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => DisconnectedAsync(exception)));
@@ -960,7 +927,6 @@ namespace Remora.Discord.Behaviours
         /// Detaches and stores the handler for when guild data has finished downloading.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
         private Task OnReady()
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(ReadyAsync));
@@ -973,7 +939,6 @@ namespace Remora.Discord.Behaviours
         /// <param name="oldLatency">The old latency.</param>
         /// <param name="newLatency">The new latency.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
         private Task OnLatencyUpdated(int oldLatency, int newLatency)
         {
             this.RunningEvents.Enqueue(WrapEventInTransactionAsync(() => LatencyUpdatedAsync(oldLatency, newLatency)));

@@ -64,11 +64,11 @@ namespace Remora.Plugins
         /// <param name="postOperation">The operation to perform while walking up into the tree.</param>
         /// <typeparam name="TResult">The result type.</typeparam>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull, ItemNotNull]
+        [PublicAPI, ItemNotNull]
         public async Task<IEnumerable<TResult>> WalkAsync<TResult>
         (
-            [NotNull] Func<PluginDependencyTreeNode, Exception?, TResult> errorFactory,
-            [NotNull] Func<PluginDependencyTreeNode, Task<TResult>> preOperation,
+            Func<PluginDependencyTreeNode, Exception?, TResult> errorFactory,
+            Func<PluginDependencyTreeNode, Task<TResult>> preOperation,
             Func<PluginDependencyTreeNode, Task<TResult>>? postOperation = null
         )
             where TResult : IResult
@@ -85,9 +85,9 @@ namespace Remora.Plugins
         [NotNull, ItemNotNull]
         private async Task<IEnumerable<TResult>> WalkNodeAsync<TResult>
         (
-            [NotNull] PluginDependencyTreeNode node,
-            [NotNull] Func<PluginDependencyTreeNode, Exception?, TResult> errorFactory,
-            [NotNull] Func<PluginDependencyTreeNode, Task<TResult>> preOperation,
+            PluginDependencyTreeNode node,
+            Func<PluginDependencyTreeNode, Exception?, TResult> errorFactory,
+            Func<PluginDependencyTreeNode, Task<TResult>> preOperation,
             Func<PluginDependencyTreeNode, Task<TResult>>? postOperation = null
         )
             where TResult : IResult
@@ -147,7 +147,7 @@ namespace Remora.Plugins
         /// Adds a dependency branch to the tree.
         /// </summary>
         /// <param name="branch">The branch.</param>
-        internal void AddBranch([NotNull] PluginDependencyTreeNode branch)
+        internal void AddBranch(PluginDependencyTreeNode branch)
         {
             if (_branches.Contains(branch))
             {

@@ -42,13 +42,11 @@ namespace Remora.Behaviours.Bases
         /// <summary>
         /// Gets or sets the cancellation source for the continuous action task.
         /// </summary>
-        [NotNull]
         private CancellationTokenSource CancellationSource { get; set; }
 
         /// <summary>
         /// Gets or sets the continuous action task.
         /// </summary>
-        [NotNull]
         private Task ContinuousActionTask { get; set; }
 
         /// <summary>
@@ -64,8 +62,8 @@ namespace Remora.Behaviours.Bases
         [PublicAPI]
         protected ContinuousBehaviour
         (
-            [NotNull] IServiceScope serviceScope,
-            [NotNull] ILogger<TBehaviour> logger
+            IServiceScope serviceScope,
+            ILogger<TBehaviour> logger
         )
             : base(serviceScope, logger)
         {
@@ -80,7 +78,7 @@ namespace Remora.Behaviours.Bases
         [PublicAPI]
         protected ContinuousBehaviour
         (
-            [NotNull] IServiceScope serviceScope
+            IServiceScope serviceScope
         )
             : base(serviceScope)
         {
@@ -100,7 +98,6 @@ namespace Remora.Behaviours.Bases
         /// <param name="ct">The cancellation token for the behaviour.</param>
         /// <param name="tickServices">The services available during the tick.</param>
         /// <returns>An operation result which may or may not have succeeded.</returns>
-        [NotNull]
         protected abstract Task<OperationResult> OnTickAsync(CancellationToken ct, IServiceProvider tickServices);
 
         /// <summary>
@@ -108,7 +105,6 @@ namespace Remora.Behaviours.Bases
         /// </summary>
         /// <param name="ct">The cancellation token for the behaviour.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
         private async Task RunContinuousActionAsync(CancellationToken ct)
         {
             while (!ct.IsCancellationRequested)

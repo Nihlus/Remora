@@ -23,7 +23,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 
 namespace Remora.Plugins.Extensions
 {
@@ -42,8 +41,8 @@ namespace Remora.Plugins.Extensions
         /// <exception cref="ArgumentException">Thrown if a cyclic dependency is found.</exception>
         public static IEnumerable<T> TopologicalSort<T>
         (
-            [NotNull] this IEnumerable<T> nodes,
-            [NotNull] Func<T, IEnumerable<T>> connected
+            this IEnumerable<T> nodes,
+            Func<T, IEnumerable<T>> connected
         )
         {
             var elems = nodes.ToDictionary(node => node, node => new HashSet<T>(connected(node)));

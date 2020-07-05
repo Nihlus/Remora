@@ -40,19 +40,18 @@ namespace Remora.Behaviours
         /// <summary>
         /// Gets the scope in which this behaviour lives.
         /// </summary>
-        [NotNull]
         private IServiceScope ServiceScope { get; }
 
         /// <summary>
         /// Gets the logging instance for this behaviour.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected ILogger Log { get; }
 
         /// <summary>
         /// Gets the service provider available to this behaviour.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected IServiceProvider Services => this.ServiceScope.ServiceProvider;
 
         /// <inheritdoc />
@@ -65,7 +64,7 @@ namespace Remora.Behaviours
         /// <param name="serviceScope">The service scope of the behaviour.</param>
         /// <param name="logger">The logging instance for this type.</param>
         [PublicAPI]
-        protected BehaviourBase([NotNull] IServiceScope serviceScope, [NotNull] ILogger<TBehaviour> logger)
+        protected BehaviourBase(IServiceScope serviceScope, ILogger<TBehaviour> logger)
         {
             this.ServiceScope = serviceScope;
             this.Log = logger;
@@ -76,7 +75,7 @@ namespace Remora.Behaviours
         /// </summary>
         /// <param name="serviceScope">The service scope of the behaviour.</param>
         [PublicAPI]
-        protected BehaviourBase([NotNull] IServiceScope serviceScope)
+        protected BehaviourBase(IServiceScope serviceScope)
         {
             this.ServiceScope = serviceScope;
             this.Log = NullLogger.Instance;
@@ -99,7 +98,7 @@ namespace Remora.Behaviours
         /// User-implementable logic that runs during behaviour startup.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task OnStartingAsync()
         {
             return Task.CompletedTask;
@@ -122,7 +121,7 @@ namespace Remora.Behaviours
         /// User-implementable logic that runs during behaviour shutdown.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task OnStoppingAsync()
         {
             return Task.CompletedTask;

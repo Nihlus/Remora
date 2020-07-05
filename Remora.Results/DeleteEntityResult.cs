@@ -53,7 +53,7 @@ namespace Remora.Results
         /// Creates a new successful result.
         /// </summary>
         /// <returns>A successful result.</returns>
-        [PublicAPI, Pure, NotNull]
+        [PublicAPI, Pure]
         public static DeleteEntityResult FromSuccess()
         {
             return new DeleteEntityResult();

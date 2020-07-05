@@ -53,11 +53,11 @@ namespace Remora.EntityFrameworkCore.Modular
         /// <param name="commandBatchPreparerDependencieses">The command batch preparer dependencies.</param>
         public SchemaAwareMigrationsModelDiffer
         (
-            [NotNull] IRelationalTypeMappingSource typeMappingSource,
-            [NotNull] IMigrationsAnnotationProvider migrationsAnnotations,
-            [NotNull] IChangeDetector changeDetector,
-            [NotNull] IUpdateAdapterFactory updateAdapterFactory,
-            [NotNull] CommandBatchPreparerDependencies commandBatchPreparerDependencieses
+            IRelationalTypeMappingSource typeMappingSource,
+            IMigrationsAnnotationProvider migrationsAnnotations,
+            IChangeDetector changeDetector,
+            IUpdateAdapterFactory updateAdapterFactory,
+            CommandBatchPreparerDependencies commandBatchPreparerDependencieses
         )
             : base
             (
@@ -163,21 +163,19 @@ namespace Remora.EntityFrameworkCore.Modular
             /// <summary>
             /// Gets the source model.
             /// </summary>
-            [CanBeNull]
-            public IModel Source { get; }
+            public IModel? Source { get; }
 
             /// <summary>
             /// Gets the target model.
             /// </summary>
-            [CanBeNull]
-            public IModel Target { get; }
+            public IModel? Target { get; }
 
             /// <summary>
             /// Initializes a new instance of the <see cref="SchemaAwareDiffContext"/> class.
             /// </summary>
             /// <param name="source">The source model.</param>
             /// <param name="target">The target model.</param>
-            public SchemaAwareDiffContext([CanBeNull] IModel source, [CanBeNull] IModel target)
+            public SchemaAwareDiffContext(IModel? source, IModel? target)
                 : base(source, target)
             {
                 this.Source = source;

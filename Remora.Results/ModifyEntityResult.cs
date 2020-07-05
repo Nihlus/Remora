@@ -62,7 +62,7 @@ namespace Remora.Results
         /// </summary>
         /// <param name="wasModified">Whether the entity was modified.</param>
         /// <returns>A successful result.</returns>
-        [PublicAPI, Pure, NotNull]
+        [PublicAPI, Pure]
         public static ModifyEntityResult FromSuccess(bool wasModified = true)
         {
             return new ModifyEntityResult(wasModified);

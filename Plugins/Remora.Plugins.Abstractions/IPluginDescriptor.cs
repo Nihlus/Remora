@@ -36,33 +36,33 @@ namespace Remora.Plugins.Abstractions
         /// <summary>
         /// Gets the name of the plugin. This name should be unique.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         string Name { get; }
 
         /// <summary>
         /// Gets the description of the plugin.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         string Description { get; }
 
         /// <summary>
         /// Gets the version of the plugin.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         Version Version { get; }
 
         /// <summary>
         /// Configures services provided by the plugin in the application's service collection.
         /// </summary>
         /// <param name="serviceCollection">The service collection.</param>
-        void ConfigureServices([NotNull] IServiceCollection serviceCollection);
+        void ConfigureServices(IServiceCollection serviceCollection);
 
         /// <summary>
         /// Performs any post-registration initialization required by the plugin.
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <returns>true if the plugin could successfully initialize itself; otherwise, false.</returns>
-        [PublicAPI, NotNull]
-        Task<bool> InitializeAsync([NotNull] IServiceProvider serviceProvider);
+        [PublicAPI]
+        Task<bool> InitializeAsync(IServiceProvider serviceProvider);
     }
 }

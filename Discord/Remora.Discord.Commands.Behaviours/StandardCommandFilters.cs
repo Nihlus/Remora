@@ -38,8 +38,8 @@ namespace Remora.Discord.Commands.Behaviours
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull, Pure]
-        public static async Task<bool> IsUserAsync([NotNull] SocketCommandContext context)
+        [PublicAPI, Pure]
+        public static async Task<bool> IsUserAsync(SocketCommandContext context)
         {
             return !await IsBotAsync(context) && !await IsWebhookAsync(context);
         }
@@ -49,8 +49,8 @@ namespace Remora.Discord.Commands.Behaviours
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull, Pure]
-        public static Task<bool> IsBotAsync([NotNull] SocketCommandContext context)
+        [PublicAPI, Pure]
+        public static Task<bool> IsBotAsync(SocketCommandContext context)
         {
             return Task.FromResult(context.User.IsBot);
         }
@@ -60,8 +60,8 @@ namespace Remora.Discord.Commands.Behaviours
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull, Pure]
-        public static Task<bool> IsWebhookAsync([NotNull] SocketCommandContext context)
+        [PublicAPI, Pure]
+        public static Task<bool> IsWebhookAsync(SocketCommandContext context)
         {
             return Task.FromResult(context.User.IsWebhook);
         }
@@ -72,8 +72,8 @@ namespace Remora.Discord.Commands.Behaviours
         /// <param name="context">The context.</param>
         /// <param name="minLength">The minimum length of the entire message, including the command prefix.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull, Pure]
-        public static Task<bool> IsSufficientlyLong([NotNull] SocketCommandContext context, int minLength = 2)
+        [PublicAPI, Pure]
+        public static Task<bool> IsSufficientlyLong(SocketCommandContext context, int minLength = 2)
         {
             return Task.FromResult(context.Message.Content.Length >= minLength);
         }
@@ -83,8 +83,8 @@ namespace Remora.Discord.Commands.Behaviours
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull, Pure]
-        public static Task<bool> ContainsAtLeastOneLetterOrDigit([NotNull] SocketCommandContext context)
+        [PublicAPI, Pure]
+        public static Task<bool> ContainsAtLeastOneLetterOrDigit(SocketCommandContext context)
         {
             return Task.FromResult(context.Message.Content.Any(char.IsLetterOrDigit));
         }

@@ -38,7 +38,7 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets or sets the header of the section.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         public MarkdownHeader Header { get; set; }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Remora.Markdown
         /// <param name="title">The title of the section.</param>
         /// <param name="level">The level of the section header.</param>
         [PublicAPI]
-        public MarkdownSection([NotNull] string title, int level = 1)
+        public MarkdownSection(string title, int level = 1)
         {
             this.Header = new MarkdownHeader(title, level);
         }
@@ -57,8 +57,8 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="content">The content.</param>
         /// <returns>The section, with the content appended.</returns>
-        [PublicAPI, NotNull]
-        public MarkdownSection AppendContent([NotNull] IMarkdownNode content)
+        [PublicAPI]
+        public MarkdownSection AppendContent(IMarkdownNode content)
         {
             _content.Add(content);
             return this;
@@ -69,7 +69,7 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="content">The content.</param>
         /// <returns>The section, with all the content appended.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         public MarkdownSection AppendContentRange([NotNull, ItemNotNull] IEnumerable<IMarkdownNode> content)
         {
             foreach (var node in content)

@@ -45,7 +45,7 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets or sets the title text of the header.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         public MarkdownText Title { get; set; }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Remora.Markdown
         /// <param name="level">The level.</param>
         /// <param name="underline">Whether or not the header should be underlined.</param>
         [PublicAPI]
-        public MarkdownHeader([NotNull] string title, int level, bool underline = false)
+        public MarkdownHeader(string title, int level, bool underline = false)
         {
             this.Title = new MarkdownText(title);
             this.Level = level;

@@ -33,7 +33,7 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets the contents of the text.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         public string Content { get; }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="text">The text.</param>
         [PublicAPI]
-        public MarkdownText([NotNull] string text)
+        public MarkdownText(string text)
         {
             this.Content = text;
         }

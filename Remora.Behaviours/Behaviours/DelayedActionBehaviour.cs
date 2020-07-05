@@ -41,7 +41,6 @@ namespace Remora.Behaviours
         /// <summary>
         /// Gets the events that are currently running.
         /// </summary>
-        [NotNull]
         private readonly DelayedActionService _delayedActions;
 
         /// <summary>
@@ -53,9 +52,9 @@ namespace Remora.Behaviours
         [PublicAPI]
         public DelayedActionBehaviour
         (
-            [NotNull] IServiceScope serviceScope,
-            [NotNull] ILogger<DelayedActionBehaviour> logger,
-            [NotNull] DelayedActionService delayedActions
+            IServiceScope serviceScope,
+            ILogger<DelayedActionBehaviour> logger,
+            DelayedActionService delayedActions
         )
             : base(serviceScope, logger)
         {

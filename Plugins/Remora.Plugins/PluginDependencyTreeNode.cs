@@ -39,7 +39,6 @@ namespace Remora.Plugins
         /// <summary>
         /// Gets the plugin.
         /// </summary>
-        [NotNull]
         public IPluginDescriptor Plugin { get; }
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace Remora.Plugins
         [PublicAPI]
         public PluginDependencyTreeNode
         (
-            [NotNull] IPluginDescriptor plugin,
+            IPluginDescriptor plugin,
             [ItemNotNull] List<PluginDependencyTreeNode>? dependants = null
         )
         {
@@ -68,7 +67,7 @@ namespace Remora.Plugins
         /// Adds a dependant to this node.
         /// </summary>
         /// <param name="node">The node.</param>
-        internal void AddDependant([NotNull] PluginDependencyTreeNode node)
+        internal void AddDependant(PluginDependencyTreeNode node)
         {
             if (_dependants.Contains(node))
             {
@@ -82,7 +81,7 @@ namespace Remora.Plugins
         /// Gets all the dependant plugins in this branch.
         /// </summary>
         /// <returns>The dependant plugins.</returns>
-        [PublicAPI, NotNull, ItemNotNull]
+        [PublicAPI, ItemNotNull]
         public IEnumerable<PluginDependencyTreeNode> GetAllDependants()
         {
             foreach (var dependant in this.Dependants)

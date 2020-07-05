@@ -42,7 +42,7 @@ namespace Remora.Discord.Behaviours
         /// <summary>
         /// Gets the Discord client in use.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected DiscordSocketClient Client { get; }
 
         /// <summary>
@@ -54,9 +54,9 @@ namespace Remora.Discord.Behaviours
         [PublicAPI]
         protected ContinuousDiscordBehaviour
         (
-            [NotNull] DiscordSocketClient client,
-            [NotNull] IServiceScope serviceScope,
-            [NotNull] ILogger<TBehaviour> logger
+            DiscordSocketClient client,
+            IServiceScope serviceScope,
+            ILogger<TBehaviour> logger
         )
             : base(serviceScope, logger)
         {

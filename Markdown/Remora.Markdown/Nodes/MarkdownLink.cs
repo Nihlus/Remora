@@ -33,19 +33,19 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets or sets the link destination.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         public string Destination { get; set; }
 
         /// <summary>
         /// Gets or sets the visible text of the link.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         public string Text { get; set; }
 
         /// <summary>
         /// Gets or sets the link's hover tooltip.
         /// </summary>
-        [PublicAPI, CanBeNull]
+        [PublicAPI]
         public string? Tooltip { get; set; }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Remora.Markdown
         /// <param name="destination">The link destination.</param>
         /// <param name="text">The link text.</param>
         [PublicAPI]
-        public MarkdownLink([NotNull] string destination, [NotNull] string text)
+        public MarkdownLink(string destination, string text)
         {
             this.Destination = destination;
             this.Text = text;

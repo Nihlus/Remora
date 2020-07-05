@@ -35,7 +35,7 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets a list of the text components in the paragraph.
         /// </summary>
-        [PublicAPI, NotNull, ItemNotNull]
+        [PublicAPI, ItemNotNull]
         public List<MarkdownText> Components { get; } = new List<MarkdownText>();
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="text">The text in the paragraph.</param>
         [PublicAPI]
-        public MarkdownParagraph([NotNull] string text)
+        public MarkdownParagraph(string text)
         {
             AppendText(text);
         }
@@ -61,8 +61,8 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="text">The text to append.</param>
         /// <returns>The paragraph, with the text appended.</returns>
-        [PublicAPI, NotNull]
-        public MarkdownParagraph AppendText([NotNull] MarkdownText text)
+        [PublicAPI]
+        public MarkdownParagraph AppendText(MarkdownText text)
         {
             this.Components.Add(text);
             return this;
@@ -73,8 +73,8 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="text">The text to append.</param>
         /// <returns>The paragraph, with the text appended.</returns>
-        [PublicAPI, NotNull]
-        public MarkdownParagraph AppendText([NotNull] string text)
+        [PublicAPI]
+        public MarkdownParagraph AppendText(string text)
         {
             return AppendText(new MarkdownText(text));
         }
@@ -84,8 +84,8 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="text">The text.</param>
         /// <returns>The paragraph, with the text appended.</returns>
-        [PublicAPI, NotNull]
-        public MarkdownParagraph AppendLine([NotNull] MarkdownText text)
+        [PublicAPI]
+        public MarkdownParagraph AppendLine(MarkdownText text)
         {
             return AppendText(text).AppendText("\n\n");
         }
@@ -95,8 +95,8 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="text">The text.</param>
         /// <returns>The paragraph, with the text appended.</returns>
-        [PublicAPI, NotNull]
-        public MarkdownParagraph AppendLine([NotNull] string text)
+        [PublicAPI]
+        public MarkdownParagraph AppendLine(string text)
         {
             return AppendText(text).AppendText("\n\n");
         }

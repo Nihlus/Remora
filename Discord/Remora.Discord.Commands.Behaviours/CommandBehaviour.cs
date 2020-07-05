@@ -53,13 +53,13 @@ namespace Remora.Discord.Commands.Behaviours
         /// <summary>
         /// Gets the prefix for commands.
         /// </summary>
-        [PublicAPI, CanBeNull]
+        [PublicAPI]
         protected virtual char? CommandPrefixCharacter { get; } = '!';
 
         /// <summary>
         /// Gets the prefix string for commands.
         /// </summary>
-        [PublicAPI, CanBeNull]
+        [PublicAPI]
         protected virtual string? CommandPrefixString { get; }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Remora.Discord.Commands.Behaviours
         /// </summary>
         /// <param name="commandFilters">The filter list to configure.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task ConfigureFiltersAsync
         (
             [NotNull, ItemNotNull] List<Func<SocketCommandContext, Task<bool>>> commandFilters
@@ -125,10 +125,10 @@ namespace Remora.Discord.Commands.Behaviours
         /// <param name="context">The command context.</param>
         /// <param name="commandStart">The start of the command within the message.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task BeforeCommandAsync
         (
-            [NotNull] SocketCommandContext context,
+            SocketCommandContext context,
             int commandStart
         )
         {
@@ -142,10 +142,10 @@ namespace Remora.Discord.Commands.Behaviours
         /// <param name="commandStart">The start of the command within the message.</param>
         /// <param name="result">The result of the command.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task OnCommandSucceededAsync
         (
-            [NotNull] SocketCommandContext context,
+            SocketCommandContext context,
             int commandStart,
             IResult result
         )
@@ -161,10 +161,10 @@ namespace Remora.Discord.Commands.Behaviours
         /// <param name="commandStart">The start of the command within the message.</param>
         /// <param name="result">The result of the command.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected virtual Task OnCommandFailedAsync
         (
-            [NotNull] SocketCommandContext context,
+            SocketCommandContext context,
             int commandStart,
             IResult result
         )
@@ -277,7 +277,7 @@ namespace Remora.Discord.Commands.Behaviours
         /// <param name="commandStartPosition">The found start position.</param>
         /// <returns>true if a start position was found; otherwise, false.</returns>
         [PublicAPI, Pure]
-        protected bool FindCommandStartPosition([NotNull] IUserMessage message, out int commandStartPosition)
+        protected bool FindCommandStartPosition(IUserMessage message, out int commandStartPosition)
         {
             commandStartPosition = -1;
 

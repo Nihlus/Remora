@@ -34,7 +34,7 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets the quoted content.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         public IMarkdownNode Content { get; }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="content">The contents.</param>
         [PublicAPI]
-        public MarkdownBlockQuote([NotNull] IMarkdownNode content)
+        public MarkdownBlockQuote(IMarkdownNode content)
         {
             this.Content = content;
         }

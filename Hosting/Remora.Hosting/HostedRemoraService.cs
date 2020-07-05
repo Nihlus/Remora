@@ -42,40 +42,40 @@ namespace Remora.Hosting
     public abstract class HostedRemoraService<THostedRemoraService> : IHostedService
         where THostedRemoraService : HostedRemoraService<THostedRemoraService>
     {
-        [PublicAPI, NotNull]
+        [PublicAPI]
         private readonly PluginService _pluginService;
 
-        [PublicAPI, NotNull]
+        [PublicAPI]
         private readonly BehaviourService _behaviours;
 
         /// <summary>
         /// Gets the available services.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected IServiceProvider Services { get; }
 
         /// <summary>
         /// Gets the application lifetime.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected IHostApplicationLifetime Lifetime { get; }
 
         /// <summary>
         /// Gets the logging instance for this service.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected ILogger<THostedRemoraService> Log { get; }
 
         /// <summary>
         /// Gets the host environment for this service.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected IHostEnvironment HostEnvironment { get; }
 
         /// <summary>
         /// Gets the host configuration for this service.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected IConfiguration HostConfiguration { get; }
 
         /// <summary>

@@ -44,7 +44,7 @@ namespace Remora.Discord.Hosted
     public abstract class HostedDiscordBotService<TDiscordBotService> : HostedRemoraService<TDiscordBotService>
         where TDiscordBotService : HostedRemoraService<TDiscordBotService>
     {
-        [PublicAPI, NotNull]
+        [PublicAPI]
         private readonly DiscordSocketClient _client;
 
         /// <summary>
@@ -60,14 +60,14 @@ namespace Remora.Discord.Hosted
         /// <param name="services">The available services.</param>
         protected HostedDiscordBotService
         (
-            [NotNull] DiscordSocketClient discordClient,
-            [NotNull] PluginService pluginService,
-            [NotNull] BehaviourService behaviourService,
-            [NotNull] IConfiguration hostConfiguration,
-            [NotNull] IHostEnvironment hostEnvironment,
-            [NotNull] ILogger<TDiscordBotService> log,
-            [NotNull] IHostApplicationLifetime applicationLifetime,
-            [NotNull] IServiceProvider services
+            DiscordSocketClient discordClient,
+            PluginService pluginService,
+            BehaviourService behaviourService,
+            IConfiguration hostConfiguration,
+            IHostEnvironment hostEnvironment,
+            ILogger<TDiscordBotService> log,
+            IHostApplicationLifetime applicationLifetime,
+            IServiceProvider services
         )
             : base
             (
@@ -88,7 +88,7 @@ namespace Remora.Discord.Hosted
         /// Gets the login token used by the bot.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, NotNull, ItemNotNull]
+        [PublicAPI, ItemNotNull]
         protected abstract Task<RetrieveEntityResult<string>> GetTokenAsync();
 
         /// <inheritdoc />
@@ -123,7 +123,7 @@ namespace Remora.Discord.Hosted
         /// <param name="arg">The log message from Discord.</param>
         /// <returns>A completed task.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the log severity is not recognized.</exception>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         protected Task OnDiscordLogEvent(LogMessage arg)
         {
             var content = $"Discord log event: {arg.Message}";

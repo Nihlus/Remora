@@ -37,15 +37,13 @@ namespace Remora.Plugins.Abstractions
         /// </summary>
         /// <param name="serviceProvider">The available services.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        Task<bool> MigratePluginAsync([NotNull] IServiceProvider serviceProvider);
+        Task<bool> MigratePluginAsync(IServiceProvider serviceProvider);
 
         /// <summary>
         /// Determines whether the persistent store of the plugin has been created.
         /// </summary>
         /// <param name="serviceProvider">The available services.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [NotNull]
-        Task<bool> HasCreatedPersistentStoreAsync([NotNull] IServiceProvider serviceProvider);
+        Task<bool> HasCreatedPersistentStoreAsync(IServiceProvider serviceProvider);
     }
 }

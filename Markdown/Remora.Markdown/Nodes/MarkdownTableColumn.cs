@@ -33,7 +33,7 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets or sets the title of the column.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         public string Title { get; set; }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="title">The title.</param>
         [PublicAPI]
-        public MarkdownTableColumn([NotNull] string title)
+        public MarkdownTableColumn(string title)
         {
             this.Title = title;
         }

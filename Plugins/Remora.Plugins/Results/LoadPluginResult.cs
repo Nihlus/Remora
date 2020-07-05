@@ -41,7 +41,6 @@ namespace Remora.Plugins.Results
         /// <summary>
         /// Gets the plugin that was loaded.
         /// </summary>
-        [NotNull]
         public IPluginDescriptor Plugin
         {
             get
@@ -58,7 +57,7 @@ namespace Remora.Plugins.Results
         /// <summary>
         /// Initializes a new instance of the <see cref="LoadPluginResult"/> class.
         /// </summary>
-        private LoadPluginResult([NotNull] IPluginDescriptor plugin)
+        private LoadPluginResult(IPluginDescriptor plugin)
         {
             _plugin = plugin;
         }
@@ -79,8 +78,8 @@ namespace Remora.Plugins.Results
         /// </summary>
         /// <param name="plugin">The plugin that was initialized.</param>
         /// <returns>A successful result.</returns>
-        [PublicAPI, Pure, NotNull]
-        public static LoadPluginResult FromSuccess([NotNull] IPluginDescriptor plugin)
+        [PublicAPI, Pure]
+        public static LoadPluginResult FromSuccess(IPluginDescriptor plugin)
         {
             return new LoadPluginResult(plugin);
         }

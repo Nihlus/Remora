@@ -36,7 +36,6 @@ namespace Remora.Plugins.Abstractions.Attributes
         /// <summary>
         /// Gets the plugin descriptor that the assembly exports.
         /// </summary>
-        [NotNull]
         public Type PluginDescriptor { get; }
 
         /// <summary>
@@ -44,7 +43,7 @@ namespace Remora.Plugins.Abstractions.Attributes
         /// </summary>
         /// <param name="pluginDescriptor">The descriptor type.</param>
         [PublicAPI]
-        public RemoraPlugin([NotNull] Type pluginDescriptor)
+        public RemoraPlugin(Type pluginDescriptor)
         {
             this.PluginDescriptor = pluginDescriptor;
         }

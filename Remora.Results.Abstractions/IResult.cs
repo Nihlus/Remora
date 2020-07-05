@@ -33,7 +33,7 @@ namespace Remora.Results
         /// <summary>
         /// Gets a human-readable reason for the error.
         /// </summary>
-        [PublicAPI, NotNull]
+        [PublicAPI]
         string ErrorReason { get; }
 
         /// <summary>

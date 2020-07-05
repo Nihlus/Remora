@@ -34,7 +34,7 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets a list of the cells in the row.
         /// </summary>
-        [PublicAPI, NotNull, ItemNotNull]
+        [PublicAPI, ItemNotNull]
         public List<IMarkdownNode> Cells { get; } = new List<IMarkdownNode>();
 
         /// <summary>
@@ -42,8 +42,8 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="cell">The cell to append.</param>
         /// <returns>The row, with the cell appended.</returns>
-        [PublicAPI, NotNull]
-        public MarkdownTableRow AppendCell([NotNull] IMarkdownNode cell)
+        [PublicAPI]
+        public MarkdownTableRow AppendCell(IMarkdownNode cell)
         {
             this.Cells.Add(cell);
             return this;
