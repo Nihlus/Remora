@@ -1064,34 +1064,36 @@ namespace Remora.Discord.Behaviours
         /// <inheritdoc />
         protected sealed override async Task<OperationResult> OnTickAsync(CancellationToken ct, IServiceProvider tickServices)
         {
-            if (this.RunningEvents.TryDequeue(out var clientEvent))
+            if (!this.RunningEvents.TryDequeue(out var clientEvent))
             {
-                if (clientEvent.IsCompleted)
+                return OperationResult.FromSuccess();
+            }
+
+            if (clientEvent.IsCompleted)
+            {
+                try
                 {
-                    try
+                    var eventResult = await clientEvent;
+                    if (!eventResult.IsSuccess)
                     {
-                        var eventResult = await clientEvent;
-                        if (!eventResult.IsSuccess)
-                        {
-                            return OperationResult.FromError(eventResult);
-                        }
-                    }
-                    catch (TaskCanceledException tex)
-                    {
-                        this.Log.LogDebug($"Cancellation requested in {typeof(TBehaviour)} - terminating.");
-                        return OperationResult.FromError(tex);
-                    }
-                    catch (Exception e)
-                    {
-                        // Nom nom nom
-                        this.Log.LogError(e, "Error in client event handler.");
-                        return OperationResult.FromError(e);
+                        return OperationResult.FromError(eventResult);
                     }
                 }
-                else
+                catch (TaskCanceledException tex)
                 {
-                    this.RunningEvents.Enqueue(clientEvent);
+                    this.Log.LogDebug($"Cancellation requested in {typeof(TBehaviour)} - terminating.");
+                    return OperationResult.FromError(tex);
                 }
+                catch (Exception e)
+                {
+                    // Nom nom nom
+                    this.Log.LogError(e, "Error in client event handler.");
+                    return OperationResult.FromError(e);
+                }
+            }
+            else
+            {
+                this.RunningEvents.Enqueue(clientEvent);
             }
 
             return OperationResult.FromSuccess();
