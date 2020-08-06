@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>4.0.0</Version>
+        <Version>4.1.0</Version>
         <Description>
             Base classes for hosted Remora-based Discord bots.
         </Description>
         <PackageReleaseNotes>
-            Let the client start before behaviours are initialized.
+            Update dependencies.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);hosting;discord;</PackageTags>
     </PropertyGroup>

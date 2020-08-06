@@ -55,6 +55,22 @@ namespace Remora.Behaviours.Bases
         protected virtual TimeSpan TickDelay => TimeSpan.FromSeconds(1);
 
         /// <summary>
+        /// Gets a value indicating whether a transaction should be created for each tick. Defaults to true.
+        /// </summary>
+        protected virtual bool UseTransaction => true;
+
+        /// <summary>
+        /// Gets the timeout that should be used for the tick transaction, if one is created. Defaults to a
+        /// <see cref="IsolationLevel.Serializable"/> transaction with a timeout of
+        /// <see cref="TransactionManager.DefaultTimeout"/>.
+        /// </summary>
+        protected virtual TransactionOptions TransactionOptions { get; } = new TransactionOptions
+        {
+            Timeout = TransactionManager.DefaultTimeout,
+            IsolationLevel = IsolationLevel.Serializable
+        };
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ContinuousBehaviour{TBehaviour}"/> class.
         /// </summary>
         /// <param name="serviceScope">The service scope of the behaviour.</param>
@@ -114,17 +130,22 @@ namespace Remora.Behaviours.Bases
                     var tickScope = this.Services.CreateScope();
                     try
                     {
-                        using var transactionScope = new TransactionScope
-                        (
-                            TransactionScopeOption.Required,
-                            TransactionScopeAsyncFlowOption.Enabled
-                        );
+                        TransactionScope? transactionScope = null;
+                        if (this.UseTransaction)
+                        {
+                            transactionScope = new TransactionScope
+                            (
+                                TransactionScopeOption.Required,
+                                this.TransactionOptions,
+                                TransactionScopeAsyncFlowOption.Enabled
+                            );
+                        }
 
                         var operationResult = await OnTickAsync(ct, tickScope.ServiceProvider);
 
                         if (operationResult.IsSuccess)
                         {
-                            transactionScope.Complete();
+                            transactionScope?.Complete();
                         }
                     }
                     finally

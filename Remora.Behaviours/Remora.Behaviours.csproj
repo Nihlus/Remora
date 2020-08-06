@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>4.0.0</Version>
+        <Version>4.1.0</Version>
         <Description>A behaviour-based activity package for any application.</Description>
         <PackageReleaseNotes>
-            Adapt to changed signatures.
+            Add a way to disable the creation of a transaction for a tick, and a way to configure it.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);service;behaviour;async;await;tpl</PackageTags>
     </PropertyGroup>

@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>4.0.0</Version>
+        <Version>4.1.0</Version>
         <Description>
             Base behaviour types for Discord.NET, using Remora.Behaviours.
         </Description>
         <PackageReleaseNotes>
-            Change signature of OnTickAsync.
+            Update dependencies.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);discord;behaviours</PackageTags>
     </PropertyGroup>
