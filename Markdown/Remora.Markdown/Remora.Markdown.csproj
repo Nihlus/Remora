@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>1.0.3-beta1</Version>
+        <Version>1.0.3</Version>
         <Description>A typesafe, graph-oriented library for generating Markdown documents in C#.</Description>
         <PackageReleaseNotes>
             Update dependencies.
