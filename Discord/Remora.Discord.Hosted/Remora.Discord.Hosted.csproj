@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>4.1.1</Version>
+        <Version>4.1.2</Version>
         <Description>
             Base classes for hosted Remora-based Discord bots.
         </Description>
