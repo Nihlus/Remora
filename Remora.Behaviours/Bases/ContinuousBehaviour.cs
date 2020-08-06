@@ -146,6 +146,7 @@ namespace Remora.Behaviours.Bases
                         if (operationResult.IsSuccess)
                         {
                             transactionScope?.Complete();
+                            transactionScope?.Dispose();
                         }
                     }
                     finally
