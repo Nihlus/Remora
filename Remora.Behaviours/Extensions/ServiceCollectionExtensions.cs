@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -42,7 +43,14 @@ namespace Remora.Behaviours.Extensions
         )
             where TBehaviour : class, IBehaviour
         {
-            serviceCollection.TryAddSingleton<TBehaviour>();
+            if (serviceCollection.Any(d => d.ServiceType == typeof(TBehaviour)))
+            {
+                // already added
+                return serviceCollection;
+            }
+
+            serviceCollection.AddSingleton<TBehaviour>();
+            serviceCollection.AddSingleton<IBehaviour, TBehaviour>(s => s.GetRequiredService<TBehaviour>());
             return serviceCollection;
         }
     }
