@@ -21,6 +21,7 @@
 //
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Remora.Behaviours.Extensions
 {
@@ -41,7 +42,7 @@ namespace Remora.Behaviours.Extensions
         )
             where TBehaviour : class, IBehaviour
         {
-            serviceCollection.AddSingleton<TBehaviour>();
+            serviceCollection.TryAddSingleton<TBehaviour>();
             return serviceCollection;
         }
     }
