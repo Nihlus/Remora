@@ -21,9 +21,7 @@
 //
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,76 +34,15 @@ namespace Remora.Behaviours.Services
     [PublicAPI]
     public sealed class BehaviourService
     {
-        [NotNull, ItemNotNull]
-        private readonly ICollection<IBehaviour> _registeredBehaviours = new List<IBehaviour>();
+        private readonly IServiceProvider _services;
 
         /// <summary>
-        /// Discovers and adds behaviours defined in the given assembly.
+        /// Initializes a new instance of the <see cref="BehaviourService"/> class.
         /// </summary>
-        /// <param name="containingAssembly">The assembly where behaviours are defined.</param>
-        /// <param name="services">The services available to the application.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
-        public async Task AddBehavioursAsync(Assembly containingAssembly, IServiceProvider services)
+        /// <param name="services">The services of the application.</param>
+        public BehaviourService(IServiceProvider services)
         {
-            var definedTypes = containingAssembly.DefinedTypes;
-            var behaviourTypes = definedTypes.Where(t => t.ImplementedInterfaces.Contains(typeof(IBehaviour)));
-
-            foreach (var behaviourType in behaviourTypes)
-            {
-                await AddBehaviourAsync(services, behaviourType);
-            }
-        }
-
-        /// <summary>
-        /// Adds the given behaviour to the service.
-        /// </summary>
-        /// <param name="services">The available services.</param>
-        /// <typeparam name="TBehaviour">The type of the behaviour.</typeparam>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
-        public Task AddBehaviourAsync<TBehaviour>(IServiceProvider services)
-            where TBehaviour : IBehaviour
-        {
-            return AddBehaviourAsync(services, typeof(TBehaviour));
-        }
-
-        /// <summary>
-        /// Adds the given behaviour to the service.
-        /// </summary>
-        /// <param name="services">The available services.</param>
-        /// <param name="behaviourType">The type of the behaviour.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
-        public async Task AddBehaviourAsync(IServiceProvider services, Type behaviourType)
-        {
-            if (behaviourType.IsAbstract)
-            {
-                return;
-            }
-
-            // Since the behaviours run in their own threads, we'll do scoped contexts for them. The behaviours run
-            // until they're disposed, so they're responsible for clearing up their own scopes.
-            var scope = services.CreateScope();
-            var behaviour = (IBehaviour)ActivatorUtilities.CreateInstance
-            (
-                scope.ServiceProvider,
-                behaviourType,
-                scope
-            );
-
-            // Behaviours are implicitly singletons; there's only ever one instance of a behaviour at any given
-            // time.
-            var existingBehaviour = _registeredBehaviours.FirstOrDefault(b => b.GetType() == behaviourType);
-            if (!(existingBehaviour is null))
-            {
-                _registeredBehaviours.Remove(existingBehaviour);
-
-                await existingBehaviour.StopAsync();
-                existingBehaviour.Dispose();
-            }
-
-            _registeredBehaviours.Add(behaviour);
+            _services = services;
         }
 
         /// <summary>
@@ -115,10 +52,8 @@ namespace Remora.Behaviours.Services
         [PublicAPI]
         public async Task StartBehavioursAsync()
         {
-            foreach (var behaviour in _registeredBehaviours)
-            {
-                await behaviour.StartAsync();
-            }
+            var behaviours = _services.GetServices<IBehaviour>();
+            await Task.WhenAll(behaviours.Select(b => b.StartAsync()));
         }
 
         /// <summary>
@@ -128,10 +63,8 @@ namespace Remora.Behaviours.Services
         [PublicAPI]
         public async Task StopBehavioursAsync()
         {
-            foreach (var behaviour in _registeredBehaviours)
-            {
-                await behaviour.StopAsync();
-            }
+            var behaviours = _services.GetServices<IBehaviour>();
+            await Task.WhenAll(behaviours.Select(b => b.StopAsync()));
         }
     }
 }

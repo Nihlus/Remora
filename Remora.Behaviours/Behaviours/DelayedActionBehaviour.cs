@@ -24,7 +24,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Remora.Behaviours.Bases;
 using Remora.Behaviours.Services;
@@ -46,17 +45,17 @@ namespace Remora.Behaviours
         /// <summary>
         /// Initializes a new instance of the <see cref="DelayedActionBehaviour"/> class.
         /// </summary>
-        /// <param name="serviceScope">The service scope in use.</param>
+        /// <param name="services">The service scope in use.</param>
         /// <param name="logger">The logging instance for this type.</param>
         /// <param name="delayedActions">The do-later service.</param>
         [PublicAPI]
         public DelayedActionBehaviour
         (
-            IServiceScope serviceScope,
+            IServiceProvider services,
             ILogger<DelayedActionBehaviour> logger,
             DelayedActionService delayedActions
         )
-            : base(serviceScope, logger)
+            : base(services, logger)
         {
             _delayedActions = delayedActions;
         }

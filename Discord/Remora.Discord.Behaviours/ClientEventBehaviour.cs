@@ -29,7 +29,6 @@ using System.Transactions;
 using Discord;
 using Discord.WebSocket;
 using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Remora.Behaviours.Bases;
 using Remora.Results;
@@ -57,16 +56,16 @@ namespace Remora.Discord.Behaviours
         /// Initializes a new instance of the <see cref="ClientEventBehaviour{TBehaviour}"/> class.
         /// </summary>
         /// <param name="client">The Discord client.</param>
-        /// <param name="serviceScope">The service scope in use.</param>
+        /// <param name="services">The service scope in use.</param>
         /// <param name="logger">The logging instance for this type.</param>
         [PublicAPI]
         protected ClientEventBehaviour
         (
             DiscordSocketClient client,
-            IServiceScope serviceScope,
+            IServiceProvider services,
             ILogger<TBehaviour> logger
         )
-            : base(client, serviceScope, logger)
+            : base(client, services, logger)
         {
             this.RunningEvents = new ConcurrentQueue<Task<OperationResult>>();
         }

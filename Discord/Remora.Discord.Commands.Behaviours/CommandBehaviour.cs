@@ -72,18 +72,18 @@ namespace Remora.Discord.Commands.Behaviours
         /// Initializes a new instance of the <see cref="CommandBehaviour"/> class.
         /// </summary>
         /// <param name="client">The discord client.</param>
-        /// <param name="serviceScope">The service scope in use.</param>
+        /// <param name="services">The service scope in use.</param>
         /// <param name="logger">The logging instance for this type.</param>
         /// <param name="commands">The command service.</param>
         [PublicAPI]
         public CommandBehaviour
         (
             DiscordSocketClient client,
-            IServiceScope serviceScope,
+            IServiceProvider services,
             ILogger<CommandBehaviour> logger,
             CommandService commands
         )
-            : base(client, serviceScope, logger)
+            : base(client, services, logger)
         {
             this.Commands = commands;
             _commandFilters = new List<Func<SocketCommandContext, Task<bool>>>();

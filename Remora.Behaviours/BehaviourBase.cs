@@ -23,7 +23,6 @@
 using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -38,11 +37,6 @@ namespace Remora.Behaviours
         where TBehaviour : BehaviourBase<TBehaviour>
     {
         /// <summary>
-        /// Gets the scope in which this behaviour lives.
-        /// </summary>
-        private IServiceScope ServiceScope { get; }
-
-        /// <summary>
         /// Gets the logging instance for this behaviour.
         /// </summary>
         [PublicAPI]
@@ -52,7 +46,7 @@ namespace Remora.Behaviours
         /// Gets the service provider available to this behaviour.
         /// </summary>
         [PublicAPI]
-        protected IServiceProvider Services => this.ServiceScope.ServiceProvider;
+        protected IServiceProvider Services { get; }
 
         /// <inheritdoc />
         [PublicAPI]
@@ -61,23 +55,23 @@ namespace Remora.Behaviours
         /// <summary>
         /// Initializes a new instance of the <see cref="BehaviourBase{TBehaviour}"/> class.
         /// </summary>
-        /// <param name="serviceScope">The service scope of the behaviour.</param>
+        /// <param name="services">The service scope of the behaviour.</param>
         /// <param name="logger">The logging instance for this type.</param>
         [PublicAPI]
-        protected BehaviourBase(IServiceScope serviceScope, ILogger<TBehaviour> logger)
+        protected BehaviourBase(IServiceProvider services, ILogger<TBehaviour> logger)
         {
-            this.ServiceScope = serviceScope;
+            this.Services = services;
             this.Log = logger;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BehaviourBase{TBehaviour}"/> class.
         /// </summary>
-        /// <param name="serviceScope">The service scope of the behaviour.</param>
+        /// <param name="services">The service scope of the behaviour.</param>
         [PublicAPI]
-        protected BehaviourBase(IServiceScope serviceScope)
+        protected BehaviourBase(IServiceProvider services)
         {
-            this.ServiceScope = serviceScope;
+            this.Services = services;
             this.Log = NullLogger.Instance;
         }
 
@@ -125,27 +119,6 @@ namespace Remora.Behaviours
         protected virtual Task OnStoppingAsync()
         {
             return Task.CompletedTask;
-        }
-
-        /// <inheritdoc/>
-        [PublicAPI]
-        public virtual void Dispose()
-        {
-            this.ServiceScope.Dispose();
-        }
-
-        /// <inheritdoc/>
-        [PublicAPI]
-        public async ValueTask DisposeAsync()
-        {
-            if (this.ServiceScope is IAsyncDisposable asyncDisposable)
-            {
-                await asyncDisposable.DisposeAsync();
-            }
-            else
-            {
-                this.ServiceScope.Dispose();
-            }
         }
     }
 }

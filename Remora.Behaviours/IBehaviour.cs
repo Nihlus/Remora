@@ -20,7 +20,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
@@ -30,7 +29,7 @@ namespace Remora.Behaviours
     /// Interface for a behaviour.
     /// </summary>
     [PublicAPI]
-    public interface IBehaviour : IDisposable, IAsyncDisposable
+    public interface IBehaviour
     {
         /// <summary>
         /// Gets a value indicating whether the behaviour is currently running.

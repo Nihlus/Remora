@@ -25,7 +25,6 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Remora.Behaviours.Bases;
 
@@ -49,16 +48,16 @@ namespace Remora.Discord.Behaviours
         /// Initializes a new instance of the <see cref="ContinuousDiscordBehaviour{TBehaviour}"/> class.
         /// </summary>
         /// <param name="client">The Discord client.</param>
-        /// <param name="serviceScope">The service scope in use.</param>
+        /// <param name="services">The service scope in use.</param>
         /// <param name="logger">The logging instance for this type.</param>
         [PublicAPI]
         protected ContinuousDiscordBehaviour
         (
             DiscordSocketClient client,
-            IServiceScope serviceScope,
+            IServiceProvider services,
             ILogger<TBehaviour> logger
         )
-            : base(serviceScope, logger)
+            : base(services, logger)
         {
             this.Client = client;
         }
