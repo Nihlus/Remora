@@ -103,7 +103,17 @@ namespace Remora.Results
                 throw new InvalidOperationException("The original result was successful.");
             }
 
-            return FromError(result.ErrorReason);
+            if (result.Exception is null)
+            {
+                return FromError(result.ErrorReason);
+            }
+
+            if (result.Exception.Message != result.ErrorReason)
+            {
+                return FromError(result.Exception, result.ErrorReason);
+            }
+
+            return FromError(result.Exception);
         }
 
         /// <summary>

@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using System;
 using JetBrains.Annotations;
 
 namespace Remora.Results
@@ -35,6 +36,12 @@ namespace Remora.Results
         /// </summary>
         [PublicAPI]
         string ErrorReason { get; }
+
+        /// <summary>
+        /// Gets the exception that caused the error.
+        /// </summary>
+        [PublicAPI]
+        Exception? Exception { get; }
 
         /// <summary>
         /// Gets a value indicating whether the result is a successful result.

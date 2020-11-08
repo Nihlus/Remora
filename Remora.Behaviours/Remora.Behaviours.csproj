@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>5.0.2</Version>
+        <Version>5.0.3</Version>
         <Description>A behaviour-based activity package for any application.</Description>
         <PackageReleaseNotes>
-            Ensure transaction is ACTUALLY disposed.
+            Update dependencies.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);service;behaviour;async;await;tpl</PackageTags>
     </PropertyGroup>

@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>5.0.2</Version>
+        <Version>5.0.3</Version>
         <Description>
             Base behaviour types for Discord.NET, using Remora.Behaviours.
         </Description>
         <PackageReleaseNotes>
-            Update usage of Remora.Behaviours.
+            Update dependencies.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);discord;behaviours</PackageTags>
     </PropertyGroup>
