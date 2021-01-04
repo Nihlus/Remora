@@ -20,13 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
@@ -50,14 +49,14 @@ namespace Remora.EntityFrameworkCore.Modular
         /// <param name="migrationsAnnotations">The migration annotation provider.</param>
         /// <param name="changeDetector">The change detector.</param>
         /// <param name="updateAdapterFactory">The update adapter factory.</param>
-        /// <param name="commandBatchPreparerDependencieses">The command batch preparer dependencies.</param>
+        /// <param name="commandBatchPreparerDependencies">The command batch preparer dependencies.</param>
         public SchemaAwareMigrationsModelDiffer
         (
             IRelationalTypeMappingSource typeMappingSource,
             IMigrationsAnnotationProvider migrationsAnnotations,
             IChangeDetector changeDetector,
             IUpdateAdapterFactory updateAdapterFactory,
-            CommandBatchPreparerDependencies commandBatchPreparerDependencieses
+            CommandBatchPreparerDependencies commandBatchPreparerDependencies
         )
             : base
             (
@@ -65,38 +64,33 @@ namespace Remora.EntityFrameworkCore.Modular
                 migrationsAnnotations,
                 changeDetector,
                 updateAdapterFactory,
-                commandBatchPreparerDependencieses
+                commandBatchPreparerDependencies
             )
         {
         }
 
         /// <inheritdoc/>
-        public override bool HasDifferences(IModel source, IModel target)
+        public override bool HasDifferences(IRelationalModel source, IRelationalModel target)
             => Diff(source, target, new SchemaAwareDiffContext(source, target)).Any();
 
         /// <inheritdoc/>
         public override IReadOnlyList<MigrationOperation> GetDifferences
         (
-            IModel source,
-            IModel target
+            IRelationalModel source,
+            IRelationalModel target
         )
         {
             var diffContext = new SchemaAwareDiffContext(source, target);
             return Sort(Diff(source, target, diffContext), diffContext);
         }
 
-        private static ReferentialAction ToReferentialAction(DeleteBehavior deleteBehavior)
-            => deleteBehavior == DeleteBehavior.Cascade
-                ? ReferentialAction.Cascade
-                : deleteBehavior == DeleteBehavior.SetNull
-                    ? ReferentialAction.SetNull
-                    : ReferentialAction.Restrict;
-
         /// <inheritdoc/>
-        protected override IEnumerable<MigrationOperation> Diff(
-            IEnumerable<IForeignKey> source,
-            IEnumerable<IForeignKey> target,
-            DiffContext diffContext)
+        protected override IEnumerable<MigrationOperation> Diff
+        (
+            IEnumerable<IForeignKeyConstraint> source,
+            IEnumerable<IForeignKeyConstraint> target,
+            DiffContext diffContext
+        )
         {
             return DiffCollection
             (
@@ -108,48 +102,52 @@ namespace Remora.EntityFrameworkCore.Modular
                 Remove,
                 (s, t, c) =>
                 {
-                    if (s.GetConstraintName() != t.GetConstraintName())
+                    if (diffContext is not SchemaAwareDiffContext schemaDiffContext)
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    if (s.Name != t.Name)
                     {
                         return false;
                     }
 
-                    if (!s.Properties.Select(p => p.GetColumnName()).SequenceEqual(
-                        t.Properties.Select(p => c.FindSource(p)?.GetColumnName())))
+                    var sourceColumnNames = s.Columns.Select(sc => sc.Name);
+                    var targetColumnNames = t.Columns.Select(p => c.FindSource(p)?.Name);
+                    if (!sourceColumnNames.SequenceEqual(targetColumnNames))
                     {
                         return false;
                     }
 
-                    var schemaToInclude = ((SchemaAwareDiffContext)diffContext).Source?.GetDefaultSchema();
+                    var schemaToInclude = schemaDiffContext.Source?.Model.GetDefaultSchema();
                     if (schemaToInclude is null)
                     {
                         return false;
                     }
 
-                    if (c.FindSourceTable(s.PrincipalEntityType).Schema == schemaToInclude &&
-                        c.FindSourceTable(s.PrincipalEntityType) !=
-                        c.FindSource(c.FindTargetTable(t.PrincipalEntityType)))
+                    if (s.PrincipalTable.Schema == schemaToInclude &&
+                        s.PrincipalTable.Schema != t.PrincipalTable.Schema)
                     {
                         return false;
                     }
 
-                    if (t.PrincipalKey.Properties.Select(p => c.FindSource(p)?.GetColumnName())
-                            .First() != null && !s.PrincipalKey.Properties
-                            .Select(p => p.GetColumnName()).SequenceEqual(
-                                t.PrincipalKey.Properties.Select(p =>
-                                    c.FindSource(p)?.GetColumnName())))
+                    var sourcePrincipalColumnNames = s.PrincipalColumns.Select(sc => sc.Name);
+                    var targetPrincipalColumnNames = t.PrincipalColumns.Select(tc => c.FindSource(tc)?.Name).ToList();
+                    if (targetPrincipalColumnNames.First() != null &&
+                        !sourcePrincipalColumnNames.SequenceEqual(targetPrincipalColumnNames))
                     {
                         return false;
                     }
 
-                    if (ToReferentialAction(s.DeleteBehavior) != ToReferentialAction(t.DeleteBehavior))
+                    if (s.OnDeleteAction != t.OnDeleteAction)
                     {
                         return false;
                     }
 
                     return !HasDifferences
                     (
-                        this.MigrationsAnnotations.For(s),
-                        this.MigrationsAnnotations.For(t)
+                        this.MigrationsAnnotations.ForRemove(s),
+                        this.MigrationsAnnotations.ForRemove(t)
                     );
                 }
             );
@@ -163,53 +161,60 @@ namespace Remora.EntityFrameworkCore.Modular
             /// <summary>
             /// Gets the source model.
             /// </summary>
-            public IModel? Source { get; }
+            public IRelationalModel? Source { get; }
 
             /// <summary>
             /// Gets the target model.
             /// </summary>
-            public IModel? Target { get; }
+            public IRelationalModel? Target { get; }
 
             /// <summary>
             /// Initializes a new instance of the <see cref="SchemaAwareDiffContext"/> class.
             /// </summary>
             /// <param name="source">The source model.</param>
             /// <param name="target">The target model.</param>
-            public SchemaAwareDiffContext(IModel? source, IModel? target)
-                : base(source, target)
+            public SchemaAwareDiffContext(IRelationalModel? source, IRelationalModel? target)
             {
                 this.Source = source;
                 this.Target = target;
             }
 
             /// <inheritdoc/>
-            [NotNull, ItemNotNull]
-            public override IEnumerable<TableMapping> GetSourceTables()
+            public override T FindSource<T>(T target)
             {
-                if (this.Source is null)
+                if (target is not ITable targetTable)
                 {
-                    return new TableMapping[] { };
+                    return base.FindSource(target);
                 }
 
-                var schemaToInclude = this.Source.GetDefaultSchema();
-                var tables = base.GetSourceTables();
+                var schemaToInclude = this.Source?.Model.GetDefaultSchema();
+                var source = base.FindSource(targetTable);
+                if (source.Schema == schemaToInclude)
+                {
+                    return (T)source;
+                }
 
-                return tables.Where(x => x.Schema == schemaToInclude);
+                // This method can return null, and should do so when it doesn't find anything
+                return null!;
             }
 
             /// <inheritdoc/>
-            [NotNull, ItemNotNull]
-            public override IEnumerable<TableMapping> GetTargetTables()
+            public override T FindTarget<T>(T source)
             {
-                if (this.Target is null)
+                if (source is not ITable sourceTable)
                 {
-                    return new TableMapping[] { };
+                    return base.FindTarget(source);
                 }
 
-                var schemaToInclude = this.Target.GetDefaultSchema();
-                var tables = base.GetTargetTables();
+                var schemaToInclude = this.Target?.Model.GetDefaultSchema();
+                var target = base.FindTarget(sourceTable);
+                if (target.Schema == schemaToInclude)
+                {
+                    return (T)target;
+                }
 
-                return tables.Where(x => x.Schema == schemaToInclude);
+                // This method can return null, and should do so when it doesn't find anything
+                return null!;
             }
         }
     }
