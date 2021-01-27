@@ -20,8 +20,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-using System;
 using JetBrains.Annotations;
+
+#pragma warning disable SA1402
 
 namespace Remora.Results
 {
@@ -32,21 +33,41 @@ namespace Remora.Results
     public interface IResult
     {
         /// <summary>
-        /// Gets a human-readable reason for the error.
-        /// </summary>
-        [PublicAPI]
-        string ErrorReason { get; }
-
-        /// <summary>
-        /// Gets the exception that caused the error.
-        /// </summary>
-        [PublicAPI]
-        Exception? Exception { get; }
-
-        /// <summary>
         /// Gets a value indicating whether the result is a successful result.
         /// </summary>
-        [PublicAPI]
         bool IsSuccess { get; }
+
+        /// <summary>
+        /// Gets the inner result, if any.
+        /// </summary>
+        IResult? InnerResult { get; }
+    }
+
+    /// <summary>
+    /// Represents the public interface of a result with error information.
+    /// </summary>
+    /// <typeparam name="TResultError">The error data.</typeparam>
+    [PublicAPI]
+    public interface IResult<out TResultError> : IResult where TResultError : IResultError
+    {
+        /// <summary>
+        /// Gets the error data, if any.
+        /// </summary>
+        TResultError? Error { get; }
+    }
+
+    /// <summary>
+    /// Represents the public interface of a result with error information.
+    /// </summary>
+    /// <typeparam name="TResultError">The error data.</typeparam>
+    /// <typeparam name="TResultValue">The value provided by a successful result.</typeparam>
+    [PublicAPI]
+    public interface IResult<out TResultError, out TResultValue> : IResult<TResultError>
+        where TResultError : IResultError
+    {
+        /// <summary>
+        /// Gets the value provided by the successful result.
+        /// </summary>
+        TResultValue? Value { get; }
     }
 }
