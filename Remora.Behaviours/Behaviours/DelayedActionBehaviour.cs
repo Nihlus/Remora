@@ -61,7 +61,7 @@ namespace Remora.Behaviours
         }
 
         /// <inheritdoc />
-        protected override async Task<OperationResult> OnTickAsync(CancellationToken ct, IServiceProvider tickServices)
+        protected override async Task<Result> OnTickAsync(CancellationToken ct, IServiceProvider tickServices)
         {
             if (_delayedActions.RunningActions.TryDequeue(out var delayedAction))
             {
@@ -75,19 +75,19 @@ namespace Remora.Behaviours
                         var actionResult = await delayedAction.Action();
                         if (!actionResult.IsSuccess)
                         {
-                            return OperationResult.FromError(actionResult);
+                            return actionResult;
                         }
                     }
                     catch (TaskCanceledException tex)
                     {
                         this.Log.LogDebug("Cancellation requested in delayed action - terminating.");
-                        return OperationResult.FromError(tex);
+                        return tex;
                     }
                     catch (Exception e)
                     {
                         // Nom nom nom
                         this.Log.LogError(e, "Error in delayed action.");
-                        return OperationResult.FromError(e);
+                        return e;
                     }
                 }
                 else
@@ -104,10 +104,10 @@ namespace Remora.Behaviours
             catch (TaskCanceledException tex)
             {
                 this.Log.LogDebug("Cancellation requested in delayed action - terminating.");
-                return OperationResult.FromError(tex);
+                return tex;
             }
 
-            return OperationResult.FromSuccess();
+            return Result.FromSuccess();
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿//
-//  OperationResult.cs
+//
+//  ResultError.cs
 //
 //  Author:
 //       Jarl Gullberg <jarl.gullberg@gmail.com>
@@ -20,43 +20,23 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-using System;
-using JetBrains.Annotations;
-
 namespace Remora.Results
 {
     /// <summary>
-    /// Represents an attempt to perform a generic operation.
+    /// Acts as a base class for result errors.
     /// </summary>
-    [PublicAPI]
-    public sealed class OperationResult : ResultBase<OperationResult>
+    public abstract class ResultError : IResultError
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OperationResult"/> class.
-        /// </summary>
-        private OperationResult()
-        {
-        }
-
-        /// <inheritdoc cref="ResultBase{TResultType}(string,Exception)"/>
-        [UsedImplicitly]
-        private OperationResult
-        (
-            string? errorReason,
-            Exception? exception = null
-        )
-            : base(errorReason, exception)
-        {
-        }
+        /// <inheritdoc />
+        public string Message { get; }
 
         /// <summary>
-        /// Creates a new successful result.
+        /// Initializes a new instance of the <see cref="ResultError"/> class.
         /// </summary>
-        /// <returns>A successful result.</returns>
-        [PublicAPI, Pure]
-        public static OperationResult FromSuccess()
+        /// <param name="message">The human-readable error message.</param>
+        protected ResultError(string message)
         {
-            return new OperationResult();
+            this.Message = message;
         }
     }
 }

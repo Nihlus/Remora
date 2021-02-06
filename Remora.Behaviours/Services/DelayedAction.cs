@@ -39,14 +39,14 @@ namespace Remora.Behaviours.Services
         /// <summary>
         /// Gets the action that should take place.
         /// </summary>
-        public Func<Task<OperationResult>> Action { get; }
+        public Func<Task<Result>> Action { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DelayedAction"/> class.
         /// </summary>
         /// <param name="delay">The delay.</param>
         /// <param name="action">The action.</param>
-        public DelayedAction(TimeSpan delay, Func<Task<OperationResult>> action)
+        public DelayedAction(TimeSpan delay, Func<Task<Result>> action)
         {
             this.Delay = Task.Delay(delay);
             this.Action = action;

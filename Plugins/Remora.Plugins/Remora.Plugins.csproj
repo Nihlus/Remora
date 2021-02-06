@@ -12,7 +12,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Remora.Results.Abstractions\Remora.Results.Abstractions.csproj" />
+      <ProjectReference Include="..\..\Remora.Results\Remora.Results.csproj" />
       <ProjectReference Include="..\Remora.Plugins.Abstractions\Remora.Plugins.Abstractions.csproj" />
     </ItemGroup>
 

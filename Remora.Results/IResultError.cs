@@ -20,25 +20,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-using System;
-using JetBrains.Annotations;
-
 namespace Remora.Results
 {
     /// <summary>
-    /// Represents error data in a result.
+    /// Represents an error returned by a result.
     /// </summary>
-    [PublicAPI]
     public interface IResultError
     {
         /// <summary>
-        /// Gets a human-readable reason for the error.
+        /// Gets the human-readable error message.
         /// </summary>
-        string ErrorReason { get; }
-
-        /// <summary>
-        /// Gets the exception that caused the error.
-        /// </summary>
-        Exception? Exception { get; }
+        string Message { get; }
     }
 }

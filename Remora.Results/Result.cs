@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using System;
 using JetBrains.Annotations;
 
 #pragma warning disable SA1402
@@ -31,165 +32,125 @@ namespace Remora.Results
     public readonly struct Result : IResult
     {
         /// <inheritdoc />
-        public bool IsSuccess { get; }
+        public bool IsSuccess => this.Error is null && (this.Inner?.IsSuccess ?? true);
 
         /// <inheritdoc />
-        public IResult? InnerResult { get; }
+        public IResult? Inner { get; }
+
+        /// <inheritdoc />
+        public IResultError? Error { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Result"/> struct.
         /// </summary>
-        /// <param name="isSuccess">Whether the result was successful.</param>
-        /// <param name="innerResult">The inner result, if any.</param>
-        private Result(bool isSuccess, IResult? innerResult)
+        /// <param name="error">The error, if any.</param>
+        /// <param name="inner">The inner result, if any.</param>
+        private Result(IResultError? error, IResult? inner)
         {
-            this.IsSuccess = isSuccess;
-            this.InnerResult = innerResult;
+            this.Error = error;
+            this.Inner = inner;
         }
 
         /// <summary>
         /// Creates a new successful result.
         /// </summary>
         /// <returns>The successful result.</returns>
-        public static Result FromSuccess() => new (true, default);
+        public static Result FromSuccess() => new (default, default);
 
         /// <summary>
         /// Creates a new failed result.
         /// </summary>
-        /// <param name="innerResult">The inner result, if any.</param>
+        /// <param name="error">The error.</param>
+        /// <param name="inner">The inner error that caused this error, if any.</param>
         /// <returns>The failed result.</returns>
-        public static Result FromError(IResult? innerResult = default) => new (false, innerResult);
+        public static Result FromError(IResultError error, IResult? inner = default) => new (error, inner);
 
         /// <summary>
-        /// Converts a boolean value into a result.
+        /// Converts an error into a failed result.
         /// </summary>
-        /// <param name="isSuccess">Whether the result was successful.</param>
-        /// <returns>The result.</returns>
-        public static implicit operator Result(bool isSuccess)
+        /// <param name="error">The error.</param>
+        /// <returns>The failed result.</returns>
+        public static implicit operator Result(ResultError error)
         {
-            return new (isSuccess, default);
+            return new (error, default);
+        }
+
+        /// <summary>
+        /// Converts an exception into a failed result.
+        /// </summary>
+        /// <param name="exception">The exception.</param>
+        /// <returns>The failed result.</returns>
+        public static implicit operator Result(Exception exception)
+        {
+            return new (new ExceptionError(exception), default);
         }
     }
 
     /// <inheritdoc />
     [PublicAPI]
-    public readonly struct Result<TResultError> : IResult<TResultError> where TResultError : IResultError
+    public readonly struct Result<TEntity> : IResult
     {
-        /// <inheritdoc />
-        public bool IsSuccess { get; }
+        /// <summary>
+        /// Gets the entity returned by the result.
+        /// </summary>
+        public TEntity? Entity { get; }
 
-        /// <inheritdoc/>
-        public IResult? InnerResult { get; }
+        /// <inheritdoc />
+        public bool IsSuccess => this.Error is null && (this.Inner?.IsSuccess ?? true);
 
         /// <inheritdoc />
-        public TResultError? Error { get; }
+        public IResult? Inner { get; }
+
+        /// <inheritdoc />
+        public IResultError? Error { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Result{TResultError}"/> struct.
+        /// Initializes a new instance of the <see cref="Result{TEntity}"/> struct.
         /// </summary>
-        /// <param name="isSuccess">Whether the result was successful.</param>
-        /// <param name="error">The error information, if any.</param>
-        /// <param name="innerResult">The inner result, if any.</param>
-        private Result(bool isSuccess, TResultError? error, IResult? innerResult)
+        /// <param name="entity">The entity, if any.</param>
+        /// <param name="error">The error, if any.</param>
+        /// <param name="inner">The inner result, if any.</param>
+        private Result(TEntity? entity, IResultError? error, IResult? inner)
         {
-            this.IsSuccess = isSuccess;
             this.Error = error;
-            this.InnerResult = innerResult;
+            this.Inner = inner;
+            this.Entity = entity;
         }
 
         /// <summary>
         /// Creates a new successful result.
         /// </summary>
+        /// <param name="entity">The returned entity.</param>
         /// <returns>The successful result.</returns>
-        public static Result<TResultError> FromSuccess() => new (true, default, default);
+        public static Result<TEntity> FromSuccess(TEntity entity) => new (entity, default, default);
 
         /// <summary>
         /// Creates a new failed result.
         /// </summary>
-        /// <param name="error">The error information.</param>
-        /// <param name="innerResult">The inner result, if any.</param>
+        /// <param name="error">The error.</param>
+        /// <param name="inner">The inner error that caused this error, if any.</param>
         /// <returns>The failed result.</returns>
-        public static Result<TResultError> FromError(TResultError error, IResult? innerResult = default)
-            => new (false, error, innerResult);
+        public static Result<TEntity> FromError(IResultError error, IResult? inner = default)
+            => new (default, error, inner);
 
         /// <summary>
-        /// Converts an error instance to a failed result.
+        /// Converts an entity into a successful result.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>The successful result.</returns>
+        public static implicit operator Result<TEntity>(TEntity entity)
+        {
+            return new (entity, default, default);
+        }
+
+        /// <summary>
+        /// Converts an error into a failed result.
         /// </summary>
         /// <param name="error">The error.</param>
         /// <returns>The failed result.</returns>
-        public static implicit operator Result<TResultError>(TResultError error)
+        public static implicit operator Result<TEntity>(ResultError error)
         {
-            return FromError(error);
-        }
-    }
-
-    /// <inheritdoc />
-    [PublicAPI]
-    public readonly struct Result<TResultError, TResultValue> : IResult<TResultError, TResultValue>
-        where TResultError : IResultError
-    {
-        /// <inheritdoc />
-        public bool IsSuccess { get; }
-
-        /// <inheritdoc/>
-        public IResult? InnerResult { get; }
-
-        /// <inheritdoc />
-        public TResultError? Error { get; }
-
-        /// <inheritdoc />
-        public TResultValue? Value { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Result{TResultError, TResultValue}"/> struct.
-        /// </summary>
-        /// <param name="isSuccess">Whether the result was successful.</param>
-        /// <param name="error">The error information, if any.</param>
-        /// <param name="value">The produced value, if any.</param>
-        /// <param name="innerResult">The inner result, if any.</param>
-        private Result(bool isSuccess, TResultError? error, TResultValue? value, IResult? innerResult)
-        {
-            this.IsSuccess = isSuccess;
-            this.Error = error;
-            this.Value = value;
-            this.InnerResult = innerResult;
-        }
-
-        /// <summary>
-        /// Creates a new successful result.
-        /// </summary>
-        /// <param name="value">The produced value.</param>
-        /// <returns>The successful result.</returns>
-        public static Result<TResultError, TResultValue> FromSuccess(TResultValue value)
-            => new (true, default, value, default);
-
-        /// <summary>
-        /// Creates a new failed result.
-        /// </summary>
-        /// <param name="error">The error information.</param>
-        /// <param name="innerResult">The inner result, if any.</param>
-        /// <returns>The failed result.</returns>
-        public static Result<TResultError, TResultValue> FromError(TResultError error, IResult? innerResult = default)
-            => new (false, error, default, innerResult);
-
-        /// <summary>
-        /// Converts a value instance to a successful result.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>The successful result.</returns>
-        public static implicit operator Result<TResultError, TResultValue>(TResultValue value)
-        {
-            return FromSuccess(value);
-        }
-
-        /// <summary>
-        /// Converts an error instance to a failed result.
-        /// </summary>
-        /// <param name="error">The error.</param>
-        /// <returns>The failed result.</returns>
-        public static implicit operator Result<TResultError, TResultValue>(TResultError error)
-        {
-            return FromError(error);
+            return new (default, error, default);
         }
     }
 }

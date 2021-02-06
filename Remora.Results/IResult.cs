@@ -1,5 +1,5 @@
-﻿//
-//  DetermineConditionResult.cs
+//
+//  IResult.cs
 //
 //  Author:
 //       Jarl Gullberg <jarl.gullberg@gmail.com>
@@ -20,43 +20,26 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-using System;
-using JetBrains.Annotations;
-
 namespace Remora.Results
 {
     /// <summary>
-    /// Represents an attempt to perform an action.
+    /// Represents the public API of an interface.
     /// </summary>
-    [PublicAPI]
-    public sealed class DetermineConditionResult : ResultBase<DetermineConditionResult>
+    public interface IResult
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DetermineConditionResult"/> class.
+        /// Gets a value indicating whether the result was successful.
         /// </summary>
-        private DetermineConditionResult()
-        {
-        }
-
-        /// <inheritdoc cref="ResultBase{TResultType}(string,Exception)"/>
-        [UsedImplicitly]
-        private DetermineConditionResult
-        (
-            string? errorReason,
-            Exception? exception = null
-        )
-            : base(errorReason, exception)
-        {
-        }
+        bool IsSuccess { get; }
 
         /// <summary>
-        /// Creates a new successful result.
+        /// Gets the error, if any.
         /// </summary>
-        /// <returns>A successful result.</returns>
-        [PublicAPI, Pure]
-        public static DetermineConditionResult FromSuccess()
-        {
-            return new DetermineConditionResult();
-        }
+        IResultError? Error { get; }
+
+        /// <summary>
+        /// Gets the inner result, if any.
+        /// </summary>
+        IResult? Inner { get; }
     }
 }

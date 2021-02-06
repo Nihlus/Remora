@@ -29,7 +29,7 @@ using JetBrains.Annotations;
 using Remora.Plugins.Abstractions;
 using Remora.Plugins.Abstractions.Attributes;
 using Remora.Plugins.Extensions;
-using Remora.Plugins.Results;
+using Remora.Results;
 
 namespace Remora.Plugins.Services
 {
@@ -99,7 +99,7 @@ namespace Remora.Plugins.Services
                     continue;
                 }
 
-                var node = new PluginDependencyTreeNode(loadDescriptorResult.Plugin);
+                var node = new PluginDependencyTreeNode(loadDescriptorResult.Entity!);
 
                 var dependencies = pluginsWithDependencies[current].ToList();
                 if (!dependencies.Any())
@@ -169,21 +169,21 @@ namespace Remora.Plugins.Services
         /// <param name="assembly">The assembly.</param>
         /// <returns>The plugin descriptor.</returns>
         [Pure]
-        private LoadPluginResult LoadPluginDescriptor(Assembly assembly)
+        private Result<IPluginDescriptor> LoadPluginDescriptor(Assembly assembly)
         {
             var pluginAttribute = assembly.GetCustomAttribute<RemoraPlugin>();
             if (pluginAttribute is null)
             {
-                return LoadPluginResult.FromError("No plugin attribute found on the assembly.");
+                return new UserError("No plugin attribute found on the assembly.");
             }
 
             var descriptor = (IPluginDescriptor?)Activator.CreateInstance(pluginAttribute.PluginDescriptor);
             if (descriptor is null)
             {
-                return LoadPluginResult.FromError("Failed to create an instance of the plugin descriptor.");
+                return new UserError("Failed to create an instance of the plugin descriptor.");
             }
 
-            return LoadPluginResult.FromSuccess(descriptor);
+            return Result<IPluginDescriptor>.FromSuccess(descriptor);
         }
 
         /// <summary>

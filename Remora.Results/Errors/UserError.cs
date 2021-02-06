@@ -1,5 +1,5 @@
-﻿//
-//  DeleteEntityResult.cs
+//
+//  UserError.cs
 //
 //  Author:
 //       Jarl Gullberg <jarl.gullberg@gmail.com>
@@ -20,43 +20,27 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-using System;
-using JetBrains.Annotations;
-
 namespace Remora.Results
 {
     /// <summary>
-    /// Encapsulates the result of an attempt to delete an entity.
+    /// Represents a simple human-readable error message.
     /// </summary>
-    [PublicAPI]
-    public sealed class DeleteEntityResult : ResultBase<DeleteEntityResult>
+    public class UserError : ResultError
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DeleteEntityResult"/> class.
+        /// Initializes a new instance of the <see cref="UserError"/> class.
         /// </summary>
-        private DeleteEntityResult()
-        {
-        }
-
-        /// <inheritdoc cref="ResultBase{TResultType}(string,Exception)"/>
-        [UsedImplicitly]
-        private DeleteEntityResult
-        (
-            string? errorReason,
-            Exception? exception = null
-        )
-            : base(errorReason, exception)
+        /// <param name="message">The human-readable error message.</param>
+        public UserError(string message)
+            : base(message)
         {
         }
 
         /// <summary>
-        /// Creates a new successful result.
+        /// Creates a user error from a human-readable message.
         /// </summary>
-        /// <returns>A successful result.</returns>
-        [PublicAPI, Pure]
-        public static DeleteEntityResult FromSuccess()
-        {
-            return new DeleteEntityResult();
-        }
+        /// <param name="message">The human-readable error message.</param>
+        /// <returns>The error.</returns>
+        public static implicit operator UserError(string message) => new (message);
     }
 }

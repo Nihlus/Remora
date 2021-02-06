@@ -114,7 +114,7 @@ namespace Remora.Behaviours.Bases
         /// <param name="ct">The cancellation token for the behaviour.</param>
         /// <param name="tickServices">The services available during the tick.</param>
         /// <returns>An operation result which may or may not have succeeded.</returns>
-        protected abstract Task<OperationResult> OnTickAsync(CancellationToken ct, IServiceProvider tickServices);
+        protected abstract Task<Result> OnTickAsync(CancellationToken ct, IServiceProvider tickServices);
 
         /// <summary>
         /// Continuously runs <see cref="OnTickAsync"/> until the behaviour stops.
