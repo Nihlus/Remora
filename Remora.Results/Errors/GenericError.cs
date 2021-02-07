@@ -1,5 +1,5 @@
 //
-//  UserError.cs
+//  GenericError.cs
 //
 //  Author:
 //       Jarl Gullberg <jarl.gullberg@gmail.com>
@@ -23,24 +23,15 @@
 namespace Remora.Results
 {
     /// <summary>
-    /// Represents a simple human-readable error message.
+    /// Represents a simple generic human-readable error message.
     /// </summary>
-    public class UserError : ResultError
+    public sealed record GenericError(string Message) : ResultError(Message)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserError"/> class.
-        /// </summary>
-        /// <param name="message">The human-readable error message.</param>
-        public UserError(string message)
-            : base(message)
-        {
-        }
-
         /// <summary>
         /// Creates a user error from a human-readable message.
         /// </summary>
         /// <param name="message">The human-readable error message.</param>
         /// <returns>The error.</returns>
-        public static implicit operator UserError(string message) => new (message);
+        public static implicit operator GenericError(string message) => new(message);
     }
 }

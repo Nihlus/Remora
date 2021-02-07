@@ -174,13 +174,13 @@ namespace Remora.Plugins.Services
             var pluginAttribute = assembly.GetCustomAttribute<RemoraPlugin>();
             if (pluginAttribute is null)
             {
-                return new UserError("No plugin attribute found on the assembly.");
+                return new GenericError("No plugin attribute found on the assembly.");
             }
 
             var descriptor = (IPluginDescriptor?)Activator.CreateInstance(pluginAttribute.PluginDescriptor);
             if (descriptor is null)
             {
-                return new UserError("Failed to create an instance of the plugin descriptor.");
+                return new GenericError("Failed to create an instance of the plugin descriptor.");
             }
 
             return Result<IPluginDescriptor>.FromSuccess(descriptor);
