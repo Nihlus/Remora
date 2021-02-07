@@ -29,7 +29,7 @@ namespace Remora.Results
     /// Represents an error caused by an exception.
     /// </summary>
     [PublicAPI]
-    public sealed class ExceptionError : ResultError
+    public sealed record ExceptionError : ResultError
     {
         /// <summary>
         /// Gets the exception that caused the error.
@@ -62,6 +62,6 @@ namespace Remora.Results
         /// </summary>
         /// <param name="exception">The exception that caused the error.</param>
         /// <returns>The error.</returns>
-        public static implicit operator ExceptionError(Exception exception) => new (exception);
+        public static implicit operator ExceptionError(Exception exception) => new(exception);
     }
 }
