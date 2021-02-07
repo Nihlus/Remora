@@ -20,11 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using JetBrains.Annotations;
+
 namespace Remora.Results
 {
     /// <summary>
     /// Represents the public API of an interface.
     /// </summary>
+    [PublicAPI]
     public interface IResult
     {
         /// <summary>

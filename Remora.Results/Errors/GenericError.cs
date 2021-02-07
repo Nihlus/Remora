@@ -20,11 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using JetBrains.Annotations;
+
 namespace Remora.Results
 {
     /// <summary>
     /// Represents a simple generic human-readable error message.
     /// </summary>
+    [PublicAPI]
     public sealed record GenericError(string Message) : ResultError(Message)
     {
         /// <summary>

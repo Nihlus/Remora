@@ -20,11 +20,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using JetBrains.Annotations;
+
 namespace Remora.Results
 {
     /// <summary>
     /// Represents an error returned by a result.
     /// </summary>
+    [PublicAPI]
     public interface IResultError
     {
         /// <summary>
