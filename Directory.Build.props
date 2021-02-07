@@ -43,6 +43,8 @@
         <Nullable>enable</Nullable>
 
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+        <CodeAnalysisRuleSet>$(StyleCopRuleset)</CodeAnalysisRuleSet>
         <WarningsAsErrors>
             CS8600;
             CS8601;
