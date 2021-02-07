@@ -20,23 +20,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#pragma warning disable CS1591
+
 namespace Remora.Results
 {
     /// <summary>
     /// Acts as a base class for result errors.
     /// </summary>
-    public abstract class ResultError : IResultError
-    {
-        /// <inheritdoc />
-        public string Message { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ResultError"/> class.
-        /// </summary>
-        /// <param name="message">The human-readable error message.</param>
-        protected ResultError(string message)
-        {
-            this.Message = message;
-        }
-    }
+    public abstract record ResultError(string Message) : IResultError;
 }
