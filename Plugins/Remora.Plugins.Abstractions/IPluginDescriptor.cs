@@ -24,6 +24,7 @@ using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
+using Remora.Results;
 
 namespace Remora.Plugins.Abstractions
 {
@@ -63,6 +64,6 @@ namespace Remora.Plugins.Abstractions
         /// <param name="serviceProvider">The service provider.</param>
         /// <returns>true if the plugin could successfully initialize itself; otherwise, false.</returns>
         [PublicAPI]
-        Task<bool> InitializeAsync(IServiceProvider serviceProvider);
+        ValueTask<Result> InitializeAsync(IServiceProvider serviceProvider);
     }
 }

@@ -23,6 +23,7 @@
 using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Remora.Results;
 
 namespace Remora.Plugins.Abstractions
 {
@@ -37,7 +38,7 @@ namespace Remora.Plugins.Abstractions
         /// </summary>
         /// <param name="serviceProvider">The available services.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task<bool> MigratePluginAsync(IServiceProvider serviceProvider);
+        Task<Result> MigratePluginAsync(IServiceProvider serviceProvider);
 
         /// <summary>
         /// Determines whether the persistent store of the plugin has been created.

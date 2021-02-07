@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>2.1.4</Version>
+        <Version>3.0.0</Version>
         <Description>
             Abstract representations of a plugin system.
         </Description>
         <PackageReleaseNotes>
+            Use the new Remora.Results API.
             Update dependencies.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
@@ -13,6 +14,10 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Remora.Results\Remora.Results.csproj" />
     </ItemGroup>
 
 </Project>

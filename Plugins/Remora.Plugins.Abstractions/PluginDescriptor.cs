@@ -25,6 +25,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
+using Remora.Results;
 
 namespace Remora.Plugins.Abstractions
 {
@@ -54,9 +55,9 @@ namespace Remora.Plugins.Abstractions
 
         /// <inheritdoc />
         [PublicAPI]
-        public virtual Task<bool> InitializeAsync(IServiceProvider serviceProvider)
+        public virtual ValueTask<Result> InitializeAsync(IServiceProvider serviceProvider)
         {
-            return Task.FromResult(true);
+            return new(Result.FromSuccess());
         }
 
         /// <inheritdoc/>
