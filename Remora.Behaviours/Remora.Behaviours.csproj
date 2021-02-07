@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>5.0.4</Version>
+        <Version>6.0.0</Version>
         <Description>A behaviour-based activity package for any application.</Description>
         <PackageReleaseNotes>
+            Use the new Remora.Results API.
             Update dependencies.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);service;behaviour;async;await;tpl</PackageTags>
