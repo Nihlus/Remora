@@ -21,6 +21,7 @@
 //
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 
 #pragma warning disable SA1402
@@ -32,7 +33,7 @@ namespace Remora.Results
     public readonly struct Result : IResult
     {
         /// <inheritdoc />
-        public bool IsSuccess => this.Error is null && (this.Inner?.IsSuccess ?? true);
+        public bool IsSuccess => this.Error is null;
 
         /// <inheritdoc />
         public IResult? Inner { get; }
@@ -95,8 +96,14 @@ namespace Remora.Results
         /// </summary>
         public TEntity? Entity { get; }
 
+        // Technically, this is a lie, but since the nullability of the type is reliant on the actual generic type and
+        // its annotations, this warning can be disabled.
+        #pragma warning disable CS8775
         /// <inheritdoc />
-        public bool IsSuccess => this.Error is null && (this.Inner?.IsSuccess ?? true);
+        [MemberNotNullWhen(true, nameof(Entity))]
+        [MemberNotNullWhen(false, nameof(Error))]
+        public bool IsSuccess => this.Error is null;
+        #pragma warning restore CS8775
 
         /// <inheritdoc />
         public IResult? Inner { get; }

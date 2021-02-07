@@ -99,7 +99,7 @@ namespace Remora.Plugins.Services
                     continue;
                 }
 
-                var node = new PluginDependencyTreeNode(loadDescriptorResult.Entity!);
+                var node = new PluginDependencyTreeNode(loadDescriptorResult.Entity);
 
                 var dependencies = pluginsWithDependencies[current].ToList();
                 if (!dependencies.Any())

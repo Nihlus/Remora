@@ -22,7 +22,6 @@
 
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Remora.Behaviours.Extensions
 {
