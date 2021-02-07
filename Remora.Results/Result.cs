@@ -152,5 +152,15 @@ namespace Remora.Results
         {
             return new(default, error, default);
         }
+
+        /// <summary>
+        /// Converts an exception into a failed result.
+        /// </summary>
+        /// <param name="exception">The exception.</param>
+        /// <returns>The failed result.</returns>
+        public static implicit operator Result<TEntity>(Exception exception)
+        {
+            return new(default, new ExceptionError(exception), default);
+        }
     }
 }
