@@ -55,7 +55,7 @@ namespace Remora.Results
         /// Creates a new successful result.
         /// </summary>
         /// <returns>The successful result.</returns>
-        public static Result FromSuccess() => new (default, default);
+        public static Result FromSuccess() => new(default, default);
 
         /// <summary>
         /// Creates a new failed result.
@@ -63,7 +63,7 @@ namespace Remora.Results
         /// <param name="error">The error.</param>
         /// <param name="inner">The inner error that caused this error, if any.</param>
         /// <returns>The failed result.</returns>
-        public static Result FromError(IResultError error, IResult? inner = default) => new (error, inner);
+        public static Result FromError(IResultError error, IResult? inner = default) => new(error, inner);
 
         /// <summary>
         /// Converts an error into a failed result.
@@ -72,7 +72,7 @@ namespace Remora.Results
         /// <returns>The failed result.</returns>
         public static implicit operator Result(ResultError error)
         {
-            return new (error, default);
+            return new(error, default);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Remora.Results
         /// <returns>The failed result.</returns>
         public static implicit operator Result(Exception exception)
         {
-            return new (new ExceptionError(exception), default);
+            return new(new ExceptionError(exception), default);
         }
     }
 
@@ -122,7 +122,7 @@ namespace Remora.Results
         /// </summary>
         /// <param name="entity">The returned entity.</param>
         /// <returns>The successful result.</returns>
-        public static Result<TEntity> FromSuccess(TEntity entity) => new (entity, default, default);
+        public static Result<TEntity> FromSuccess(TEntity entity) => new(entity, default, default);
 
         /// <summary>
         /// Creates a new failed result.
@@ -131,7 +131,7 @@ namespace Remora.Results
         /// <param name="inner">The inner error that caused this error, if any.</param>
         /// <returns>The failed result.</returns>
         public static Result<TEntity> FromError(IResultError error, IResult? inner = default)
-            => new (default, error, inner);
+            => new(default, error, inner);
 
         /// <summary>
         /// Converts an entity into a successful result.
@@ -140,7 +140,7 @@ namespace Remora.Results
         /// <returns>The successful result.</returns>
         public static implicit operator Result<TEntity>(TEntity entity)
         {
-            return new (entity, default, default);
+            return new(entity, default, default);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Remora.Results
         /// <returns>The failed result.</returns>
         public static implicit operator Result<TEntity>(ResultError error)
         {
-            return new (default, error, default);
+            return new(default, error, default);
         }
     }
 }
