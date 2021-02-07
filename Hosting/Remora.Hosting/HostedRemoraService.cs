@@ -31,6 +31,7 @@ using Microsoft.Extensions.Logging;
 using Remora.Behaviours.Services;
 using Remora.Plugins.Abstractions;
 using Remora.Plugins.Services;
+using Remora.Results;
 
 namespace Remora.Hosting
 {
@@ -112,7 +113,8 @@ namespace Remora.Hosting
         /// <inheritdoc />
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            if (!await InitializePluginsAsync())
+            var initializePlugins = await InitializePluginsAsync();
+            if (!initializePlugins.IsSuccess)
             {
                 this.Log.LogError("Failed to initialize the available plugins.");
 
@@ -142,7 +144,7 @@ namespace Remora.Hosting
             await _behaviours.StopBehavioursAsync();
         }
 
-        private async Task<bool> InitializePluginsAsync()
+        private async Task<Result> InitializePluginsAsync()
         {
             var plugins = _pluginService.LoadAvailablePlugins().ToList();
 
@@ -159,7 +161,8 @@ namespace Remora.Hosting
                     continue;
                 }
 
-                if (await migratablePlugin.MigratePluginAsync(this.Services))
+                var migratePlugin = await migratablePlugin.MigratePluginAsync(this.Services);
+                if (migratePlugin.IsSuccess)
                 {
                     continue;
                 }
@@ -169,7 +172,7 @@ namespace Remora.Hosting
                     $"The plugin \"{plugin.Name}\" (v{plugin.Version}) failed to create its persistent store."
                 );
 
-                return false;
+                return migratePlugin;
             }
 
             // Then, run migrations in reverse
@@ -180,7 +183,8 @@ namespace Remora.Hosting
                     continue;
                 }
 
-                if (await migratablePlugin.MigratePluginAsync(this.Services))
+                var migratePlugin = await migratablePlugin.MigratePluginAsync(this.Services);
+                if (migratePlugin.IsSuccess)
                 {
                     continue;
                 }
@@ -190,12 +194,13 @@ namespace Remora.Hosting
                     $"The plugin \"{plugin.Name}\" (v{plugin.Version}) failed to migrate its database."
                 );
 
-                return false;
+                return migratePlugin;
             }
 
             foreach (var plugin in plugins)
             {
-                if (await plugin.InitializeAsync(this.Services))
+                var initializePlugin = await plugin.InitializeAsync(this.Services);
+                if (initializePlugin.IsSuccess)
                 {
                     continue;
                 }
@@ -205,10 +210,10 @@ namespace Remora.Hosting
                     $"The plugin \"{plugin.Name}\" (v{plugin.Version}) failed to initialize."
                 );
 
-                return false;
+                return initializePlugin;
             }
 
-            return true;
+            return Result.FromSuccess();
         }
     }
 }
