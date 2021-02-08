@@ -67,6 +67,23 @@ namespace Remora.Results
         public static Result FromError(IResultError error, IResult? inner = default) => new(error, inner);
 
         /// <summary>
+        /// Creates a new failed result from another result.
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type of the base result.</typeparam>
+        /// <param name="result">The error.</param>
+        /// <returns>The failed result.</returns>
+        public static Result FromError<TEntity>(Result<TEntity> result)
+            => new(new GenericError("An error occurred. See the inner result for details."), result);
+
+        /// <summary>
+        /// Creates a new failed result from another result.
+        /// </summary>
+        /// <param name="result">The error.</param>
+        /// <returns>The failed result.</returns>
+        public static Result FromError(Result result)
+            => new(new GenericError("An error occurred. See the inner result for details."), result);
+
+        /// <summary>
         /// Converts an error into a failed result.
         /// </summary>
         /// <param name="error">The error.</param>
@@ -139,6 +156,23 @@ namespace Remora.Results
         /// <returns>The failed result.</returns>
         public static Result<TEntity> FromError(IResultError error, IResult? inner = default)
             => new(default, error, inner);
+
+        /// <summary>
+        /// Creates a new failed result from another result.
+        /// </summary>
+        /// <typeparam name="TOtherEntity">The entity type of the base result.</typeparam>
+        /// <param name="result">The error.</param>
+        /// <returns>The failed result.</returns>
+        public static Result<TEntity> FromError<TOtherEntity>(Result<TOtherEntity> result)
+            => new(default, new GenericError("An error occurred. See the inner result for details."), result);
+
+        /// <summary>
+        /// Creates a new failed result from another result.
+        /// </summary>
+        /// <param name="result">The error.</param>
+        /// <returns>The failed result.</returns>
+        public static Result<TEntity> FromError(Result result)
+            => new(default, new GenericError("An error occurred. See the inner result for details."), result);
 
         /// <summary>
         /// Converts an entity into a successful result.
