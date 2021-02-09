@@ -56,12 +56,5 @@ namespace Remora.Results
         {
             this.Exception = exception;
         }
-
-        /// <summary>
-        /// Creates an exception error from an exception object.
-        /// </summary>
-        /// <param name="exception">The exception that caused the error.</param>
-        /// <returns>The error.</returns>
-        public static implicit operator ExceptionError(Exception exception) => new(exception);
     }
 }

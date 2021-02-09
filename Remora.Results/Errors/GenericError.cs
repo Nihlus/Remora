@@ -28,13 +28,5 @@ namespace Remora.Results
     /// Represents a simple generic human-readable error message.
     /// </summary>
     [PublicAPI]
-    public sealed record GenericError(string Message) : ResultError(Message)
-    {
-        /// <summary>
-        /// Creates a user error from a human-readable message.
-        /// </summary>
-        /// <param name="message">The human-readable error message.</param>
-        /// <returns>The error.</returns>
-        public static implicit operator GenericError(string message) => new(message);
-    }
+    public sealed record GenericError(string Message) : ResultError(Message);
 }
