@@ -39,6 +39,7 @@ namespace Remora.Results
         public IResult? Inner { get; }
 
         /// <inheritdoc />
+        [MemberNotNullWhen(false, nameof(Error))]
         public IResultError? Error { get; }
 
         /// <summary>

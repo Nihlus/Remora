@@ -1,14 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>2.1.0</Version>
+        <Version>2.1.1</Version>
         <Description>
             A basic implementation of a descriptive algebraic data type for C#.
         </Description>
         <PackageReleaseNotes>
-            This release is a major rewrite, utilizing new language features and taking a much more streamlined approach
-            to the result types. Instead of having reflection-based classes that are inherited, results are now readonly
-            structs that wrap distinct error types.
+            Add another nullability annotation.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);algebraic datatype;result;results</PackageTags>
     </PropertyGroup>
