@@ -33,13 +33,13 @@ namespace Remora.Results
     public readonly struct Result : IResult
     {
         /// <inheritdoc />
+        [MemberNotNullWhen(false, nameof(Error))]
         public bool IsSuccess => this.Error is null;
 
         /// <inheritdoc />
         public IResult? Inner { get; }
 
         /// <inheritdoc />
-        [MemberNotNullWhen(false, nameof(Error))]
         public IResultError? Error { get; }
 
         /// <summary>
