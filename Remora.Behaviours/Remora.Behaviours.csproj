@@ -13,9 +13,6 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Remora.Results\Remora.Results.csproj" />
+        <PackageReference Include="Remora.Results" Version="3.0.0" />
     </ItemGroup>
 </Project>
