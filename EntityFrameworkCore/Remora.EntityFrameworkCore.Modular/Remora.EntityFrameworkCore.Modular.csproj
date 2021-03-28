@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>3.0.0-alpha2</Version>
+        <Version>3.0.0</Version>
         <Description>
             An implementation of a modular approach to EF Core, allowing independent modules of an application to
             coexist in a single database with no crosstalk and intuitive dependencies.
         </Description>
         <PackageReleaseNotes>
-            Update dependencies.
+            Stable release.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
     </PropertyGroup>

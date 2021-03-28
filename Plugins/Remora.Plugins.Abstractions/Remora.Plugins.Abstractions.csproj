@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>3.0.1</Version>
+        <Version>3.1.0</Version>
         <Description>
             Abstract representations of a plugin system.
         </Description>
         <PackageReleaseNotes>
             Update dependencies.
+            Remove redundant attributes.
         </PackageReleaseNotes>
         <PackageTags>$(PackageTags);plugin;plugins;dynamic</PackageTags>
     </PropertyGroup>
