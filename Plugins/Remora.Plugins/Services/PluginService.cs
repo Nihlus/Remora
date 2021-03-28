@@ -28,6 +28,7 @@ using System.Reflection;
 using JetBrains.Annotations;
 using Remora.Plugins.Abstractions;
 using Remora.Plugins.Abstractions.Attributes;
+using Remora.Plugins.Errors;
 using Remora.Plugins.Extensions;
 using Remora.Results;
 
@@ -174,13 +175,23 @@ namespace Remora.Plugins.Services
             var pluginAttribute = assembly.GetCustomAttribute<RemoraPlugin>();
             if (pluginAttribute is null)
             {
-                return new GenericError("No plugin attribute found on the assembly.");
+                return new AssemblyIsNotPluginError();
             }
 
-            var descriptor = (IPluginDescriptor?)Activator.CreateInstance(pluginAttribute.PluginDescriptor);
-            if (descriptor is null)
+            IPluginDescriptor descriptor;
+            try
             {
-                return new GenericError("Failed to create an instance of the plugin descriptor.");
+                var createdDescriptor = (IPluginDescriptor?)Activator.CreateInstance(pluginAttribute.PluginDescriptor);
+                if (createdDescriptor is null)
+                {
+                    return new InvalidPluginError();
+                }
+
+                descriptor = createdDescriptor;
+            }
+            catch (Exception e)
+            {
+                return e;
             }
 
             return Result<IPluginDescriptor>.FromSuccess(descriptor);
