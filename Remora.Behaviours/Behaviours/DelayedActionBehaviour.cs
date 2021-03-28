@@ -79,13 +79,13 @@ namespace Remora.Behaviours
                     }
                     catch (TaskCanceledException tex)
                     {
-                        this.Log.LogDebug("Cancellation requested in delayed action - terminating.");
+                        this.Log.LogDebug("Cancellation requested in delayed action - terminating");
                         return tex;
                     }
                     catch (Exception e)
                     {
                         // Nom nom nom
-                        this.Log.LogError(e, "Error in delayed action.");
+                        this.Log.LogError(e, "Error in delayed action");
                         return e;
                     }
                 }
@@ -102,7 +102,7 @@ namespace Remora.Behaviours
             }
             catch (TaskCanceledException tex)
             {
-                this.Log.LogDebug("Cancellation requested in delayed action - terminating.");
+                this.Log.LogDebug("Cancellation requested in delayed action - terminating");
                 return tex;
             }
 

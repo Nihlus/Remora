@@ -162,13 +162,13 @@ namespace Remora.Behaviours.Bases
                 }
                 catch (TaskCanceledException)
                 {
-                    this.Log.LogDebug("Cancellation requested in continuous action - terminating.");
+                    this.Log.LogDebug("Cancellation requested in continuous action - terminating");
                     return;
                 }
                 catch (Exception e)
                 {
                     // Nom nom nom
-                    this.Log.LogError(e, "Error in behaviour tick.");
+                    this.Log.LogError(e, "Error in behaviour tick");
                 }
 
                 await Task.Delay(this.TickDelay, ct);
