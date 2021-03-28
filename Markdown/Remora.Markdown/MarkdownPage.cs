@@ -32,25 +32,21 @@ namespace Remora.Markdown
     [PublicAPI]
     public class MarkdownPage
     {
-        [NotNull, ItemNotNull]
         private readonly List<MarkdownSection> _sections = new List<MarkdownSection>();
 
         /// <summary>
         /// Gets or sets the name of the page.
         /// </summary>
-        [PublicAPI]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the title of the page.
         /// </summary>
-        [PublicAPI]
         public string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the page footer.
         /// </summary>
-        [PublicAPI]
         public string? Footer { get; set; }
 
         /// <summary>
@@ -58,7 +54,6 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="name">The name of the page.</param>
         /// <param name="title">The title of the page.</param>
-        [PublicAPI]
         public MarkdownPage(string name, string title)
         {
             this.Name = name;
@@ -70,7 +65,6 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="section">The section.</param>
         /// <returns>The page, with the section appended.</returns>
-        [PublicAPI]
         public MarkdownPage AppendSection(MarkdownSection section)
         {
             _sections.Add(section);

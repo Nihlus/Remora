@@ -33,20 +33,17 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets the contents of the text.
         /// </summary>
-        [PublicAPI]
         public string Content { get; }
 
         /// <summary>
         /// Gets or sets the type of emphasis placed on the text.
         /// </summary>
-        [PublicAPI]
         public EmphasisType Emphasis { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownText"/> class.
         /// </summary>
         /// <param name="text">The text.</param>
-        [PublicAPI]
         public MarkdownText(string text)
         {
             this.Content = text;

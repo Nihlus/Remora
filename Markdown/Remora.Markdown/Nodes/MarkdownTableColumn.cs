@@ -33,20 +33,17 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets or sets the title of the column.
         /// </summary>
-        [PublicAPI]
         public string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the alignment of the column.
         /// </summary>
-        [PublicAPI]
         public ColumnAlignment Alignment { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownTableColumn"/> class.
         /// </summary>
         /// <param name="title">The title.</param>
-        [PublicAPI]
         public MarkdownTableColumn(string title)
         {
             this.Title = title;

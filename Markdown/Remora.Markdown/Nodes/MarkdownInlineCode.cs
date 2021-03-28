@@ -33,14 +33,12 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets or sets the inlined content.
         /// </summary>
-        [PublicAPI]
         public IMarkdownNode Content { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownInlineCode"/> class.
         /// </summary>
         /// <param name="content">The text to inline.</param>
-        [PublicAPI]
         public MarkdownInlineCode(string content)
         {
             this.Content = new MarkdownText(content);

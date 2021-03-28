@@ -130,7 +130,7 @@ namespace Remora.Plugins.Services
         /// Loads the available plugins.
         /// </summary>
         /// <returns>The descriptors of the available plugins.</returns>
-        [PublicAPI, Pure, ItemNotNull]
+        [Pure]
         public IEnumerable<IPluginDescriptor> LoadAvailablePlugins()
         {
             var pluginAssemblies = LoadAvailablePluginAssemblies().ToList();

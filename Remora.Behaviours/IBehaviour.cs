@@ -34,7 +34,6 @@ namespace Remora.Behaviours
         /// <summary>
         /// Gets a value indicating whether the behaviour is currently running.
         /// </summary>
-        [PublicAPI]
         bool IsRunning { get; }
 
         /// <summary>
@@ -42,14 +41,12 @@ namespace Remora.Behaviours
         /// does nothing.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
         Task StartAsync();
 
         /// <summary>
         /// Stops the behaviour, ceasing its tasks. Calling this method when the behaviour is not running does nothing.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
         Task StopAsync();
     }
 }

@@ -35,21 +35,18 @@ namespace Remora.Plugins
     [PublicAPI]
     public sealed class PluginDependencyTree
     {
-        [NotNull, ItemNotNull]
         private readonly List<PluginDependencyTreeNode> _branches;
 
         /// <summary>
         /// Gets the root nodes of the identified plugin dependency branches. The root node is considered to be the
         /// application itself, which is implicitly initialized.
         /// </summary>
-        [NotNull, ItemNotNull]
         public IReadOnlyCollection<PluginDependencyTreeNode> Branches => _branches;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PluginDependencyTree"/> class.
         /// </summary>
         /// <param name="branches">The dependency branches.</param>
-        [PublicAPI]
         public PluginDependencyTree([ItemNotNull] List<PluginDependencyTreeNode>? branches = null)
         {
             _branches = branches ?? new List<PluginDependencyTreeNode>();
@@ -64,7 +61,6 @@ namespace Remora.Plugins
         /// <param name="postOperation">The operation to perform while walking up into the tree.</param>
         /// <typeparam name="TResult">The result type.</typeparam>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI, ItemNotNull]
         public async Task<IEnumerable<TResult>> WalkAsync<TResult>
         (
             Func<PluginDependencyTreeNode, Exception?, TResult> errorFactory,
@@ -82,7 +78,6 @@ namespace Remora.Plugins
             return results;
         }
 
-        [NotNull, ItemNotNull]
         private async Task<IEnumerable<TResult>> WalkNodeAsync<TResult>
         (
             PluginDependencyTreeNode node,

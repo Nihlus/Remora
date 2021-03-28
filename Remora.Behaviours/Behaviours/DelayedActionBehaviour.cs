@@ -48,7 +48,6 @@ namespace Remora.Behaviours
         /// <param name="services">The service scope in use.</param>
         /// <param name="logger">The logging instance for this type.</param>
         /// <param name="delayedActions">The do-later service.</param>
-        [PublicAPI]
         public DelayedActionBehaviour
         (
             IServiceProvider services,

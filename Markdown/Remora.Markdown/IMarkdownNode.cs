@@ -34,7 +34,7 @@ namespace Remora.Markdown
         /// Compiles the node into Markdown text.
         /// </summary>
         /// <returns>Markdown text.</returns>
-        [PublicAPI, Pure]
+        [Pure]
         string Compile();
     }
 }

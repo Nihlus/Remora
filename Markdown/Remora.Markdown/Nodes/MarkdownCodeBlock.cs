@@ -33,13 +33,11 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets the code content.
         /// </summary>
-        [PublicAPI]
         public IMarkdownNode Content { get; }
 
         /// <summary>
         /// Gets the syntax highlighting to use.
         /// </summary>
-        [PublicAPI]
         public string? Highlighting { get; }
 
         /// <summary>
@@ -47,7 +45,6 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="content">The contents of the block.</param>
         /// <param name="highlighting">The highlighting to use, if any.</param>
-        [PublicAPI]
         public MarkdownCodeBlock(IMarkdownNode content, string? highlighting = null)
         {
             this.Content = content;

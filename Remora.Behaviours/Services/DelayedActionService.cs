@@ -42,7 +42,6 @@ namespace Remora.Behaviours.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="DelayedActionService"/> class.
         /// </summary>
-        [PublicAPI]
         public DelayedActionService()
         {
             this.RunningActions = new ConcurrentQueue<DelayedAction>();
@@ -53,7 +52,6 @@ namespace Remora.Behaviours.Services
         /// </summary>
         /// <param name="action">The action to perform.</param>
         /// <param name="delay">The time to delay its execution.</param>
-        [PublicAPI]
         public void DelayUntil(Func<Task> action, TimeSpan delay)
         {
             async Task<Result> WrappedAction()
@@ -78,7 +76,6 @@ namespace Remora.Behaviours.Services
         /// </summary>
         /// <param name="action">The action to perform.</param>
         /// <param name="delay">The time to delay its execution.</param>
-        [PublicAPI]
         public void DelayUntil(Func<Task<Result>> action, TimeSpan delay)
         {
             this.RunningActions.Enqueue(new DelayedAction(delay, action));

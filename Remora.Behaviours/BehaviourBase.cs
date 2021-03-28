@@ -39,17 +39,14 @@ namespace Remora.Behaviours
         /// <summary>
         /// Gets the logging instance for this behaviour.
         /// </summary>
-        [PublicAPI]
         protected ILogger Log { get; }
 
         /// <summary>
         /// Gets the service provider available to this behaviour.
         /// </summary>
-        [PublicAPI]
         protected IServiceProvider Services { get; }
 
         /// <inheritdoc />
-        [PublicAPI]
         public bool IsRunning { get; private set; }
 
         /// <summary>
@@ -57,7 +54,6 @@ namespace Remora.Behaviours
         /// </summary>
         /// <param name="services">The service scope of the behaviour.</param>
         /// <param name="logger">The logging instance for this type.</param>
-        [PublicAPI]
         protected BehaviourBase(IServiceProvider services, ILogger<TBehaviour> logger)
         {
             this.Services = services;
@@ -68,7 +64,6 @@ namespace Remora.Behaviours
         /// Initializes a new instance of the <see cref="BehaviourBase{TBehaviour}"/> class.
         /// </summary>
         /// <param name="services">The service scope of the behaviour.</param>
-        [PublicAPI]
         protected BehaviourBase(IServiceProvider services)
         {
             this.Services = services;
@@ -76,7 +71,6 @@ namespace Remora.Behaviours
         }
 
         /// <inheritdoc/>
-        [PublicAPI]
         public async Task StartAsync()
         {
             if (this.IsRunning)
@@ -92,14 +86,12 @@ namespace Remora.Behaviours
         /// User-implementable logic that runs during behaviour startup.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
         protected virtual Task OnStartingAsync()
         {
             return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
-        [PublicAPI]
         public async Task StopAsync()
         {
             if (!this.IsRunning)
@@ -115,7 +107,6 @@ namespace Remora.Behaviours
         /// User-implementable logic that runs during behaviour shutdown.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
         protected virtual Task OnStoppingAsync()
         {
             return Task.CompletedTask;

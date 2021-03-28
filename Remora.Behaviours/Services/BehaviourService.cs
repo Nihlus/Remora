@@ -49,7 +49,6 @@ namespace Remora.Behaviours.Services
         /// Starts all registered behaviours.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
         public async Task StartBehavioursAsync()
         {
             var behaviours = _services.GetServices<IBehaviour>();
@@ -60,7 +59,6 @@ namespace Remora.Behaviours.Services
         /// Stops all registered behaviours.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [PublicAPI]
         public async Task StopBehavioursAsync()
         {
             var behaviours = _services.GetServices<IBehaviour>();

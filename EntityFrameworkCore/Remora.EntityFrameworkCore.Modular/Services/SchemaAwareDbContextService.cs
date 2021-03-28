@@ -36,7 +36,6 @@ namespace Remora.EntityFrameworkCore.Modular.Services
         /// Configures the options of a schema-aware database context.
         /// </summary>
         /// <param name="optionsBuilder">The options builder to configure.</param>
-        [PublicAPI]
         public void ConfigureSchemaAwareContext(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.ReplaceService<IMigrationsModelDiffer, SchemaAwareMigrationsModelDiffer>();

@@ -37,19 +37,16 @@ namespace Remora.Plugins.Abstractions
         /// <summary>
         /// Gets the name of the plugin. This name should be unique.
         /// </summary>
-        [PublicAPI]
         string Name { get; }
 
         /// <summary>
         /// Gets the description of the plugin.
         /// </summary>
-        [PublicAPI]
         string Description { get; }
 
         /// <summary>
         /// Gets the version of the plugin.
         /// </summary>
-        [PublicAPI]
         Version Version { get; }
 
         /// <summary>
@@ -63,7 +60,6 @@ namespace Remora.Plugins.Abstractions
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <returns>true if the plugin could successfully initialize itself; otherwise, false.</returns>
-        [PublicAPI]
         ValueTask<Result> InitializeAsync(IServiceProvider serviceProvider);
     }
 }

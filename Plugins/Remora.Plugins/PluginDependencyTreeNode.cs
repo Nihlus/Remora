@@ -33,7 +33,6 @@ namespace Remora.Plugins
     [PublicAPI]
     public sealed class PluginDependencyTreeNode
     {
-        [NotNull, ItemNotNull]
         private readonly List<PluginDependencyTreeNode> _dependants;
 
         /// <summary>
@@ -44,7 +43,6 @@ namespace Remora.Plugins
         /// <summary>
         /// Gets the nodes that depend on this plugin.
         /// </summary>
-        [NotNull, ItemNotNull]
         public IReadOnlyCollection<PluginDependencyTreeNode> Dependants => _dependants;
 
         /// <summary>
@@ -52,11 +50,10 @@ namespace Remora.Plugins
         /// </summary>
         /// <param name="plugin">The plugin.</param>
         /// <param name="dependants">The dependants.</param>
-        [PublicAPI]
         public PluginDependencyTreeNode
         (
             IPluginDescriptor plugin,
-            [ItemNotNull] List<PluginDependencyTreeNode>? dependants = null
+            List<PluginDependencyTreeNode>? dependants = null
         )
         {
             this.Plugin = plugin;
@@ -81,7 +78,6 @@ namespace Remora.Plugins
         /// Gets all the dependant plugins in this branch.
         /// </summary>
         /// <returns>The dependant plugins.</returns>
-        [PublicAPI, ItemNotNull]
         public IEnumerable<PluginDependencyTreeNode> GetAllDependants()
         {
             foreach (var dependant in this.Dependants)

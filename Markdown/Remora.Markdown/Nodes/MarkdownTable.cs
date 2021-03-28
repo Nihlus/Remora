@@ -35,13 +35,11 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets the list of rows in the table.
         /// </summary>
-        [PublicAPI, ItemNotNull]
         public List<MarkdownTableRow> Rows { get; } = new List<MarkdownTableRow>();
 
         /// <summary>
         /// Gets the list of columns in the table.
         /// </summary>
-        [PublicAPI, ItemNotNull]
         public List<MarkdownTableColumn> Columns { get; } = new List<MarkdownTableColumn>();
 
         /// <summary>
@@ -49,7 +47,6 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="column">The column.</param>
         /// <returns>The table, with the column appended.</returns>
-        [PublicAPI]
         public MarkdownTable AppendColumn(MarkdownTableColumn column)
         {
             this.Columns.Add(column);
@@ -61,7 +58,6 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="row">The row.</param>
         /// <returns>The table, with the row appended.</returns>
-        [PublicAPI]
         public MarkdownTable AppendRow(MarkdownTableRow row)
         {
             this.Rows.Add(row);

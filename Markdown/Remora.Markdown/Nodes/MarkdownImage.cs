@@ -35,7 +35,6 @@ namespace Remora.Markdown
         /// </summary>
         /// <param name="destination">The destination.</param>
         /// <param name="text">The visible text.</param>
-        [PublicAPI]
         public MarkdownImage(string destination, string text)
             : base(destination, text)
         {

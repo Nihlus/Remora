@@ -34,14 +34,12 @@ namespace Remora.Markdown
         /// <summary>
         /// Gets the quoted content.
         /// </summary>
-        [PublicAPI]
         public IMarkdownNode Content { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownBlockQuote"/> class.
         /// </summary>
         /// <param name="content">The contents.</param>
-        [PublicAPI]
         public MarkdownBlockQuote(IMarkdownNode content)
         {
             this.Content = content;
