@@ -51,4 +51,4 @@ Get it on [NuGet][1].
 
 
 [1]: https://www.nuget.org/packages/Remora.EntityFrameworkCore.Modular/
-[2]: https://gullberg.tk/blog/modularizing-your-database-with-ef-core/
+[2]: https://algiz.nu/blog/modularizing-your-database-with-ef-core/
