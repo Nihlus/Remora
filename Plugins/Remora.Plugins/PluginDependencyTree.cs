@@ -47,7 +47,7 @@ namespace Remora.Plugins
         /// Initializes a new instance of the <see cref="PluginDependencyTree"/> class.
         /// </summary>
         /// <param name="branches">The dependency branches.</param>
-        public PluginDependencyTree([ItemNotNull] List<PluginDependencyTreeNode>? branches = null)
+        public PluginDependencyTree(List<PluginDependencyTreeNode>? branches = null)
         {
             _branches = branches ?? new List<PluginDependencyTreeNode>();
         }

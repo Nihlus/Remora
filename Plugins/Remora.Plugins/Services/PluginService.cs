@@ -211,7 +211,9 @@ namespace Remora.Plugins.Services
                 yield break;
             }
 
-            var installationDirectory = Directory.GetParent(entryAssemblyPath);
+            var installationDirectory = Directory.GetParent(entryAssemblyPath)
+                                        ?? throw new InvalidOperationException();
+
             var assemblies = Directory.EnumerateFiles
             (
                 installationDirectory.FullName,
