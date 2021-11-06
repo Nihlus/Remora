@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>3.0.1</Version>
+        <Version>3.0.2</Version>
         <Description>
             An implementation of a modular approach to EF Core, allowing independent modules of an application to
             coexist in a single database with no crosstalk and intuitive dependencies.
@@ -22,4 +22,3 @@
     </ItemGroup>
 
 </Project>
-

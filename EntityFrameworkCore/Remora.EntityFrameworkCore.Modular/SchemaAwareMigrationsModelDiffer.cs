@@ -189,6 +189,11 @@ namespace Remora.EntityFrameworkCore.Modular
 
                 var schemaToInclude = this.Source?.Model.GetDefaultSchema();
                 var source = base.FindSource(targetTable);
+                if (source is null)
+                {
+                    return null!;
+                }
+
                 if (source.Schema == schemaToInclude)
                 {
                     return (T)source;
@@ -208,6 +213,11 @@ namespace Remora.EntityFrameworkCore.Modular
 
                 var schemaToInclude = this.Target?.Model.GetDefaultSchema();
                 var target = base.FindTarget(sourceTable);
+                if (target is null)
+                {
+                    return null!;
+                }
+
                 if (target.Schema == schemaToInclude)
                 {
                     return (T)target;
