@@ -27,38 +27,37 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Remora.Results;
 
-namespace Remora.Plugins.Abstractions
+namespace Remora.Plugins.Abstractions;
+
+/// <summary>
+/// Acts as a base class for plugin descriptors.
+/// </summary>
+[PublicAPI]
+public abstract class PluginDescriptor : IPluginDescriptor
 {
-    /// <summary>
-    /// Acts as a base class for plugin descriptors.
-    /// </summary>
-    [PublicAPI]
-    public abstract class PluginDescriptor : IPluginDescriptor
+    /// <inheritdoc />
+    public abstract string Name { get; }
+
+    /// <inheritdoc />
+    public abstract string Description { get; }
+
+    /// <inheritdoc />
+    public virtual Version Version => Assembly.GetAssembly(GetType())?.GetName().Version ?? new Version(1, 0, 0);
+
+    /// <inheritdoc />
+    public virtual void ConfigureServices(IServiceCollection serviceCollection)
     {
-        /// <inheritdoc />
-        public abstract string Name { get; }
+    }
 
-        /// <inheritdoc />
-        public abstract string Description { get; }
+    /// <inheritdoc />
+    public virtual ValueTask<Result> InitializeAsync(IServiceProvider serviceProvider)
+    {
+        return new(Result.FromSuccess());
+    }
 
-        /// <inheritdoc />
-        public virtual Version Version => Assembly.GetAssembly(GetType())?.GetName().Version ?? new Version(1, 0, 0);
-
-        /// <inheritdoc />
-        public virtual void ConfigureServices(IServiceCollection serviceCollection)
-        {
-        }
-
-        /// <inheritdoc />
-        public virtual ValueTask<Result> InitializeAsync(IServiceProvider serviceProvider)
-        {
-            return new(Result.FromSuccess());
-        }
-
-        /// <inheritdoc/>
-        public sealed override string ToString()
-        {
-            return this.Name;
-        }
+    /// <inheritdoc/>
+    public sealed override string ToString()
+    {
+        return this.Name;
     }
 }

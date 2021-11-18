@@ -26,40 +26,39 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Remora.Results;
 
-namespace Remora.Plugins.Abstractions
+namespace Remora.Plugins.Abstractions;
+
+/// <summary>
+/// Represents the public API for a plugin.
+/// </summary>
+[PublicAPI]
+public interface IPluginDescriptor
 {
     /// <summary>
-    /// Represents the public API for a plugin.
+    /// Gets the name of the plugin. This name should be unique.
     /// </summary>
-    [PublicAPI]
-    public interface IPluginDescriptor
-    {
-        /// <summary>
-        /// Gets the name of the plugin. This name should be unique.
-        /// </summary>
-        string Name { get; }
+    string Name { get; }
 
-        /// <summary>
-        /// Gets the description of the plugin.
-        /// </summary>
-        string Description { get; }
+    /// <summary>
+    /// Gets the description of the plugin.
+    /// </summary>
+    string Description { get; }
 
-        /// <summary>
-        /// Gets the version of the plugin.
-        /// </summary>
-        Version Version { get; }
+    /// <summary>
+    /// Gets the version of the plugin.
+    /// </summary>
+    Version Version { get; }
 
-        /// <summary>
-        /// Configures services provided by the plugin in the application's service collection.
-        /// </summary>
-        /// <param name="serviceCollection">The service collection.</param>
-        void ConfigureServices(IServiceCollection serviceCollection);
+    /// <summary>
+    /// Configures services provided by the plugin in the application's service collection.
+    /// </summary>
+    /// <param name="serviceCollection">The service collection.</param>
+    void ConfigureServices(IServiceCollection serviceCollection);
 
-        /// <summary>
-        /// Performs any post-registration initialization required by the plugin.
-        /// </summary>
-        /// <param name="serviceProvider">The service provider.</param>
-        /// <returns>true if the plugin could successfully initialize itself; otherwise, false.</returns>
-        ValueTask<Result> InitializeAsync(IServiceProvider serviceProvider);
-    }
+    /// <summary>
+    /// Performs any post-registration initialization required by the plugin.
+    /// </summary>
+    /// <param name="serviceProvider">The service provider.</param>
+    /// <returns>true if the plugin could successfully initialize itself; otherwise, false.</returns>
+    ValueTask<Result> InitializeAsync(IServiceProvider serviceProvider);
 }

@@ -22,10 +22,9 @@
 
 using Remora.Results;
 
-namespace Remora.Plugins.Errors
-{
-    /// <summary>
-    /// Produced when an assembly is used as a plugin, and is marked as a plugin, but is invalid in some way.
-    /// </summary>
-    public record InvalidPluginError() : ResultError("The given assembly was not a plugin.");
-}
+namespace Remora.Plugins.Errors;
+
+/// <summary>
+/// Produced when an assembly is used as a plugin, and is marked as a plugin, but is invalid in some way.
+/// </summary>
+public record InvalidPluginError() : ResultError("The given assembly was not a plugin.");

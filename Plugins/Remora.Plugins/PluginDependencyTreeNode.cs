@@ -25,76 +25,75 @@ using System.Linq;
 using JetBrains.Annotations;
 using Remora.Plugins.Abstractions;
 
-namespace Remora.Plugins
+namespace Remora.Plugins;
+
+/// <summary>
+/// Represents a node in a dependency tree.
+/// </summary>
+[PublicAPI]
+public sealed class PluginDependencyTreeNode
 {
+    private readonly List<PluginDependencyTreeNode> _dependents;
+
     /// <summary>
-    /// Represents a node in a dependency tree.
+    /// Gets the plugin.
     /// </summary>
-    [PublicAPI]
-    public sealed class PluginDependencyTreeNode
+    public IPluginDescriptor Plugin { get; }
+
+    /// <summary>
+    /// Gets the nodes that depend on this plugin.
+    /// </summary>
+    public IReadOnlyCollection<PluginDependencyTreeNode> Dependents => _dependents;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PluginDependencyTreeNode"/> class.
+    /// </summary>
+    /// <param name="plugin">The plugin.</param>
+    /// <param name="dependants">The dependants.</param>
+    public PluginDependencyTreeNode
+    (
+        IPluginDescriptor plugin,
+        List<PluginDependencyTreeNode>? dependants = null
+    )
     {
-        private readonly List<PluginDependencyTreeNode> _dependents;
+        this.Plugin = plugin;
+        _dependents = dependants ?? new List<PluginDependencyTreeNode>();
+    }
 
-        /// <summary>
-        /// Gets the plugin.
-        /// </summary>
-        public IPluginDescriptor Plugin { get; }
-
-        /// <summary>
-        /// Gets the nodes that depend on this plugin.
-        /// </summary>
-        public IReadOnlyCollection<PluginDependencyTreeNode> Dependents => _dependents;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PluginDependencyTreeNode"/> class.
-        /// </summary>
-        /// <param name="plugin">The plugin.</param>
-        /// <param name="dependants">The dependants.</param>
-        public PluginDependencyTreeNode
-        (
-            IPluginDescriptor plugin,
-            List<PluginDependencyTreeNode>? dependants = null
-        )
+    /// <summary>
+    /// Adds a dependant to this node.
+    /// </summary>
+    /// <param name="node">The node.</param>
+    internal void AddDependent(PluginDependencyTreeNode node)
+    {
+        if (_dependents.Contains(node))
         {
-            this.Plugin = plugin;
-            _dependents = dependants ?? new List<PluginDependencyTreeNode>();
+            return;
         }
 
-        /// <summary>
-        /// Adds a dependant to this node.
-        /// </summary>
-        /// <param name="node">The node.</param>
-        internal void AddDependent(PluginDependencyTreeNode node)
+        _dependents.Add(node);
+    }
+
+    /// <summary>
+    /// Gets all the dependant plugins in this branch.
+    /// </summary>
+    /// <returns>The dependant plugins.</returns>
+    public IEnumerable<PluginDependencyTreeNode> GetAllDependents()
+    {
+        foreach (var dependant in this.Dependents)
         {
-            if (_dependents.Contains(node))
+            yield return dependant;
+
+            foreach (var sub in dependant.GetAllDependents())
             {
-                return;
-            }
-
-            _dependents.Add(node);
-        }
-
-        /// <summary>
-        /// Gets all the dependant plugins in this branch.
-        /// </summary>
-        /// <returns>The dependant plugins.</returns>
-        public IEnumerable<PluginDependencyTreeNode> GetAllDependents()
-        {
-            foreach (var dependant in this.Dependents)
-            {
-                yield return dependant;
-
-                foreach (var sub in dependant.GetAllDependents())
-                {
-                    yield return sub;
-                }
+                yield return sub;
             }
         }
+    }
 
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return $"{this.Plugin} => ({string.Join(", ", _dependents.Select(d => d.Plugin))})";
-        }
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return $"{this.Plugin} => ({string.Join(", ", _dependents.Select(d => d.Plugin))})";
     }
 }

@@ -24,46 +24,45 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Remora.Plugins.Extensions
+namespace Remora.Plugins.Extensions;
+
+/// <summary>
+/// Contains LINQ-style enumerable extensions.
+/// </summary>
+internal static class EnumerableExtensions
 {
     /// <summary>
-    /// Contains LINQ-style enumerable extensions.
+    /// Performs a topological sort of the input, given an expression that produces a set of connected nodes.
     /// </summary>
-    internal static class EnumerableExtensions
+    /// <param name="nodes">The input.</param>
+    /// <param name="connected">The expression.</param>
+    /// <typeparam name="T">The node type.</typeparam>
+    /// <returns>The input nodes, sorted.</returns>
+    /// <exception cref="ArgumentException">Thrown if a cyclic dependency is found.</exception>
+    public static IEnumerable<T> TopologicalSort<T>
+    (
+        this IEnumerable<T> nodes,
+        Func<T, IEnumerable<T>> connected
+    ) where T : notnull
     {
-        /// <summary>
-        /// Performs a topological sort of the input, given an expression that produces a set of connected nodes.
-        /// </summary>
-        /// <param name="nodes">The input.</param>
-        /// <param name="connected">The expression.</param>
-        /// <typeparam name="T">The node type.</typeparam>
-        /// <returns>The input nodes, sorted.</returns>
-        /// <exception cref="ArgumentException">Thrown if a cyclic dependency is found.</exception>
-        public static IEnumerable<T> TopologicalSort<T>
-        (
-            this IEnumerable<T> nodes,
-            Func<T, IEnumerable<T>> connected
-        ) where T : notnull
+        var elems = nodes.ToDictionary(node => node, node => new HashSet<T>(connected(node)));
+        while (elems.Count > 0)
         {
-            var elems = nodes.ToDictionary(node => node, node => new HashSet<T>(connected(node)));
-            while (elems.Count > 0)
+            var (key, _) = elems.FirstOrDefault(x => x.Value.Count == 0);
+
+            if (key == null)
             {
-                var (key, _) = elems.FirstOrDefault(x => x.Value.Count == 0);
-
-                if (key == null)
-                {
-                    throw new ArgumentException("Cyclic connections are not allowed");
-                }
-
-                elems.Remove(key);
-
-                foreach (var selem in elems)
-                {
-                    selem.Value.Remove(key);
-                }
-
-                yield return key;
+                throw new ArgumentException("Cyclic connections are not allowed");
             }
+
+            elems.Remove(key);
+
+            foreach (var selem in elems)
+            {
+                selem.Value.Remove(key);
+            }
+
+            yield return key;
         }
     }
 }
