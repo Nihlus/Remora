@@ -20,6 +20,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+using JetBrains.Annotations;
 using Remora.Results;
 
 namespace Remora.Plugins.Errors;
@@ -27,4 +28,5 @@ namespace Remora.Plugins.Errors;
 /// <summary>
 /// Produced when an assembly is used as a plugin, and is marked as a plugin, but is invalid in some way.
 /// </summary>
-public record InvalidPluginError() : ResultError("The given assembly was not a plugin.");
+[PublicAPI]
+public record InvalidPluginError() : ResultError("The given assembly was not a valid plugin.");
