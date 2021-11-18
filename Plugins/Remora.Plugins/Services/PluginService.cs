@@ -117,7 +117,7 @@ namespace Remora.Plugins.Services
                     }
 
                     var dependencyNode = nodes[dependency];
-                    dependencyNode.AddDependant(node);
+                    dependencyNode.AddDependent(node);
                 }
 
                 nodes.Add(current, node);

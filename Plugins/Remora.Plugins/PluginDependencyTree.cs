@@ -53,89 +53,49 @@ namespace Remora.Plugins
         }
 
         /// <summary>
-        /// Walks the plugin tree, performing the given operation on each node. If the operation fails, the walk
-        /// terminates at that point.
+        /// Asynchronously walks the plugin tree, performing the given operations on each node. If the operation fails,
+        /// the walk terminates at that point.
         /// </summary>
-        /// <param name="errorFactory">A factory method to create an error result.</param>
+        /// <param name="errorFactory">
+        /// A factory function to create an error when the operation fails on the parent node.
+        /// </param>
         /// <param name="preOperation">The operation to perform while walking down into the tree.</param>
         /// <param name="postOperation">The operation to perform while walking up into the tree.</param>
-        /// <typeparam name="TResult">The result type.</typeparam>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task<IEnumerable<TResult>> WalkAsync<TResult>
+        public async IAsyncEnumerable<Result> WalkAsync
         (
-            Func<PluginDependencyTreeNode, Exception?, TResult> errorFactory,
-            Func<PluginDependencyTreeNode, Task<TResult>> preOperation,
-            Func<PluginDependencyTreeNode, Task<TResult>>? postOperation = null
+            Func<PluginDependencyTreeNode, Result> errorFactory,
+            Func<PluginDependencyTreeNode, Task<Result>> preOperation,
+            Func<PluginDependencyTreeNode, Task<Result>>? postOperation = null
         )
-            where TResult : IResult
         {
-            var results = new List<TResult>();
             foreach (var branch in _branches)
             {
-                results.AddRange(await WalkNodeAsync(branch, errorFactory, preOperation, postOperation));
+                await foreach (var nodeResult in WalkNodeAsync(branch, errorFactory, preOperation, postOperation))
+                {
+                    yield return nodeResult;
+                }
             }
-
-            return results;
         }
 
-        private async Task<IEnumerable<TResult>> WalkNodeAsync<TResult>
+        /// <summary>
+        /// Walks the plugin tree, performing the given operations on each node. If the operation fails, the walk
+        /// terminates at that point.
+        /// </summary>
+        /// <param name="errorFactory">
+        /// A factory function to create an error when the operation fails on the parent node.
+        /// </param>
+        /// <param name="preOperation">The operation to perform while walking down into the tree.</param>
+        /// <param name="postOperation">The operation to perform while walking up into the tree.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public IEnumerable<Result> Walk
         (
-            PluginDependencyTreeNode node,
-            Func<PluginDependencyTreeNode, Exception?, TResult> errorFactory,
-            Func<PluginDependencyTreeNode, Task<TResult>> preOperation,
-            Func<PluginDependencyTreeNode, Task<TResult>>? postOperation = null
+            Func<PluginDependencyTreeNode, Result> errorFactory,
+            Func<PluginDependencyTreeNode, Result> preOperation,
+            Func<PluginDependencyTreeNode, Result>? postOperation = null
         )
-            where TResult : IResult
         {
-            var results = new List<TResult>();
-
-            try
-            {
-                var result = await preOperation(node);
-                results.Add(result);
-
-                if (!result.IsSuccess)
-                {
-                    results.AddRange(node.GetAllDependants().Select(d => errorFactory(d, null)));
-                    return results;
-                }
-            }
-            catch (Exception e)
-            {
-                results.Add(errorFactory(node, e));
-                results.AddRange(node.GetAllDependants().Select(d => errorFactory(d, null)));
-                return results;
-            }
-
-            foreach (var dependant in node.Dependants)
-            {
-                results.AddRange(await WalkNodeAsync(dependant, errorFactory, preOperation, postOperation));
-            }
-
-            if (postOperation is null)
-            {
-                return results;
-            }
-
-            try
-            {
-                var result = await postOperation(node);
-                results.Add(result);
-
-                if (!result.IsSuccess)
-                {
-                    results.AddRange(node.GetAllDependants().Select(d => errorFactory(d, null)));
-                    return results;
-                }
-            }
-            catch (Exception e)
-            {
-                results.Add(errorFactory(node, e));
-                results.AddRange(node.GetAllDependants().Select(d => errorFactory(d, null)));
-                return results;
-            }
-
-            return results;
+            return _branches.SelectMany(branch => WalkNode(branch, errorFactory, preOperation, postOperation));
         }
 
         /// <summary>
@@ -150,6 +110,150 @@ namespace Remora.Plugins
             }
 
             _branches.Add(branch);
+        }
+
+        private async IAsyncEnumerable<Result> WalkNodeAsync
+        (
+            PluginDependencyTreeNode node,
+            Func<PluginDependencyTreeNode, Result> errorFactory,
+            Func<PluginDependencyTreeNode, Task<Result>> preOperation,
+            Func<PluginDependencyTreeNode, Task<Result>>? postOperation = null
+        )
+        {
+            var shouldTerminate = false;
+
+            await foreach (var p in PerformNodeOperationAsync(node, errorFactory, preOperation))
+            {
+                yield return p;
+                if (!p.IsSuccess)
+                {
+                    shouldTerminate = true;
+                }
+            }
+
+            foreach (var dependent in node.Dependents)
+            {
+                await foreach (var result in WalkNodeAsync(dependent, errorFactory, preOperation, postOperation))
+                {
+                    if (!result.IsSuccess)
+                    {
+                        shouldTerminate = true;
+                    }
+
+                    yield return result;
+                }
+            }
+
+            if (postOperation is null || shouldTerminate)
+            {
+                yield break;
+            }
+
+            await foreach (var p in PerformNodeOperationAsync(node, errorFactory, postOperation))
+            {
+                yield return p;
+            }
+        }
+
+        private IEnumerable<Result> WalkNode
+        (
+            PluginDependencyTreeNode node,
+            Func<PluginDependencyTreeNode, Result> errorFactory,
+            Func<PluginDependencyTreeNode, Result> preOperation,
+            Func<PluginDependencyTreeNode, Result>? postOperation = null
+        )
+        {
+            var shouldTerminate = false;
+
+            foreach (var p in PerformNodeOperation(node, errorFactory, preOperation))
+            {
+                yield return p;
+                if (!p.IsSuccess)
+                {
+                    shouldTerminate = true;
+                }
+            }
+
+            foreach (var dependent in node.Dependents)
+            {
+                foreach (var result in WalkNode(dependent, errorFactory, preOperation, postOperation))
+                {
+                    if (!result.IsSuccess)
+                    {
+                        shouldTerminate = true;
+                    }
+
+                    yield return result;
+                }
+            }
+
+            if (postOperation is null || shouldTerminate)
+            {
+                yield break;
+            }
+
+            foreach (var p in PerformNodeOperation(node, errorFactory, postOperation))
+            {
+                yield return p;
+            }
+        }
+
+        private static async IAsyncEnumerable<Result> PerformNodeOperationAsync
+        (
+            PluginDependencyTreeNode node,
+            Func<PluginDependencyTreeNode, Result> errorFactory,
+            Func<PluginDependencyTreeNode, Task<Result>> operation
+        )
+        {
+            Result operationResult;
+            try
+            {
+                operationResult = await operation(node);
+            }
+            catch (Exception e)
+            {
+                operationResult = e;
+            }
+
+            yield return operationResult;
+            if (operationResult.IsSuccess)
+            {
+                yield break;
+            }
+
+            foreach (var dependent in node.GetAllDependents())
+            {
+                yield return errorFactory(dependent);
+            }
+        }
+
+        private static IEnumerable<Result> PerformNodeOperation
+        (
+            PluginDependencyTreeNode node,
+            Func<PluginDependencyTreeNode, Result> errorFactory,
+            Func<PluginDependencyTreeNode, Result> operation
+        )
+        {
+            Result operationResult;
+            try
+            {
+                operationResult = operation(node);
+            }
+            catch (Exception e)
+            {
+                operationResult = e;
+            }
+
+            yield return operationResult;
+            if (operationResult.IsSuccess)
+            {
+                yield break;
+            }
+
+            foreach (var dependent in node.GetAllDependents())
+            {
+                yield return errorFactory(dependent);
+            }
         }
     }
 }

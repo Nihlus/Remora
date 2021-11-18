@@ -43,7 +43,7 @@ namespace Remora.Plugins.Extensions
         (
             this IEnumerable<T> nodes,
             Func<T, IEnumerable<T>> connected
-        )
+        ) where T : notnull
         {
             var elems = nodes.ToDictionary(node => node, node => new HashSet<T>(connected(node)));
             while (elems.Count > 0)

@@ -33,7 +33,7 @@ namespace Remora.Plugins
     [PublicAPI]
     public sealed class PluginDependencyTreeNode
     {
-        private readonly List<PluginDependencyTreeNode> _dependants;
+        private readonly List<PluginDependencyTreeNode> _dependents;
 
         /// <summary>
         /// Gets the plugin.
@@ -43,7 +43,7 @@ namespace Remora.Plugins
         /// <summary>
         /// Gets the nodes that depend on this plugin.
         /// </summary>
-        public IReadOnlyCollection<PluginDependencyTreeNode> Dependants => _dependants;
+        public IReadOnlyCollection<PluginDependencyTreeNode> Dependents => _dependents;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PluginDependencyTreeNode"/> class.
@@ -57,34 +57,34 @@ namespace Remora.Plugins
         )
         {
             this.Plugin = plugin;
-            _dependants = dependants ?? new List<PluginDependencyTreeNode>();
+            _dependents = dependants ?? new List<PluginDependencyTreeNode>();
         }
 
         /// <summary>
         /// Adds a dependant to this node.
         /// </summary>
         /// <param name="node">The node.</param>
-        internal void AddDependant(PluginDependencyTreeNode node)
+        internal void AddDependent(PluginDependencyTreeNode node)
         {
-            if (_dependants.Contains(node))
+            if (_dependents.Contains(node))
             {
                 return;
             }
 
-            _dependants.Add(node);
+            _dependents.Add(node);
         }
 
         /// <summary>
         /// Gets all the dependant plugins in this branch.
         /// </summary>
         /// <returns>The dependant plugins.</returns>
-        public IEnumerable<PluginDependencyTreeNode> GetAllDependants()
+        public IEnumerable<PluginDependencyTreeNode> GetAllDependents()
         {
-            foreach (var dependant in this.Dependants)
+            foreach (var dependant in this.Dependents)
             {
                 yield return dependant;
 
-                foreach (var sub in dependant.GetAllDependants())
+                foreach (var sub in dependant.GetAllDependents())
                 {
                     yield return sub;
                 }
@@ -94,7 +94,7 @@ namespace Remora.Plugins
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"{this.Plugin} => ({string.Join(", ", _dependants.Select(d => d.Plugin))})";
+            return $"{this.Plugin} => ({string.Join(", ", _dependents.Select(d => d.Plugin))})";
         }
     }
 }
