@@ -6,7 +6,7 @@
 <Project>
     <!-- Common properties for all projects -->
     <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Deterministic>true</Deterministic>
         <DebugSymbols>true</DebugSymbols>
@@ -110,6 +110,6 @@
 
     <!-- SourceLink -->
     <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0" PrivateAssets="All"/>
     </ItemGroup>
 </Project>
