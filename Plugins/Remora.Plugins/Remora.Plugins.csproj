@@ -16,4 +16,8 @@
       <ProjectReference Include="..\Remora.Plugins.Abstractions\Remora.Plugins.Abstractions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Remora.Extensions.Options.Immutable" Version="1.0.1" />
+    </ItemGroup>
+
 </Project>

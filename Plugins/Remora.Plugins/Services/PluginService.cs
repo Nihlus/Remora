@@ -26,6 +26,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Options;
 using Remora.Plugins.Abstractions;
 using Remora.Plugins.Abstractions.Attributes;
 using Remora.Plugins.Errors;
@@ -40,12 +41,25 @@ namespace Remora.Plugins.Services;
 [PublicAPI]
 public sealed class PluginService
 {
+    private readonly PluginServiceOptions _options;
+
     /// <summary>
-    /// Loads the available plugins into a dependency tree.
+    /// Initializes a new instance of the <see cref="PluginService"/> class.
+    /// </summary>
+    /// <param name="options">The service options.</param>
+    public PluginService(IOptions<PluginServiceOptions> options)
+    {
+        _options = options.Value;
+    }
+
+    /// <summary>
+    /// Loads all available plugins into a tree structure, ordered by their topological dependencies. Effectively, this
+    /// means that <see cref="PluginDependencyTree.Branches"/> will contain dependency-free plugins, with subsequent
+    /// dependents below them (recursively).
     /// </summary>
     /// <returns>The dependency tree.</returns>
     [PublicAPI, Pure]
-    public PluginDependencyTree LoadPluginDescriptors()
+    public PluginDependencyTree LoadPluginTree()
     {
         var pluginAssemblies = LoadAvailablePluginAssemblies().ToList();
         var pluginsWithDependencies = pluginAssemblies.ToDictionary
@@ -79,12 +93,7 @@ public sealed class PluginService
         bool IsDirectDependency(Assembly assembly, Assembly dependency)
         {
             var dependencies = pluginsWithDependencies[assembly];
-            if (IsDependency(assembly, dependency) && dependencies.All(d => !IsDependency(d, dependency)))
-            {
-                return true;
-            }
-
-            return false;
+            return IsDependency(assembly, dependency) && dependencies.All(d => !IsDependency(d, dependency));
         }
 
         var tree = new PluginDependencyTree();
@@ -128,11 +137,11 @@ public sealed class PluginService
     }
 
     /// <summary>
-    /// Loads the available plugins.
+    /// Loads all available plugins into a flat list.
     /// </summary>
     /// <returns>The descriptors of the available plugins.</returns>
     [Pure]
-    public IEnumerable<IPluginDescriptor> LoadAvailablePlugins()
+    public IEnumerable<IPluginDescriptor> LoadPlugins()
     {
         var pluginAssemblies = LoadAvailablePluginAssemblies().ToList();
         var sorted = pluginAssemblies.TopologicalSort
@@ -204,24 +213,34 @@ public sealed class PluginService
     [Pure]
     private IEnumerable<(RemoraPlugin PluginAttribute, Assembly PluginAssembly)> LoadAvailablePluginAssemblies()
     {
-        var entryAssemblyPath = Assembly.GetEntryAssembly()?.Location;
+        var searchPaths = new List<string>();
 
-        if (entryAssemblyPath is null)
+        if (_options.ScanAssemblyDirectory)
         {
-            yield break;
+            var entryAssemblyPath = Assembly.GetEntryAssembly()?.Location;
+
+            if (entryAssemblyPath is not null)
+            {
+                var installationDirectory = Directory.GetParent(entryAssemblyPath)
+                                            ?? throw new InvalidOperationException();
+
+                searchPaths.Add(installationDirectory.FullName);
+            }
         }
 
-        var installationDirectory = Directory.GetParent(entryAssemblyPath)
-                                    ?? throw new InvalidOperationException();
+        searchPaths.AddRange(_options.PluginSearchPaths);
 
-        var assemblies = Directory.EnumerateFiles
+        var assemblyPaths = searchPaths.Select
         (
-            installationDirectory.FullName,
-            "*.dll",
-            SearchOption.AllDirectories
-        );
+            searchPath => Directory.EnumerateFiles
+            (
+                searchPath,
+                "*.dll",
+                SearchOption.AllDirectories
+            )
+        ).SelectMany(a => a);
 
-        foreach (var assemblyPath in assemblies)
+        foreach (var assemblyPath in assemblyPaths)
         {
             Assembly assembly;
             try
