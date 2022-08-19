@@ -13,10 +13,6 @@ EndProject
 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Behaviours", "Remora.Behaviours\Remora.Behaviours.csproj", "{FD5352E8-FB94-410B-8A7F-CF30AB0122AF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Markdown", "Markdown", "{04166B5E-B7A9-4555-A287-05991EC1D78C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Markdown", "Markdown\Remora.Markdown\Remora.Markdown.csproj", "{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,12 +23,7 @@ Global
 		{FD5352E8-FB94-410B-8A7F-CF30AB0122AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD5352E8-FB94-410B-8A7F-CF30AB0122AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD5352E8-FB94-410B-8A7F-CF30AB0122AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D9B04F8A-D277-469D-A0FC-6D2A92D6C19A} = {04166B5E-B7A9-4555-A287-05991EC1D78C}
 	EndGlobalSection
 EndGlobal
